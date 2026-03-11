@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quản lý tài khoản — Library University</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+  <style>
+    /* ═══ RESET & BASE ═══ */
+    :root {
+      --navy:       #0f2a5e;
+      --navy-mid:   #163880;
+      --blue:       #1a56c8;
+      --blue-light: #2e6ddf;
+      --blue-50:    #eef4ff;
+      --blue-100:   #d9e8ff;
+      --red:        #c0392b;
+      --red-bg:     #fdf2f1;
+      --red-border: #f5c6c2;
+      --green:      #16a34a;
+      --green-bg:   #f0fdf4;
+      --amber:      #b45309;
+      --amber-bg:   #fffbeb;
+      --gray-900:   #0f172a;
+      --gray-700:   #334155;
+      --gray-600:   #4b5563;
+      --gray-500:   #64748b;
+      --gray-400:   #94a3b8;
+      --gray-300:   #cbd5e1;
+      --gray-100:   #f1f5f9;
+      --gray-50:    #f8fafc;
+      --white:      #ffffff;
+      --border:     #e2e8f0;
+      --shadow-sm:  0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md:  0 4px 16px rgba(0,0,0,0.10);
+      --shadow-lg:  0 8px 32px rgba(0,0,0,0.14);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      background: #f0f4f8;
+      color: var(--gray-700);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ═══ HEADER ═══ */
+    .header {
+      background: var(--navy);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      position: sticky; top: 0; z-index: 100;
+      flex-shrink: 0;
+    }
+    .header-inner {
+      display: flex; align-items: center;
+      height: 56px; padding: 0 32px; width: 100%;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; flex-shrink: 0; margin-right: 28px;
+    }
+    .brand-icon {
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-name { font-size: 12.5px; font-weight: 800; color: #fff; letter-spacing: 1.4px; line-height: 1.2; white-space: nowrap; }
+    .brand-sub  { font-size: 9.5px; color: rgba(255,255,255,0.5); letter-spacing: 0.3px; white-space: nowrap; }
+
+    /* Nav: flex-1, each item fixed-width clips overflow */
+    .nav-links { display: flex; align-items: center; flex: 1; height: 56px; min-width: 0; }
+    .nav-links a {
+      font-size: 12.5px; font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      padding: 0 12px; height: 56px;
+      display: flex; align-items: center;
+      border-bottom: 3px solid transparent;
+      border-top: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+      overflow: hidden;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+    .nav-links a:hover  { color: rgba(255,255,255,0.9); }
+    .nav-links a.active { color: #fff; font-weight: 700; border-bottom-color: #5b9cf6; }
+
+    /* User button */
+    .user-btn {
+      display: flex; align-items: center; gap: 8px; padding: 6px 14px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px; font-size: 13px; font-weight: 600; color: #fff;
+      cursor: pointer; position: relative; transition: background 0.15s;
+      flex-shrink: 0; margin-left: auto; user-select: none;
+    }
+    .user-btn:hover { background: rgba(255,255,255,0.18); }
+    .user-avatar {
+      width: 26px; height: 26px; background: rgba(255,255,255,0.2);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 8px);
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 8px; min-width: 190px;
+      box-shadow: var(--shadow-lg); z-index: 200; overflow: hidden;
+    }
+    .user-btn.open .user-dropdown { display: block; }
+    .user-dropdown a {
+      display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+      font-size: 13px; color: var(--gray-700); text-decoration: none;
+      border-bottom: 1px solid var(--gray-100); transition: background 0.1s;
+    }
+    .user-dropdown a:last-child { border-bottom: none; color: var(--red); }
+    .user-dropdown a:hover { background: var(--gray-50); }
+
+    /* ═══ WELCOME STRIP ═══ */
+    .welcome-strip {
+      background: linear-gradient(90deg, #e8f0fe 0%, #f0f6ff 100%);
+      border-bottom: 1px solid #c7d9f7;
+      padding: 7px 32px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      flex-shrink: 0;
+    }
+    .welcome-strip .dot  { width: 6px; height: 6px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+    .welcome-strip .name { font-size: 13px; font-weight: 700; color: var(--red); letter-spacing: 0.3px; white-space: nowrap; }
+    .welcome-strip .sub  { font-size: 12px; color: var(--gray-500); white-space: nowrap; }
+
+    /* ═══ PAGE HEADER (shared across ALL pages) ═══ */
+    .page-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px; gap: 20px; flex-shrink: 0;
+    }
+    .page-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.2px; color: var(--blue); margin-bottom: 3px;
+    }
+    .page-title {
+      font-family: 'Lora', serif;
+      font-size: 24px; font-weight: 600; color: var(--navy); letter-spacing: -0.3px;
+    }
+
+    /* Search input (used on multiple pages) */
+    .search-wrap { position: relative; width: 260px; flex-shrink: 0; }
+    .search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; }
+    .search-input {
+      width: 100%; height: 36px; padding: 0 12px 0 34px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 13px; font-family: inherit; color: var(--gray-700);
+      background: var(--white); outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .search-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,200,0.1); }
+    .search-input::placeholder { color: var(--gray-300); }
+
+    /* ═══ CARDS ═══ */
+    .card {
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 12px; box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .card-head {
+      padding: 12px 20px; border-bottom: 1.5px solid var(--border);
+      background: var(--gray-50);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .card-head-title { font-size: 13px; font-weight: 700; color: var(--gray-700); }
+    .card-head-meta  { font-size: 12px; color: var(--gray-400); }
+
+    /* ═══ BADGES ═══ */
+    .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .badge-green { background: var(--green-bg); color: #15803d; border: 1px solid #bbf7d0; }
+    .badge-amber { background: var(--amber-bg); color: #92400e; border: 1px solid #fde68a; }
+    .badge-red   { background: var(--red-bg);   color: #b91c1c; border: 1px solid var(--red-border); }
+    .badge-blue  { background: var(--blue-50);  color: var(--blue); border: 1px solid var(--blue-100); }
+
+    /* ═══ BUTTONS ═══ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 7px;
+      height: 36px; padding: 0 18px;
+      background: var(--navy); color: #fff; border: none; border-radius: 8px;
+      font-size: 13px; font-weight: 700; font-family: inherit;
+      cursor: pointer; white-space: nowrap; letter-spacing: 0.2px;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-primary:hover  { background: var(--navy-mid); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 7px;
+      height: 36px; padding: 0 16px;
+      background: var(--white); color: var(--navy);
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 13px; font-weight: 600; font-family: inherit;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn-secondary:hover { background: var(--gray-50); border-color: var(--gray-300); }
+
+    /* ═══ FORM FIELDS ═══ */
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label { font-size: 12px; font-weight: 700; color: var(--gray-600); }
+    .field input, .field select, .field textarea {
+      padding: 8px 11px; border: 1.5px solid var(--border); border-radius: 7px;
+      font-size: 13.5px; font-family: inherit; color: var(--gray-700);
+      background: var(--white); outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,200,0.1);
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--gray-300); font-size: 13px; }
+    .field input[readonly] { background: var(--gray-50); color: var(--gray-500); cursor: default; }
+    .field textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+    .field select { cursor: pointer; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field.full { grid-column: 1 / -1; }
+
+    /* ═══ SECTION TITLE ═══ */
+    .section-title {
+      font-size: 10.5px; font-weight: 700; color: var(--gray-400);
+      text-transform: uppercase; letter-spacing: 0.9px;
+      margin-bottom: 14px; padding-bottom: 10px;
+      border-bottom: 1.5px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-title::before { content: ''; width: 3px; height: 12px; background: var(--blue); border-radius: 2px; }
+
+    /* ═══ TABLE ═══ */
+    .tbl-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 10px 16px; text-align: left;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--gray-400);
+      background: var(--gray-50); border-bottom: 1.5px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: 11px 16px; font-size: 13.5px; color: var(--gray-700);
+      border-bottom: 1px solid var(--border); vertical-align: middle;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--gray-50); }
+
+    /* ═══ CHECK CARD ═══ */
+    .check-card {
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 18px 22px; margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .check-card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: var(--gray-400); margin-bottom: 10px; }
+    .check-row { display: flex; align-items: center; gap: 10px; }
+    .check-input {
+      flex: 1; height: 38px; padding: 0 13px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 13.5px; font-family: inherit; color: var(--gray-700);
+      background: var(--white); outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .check-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,200,0.1); }
+    .check-input::placeholder { color: var(--gray-300); }
+    .btn-check {
+      height: 38px; padding: 0 20px;
+      background: var(--navy); color: #fff; border: none; border-radius: 8px;
+      font-size: 13.5px; font-weight: 600; font-family: inherit;
+      cursor: pointer; white-space: nowrap; transition: background 0.15s;
+    }
+    .btn-check:hover { background: var(--navy-mid); }
+    .check-status { display: none; margin-top: 10px; padding: 9px 13px; border-radius: 8px; font-size: 13px; font-weight: 600; align-items: center; gap: 8px; }
+    .check-status.show { display: flex; }
+    .check-status.ok    { background: var(--green-bg); color: #15803d; border: 1px solid #bbf7d0; }
+    .check-status.error { background: var(--red-bg); color: #b91c1c; border: 1px solid var(--red-border); }
+
+    /* ═══ MODAL OVERLAY ═══ */
+    .overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(9,17,36,0.55); backdrop-filter: blur(3px);
+      z-index: 300; align-items: center; justify-content: center; padding: 24px;
+    }
+    .overlay.show { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 14px;
+      width: 100%; max-width: 640px; max-height: 88vh; overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: modalIn 0.22s ease;
+    }
+    .modal-sm { max-width: 440px; }
+    @keyframes modalIn { from { opacity:0; transform:translateY(-16px) scale(0.98) } to { opacity:1; transform:translateY(0) scale(1) } }
+    .modal-head {
+      padding: 18px 22px 16px; border-bottom: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: var(--white); z-index: 1;
+      border-radius: 14px 14px 0 0;
+    }
+    .modal-eyebrow { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 2px; }
+    .modal-title   { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; color: var(--navy); }
+    .modal-x { width: 30px; height: 30px; border: none; background: var(--gray-100); border-radius: 6px; cursor: pointer; font-size: 15px; color: var(--gray-500); display: flex; align-items: center; justify-content: center; transition: all 0.12s; }
+    .modal-x:hover { background: var(--red-bg); color: var(--red); }
+    .modal-body { padding: 22px; }
+    .modal-section { margin-bottom: 22px; }
+    .modal-section:last-child { margin-bottom: 0; }
+    .modal-foot { padding: 14px 22px; border-top: 1.5px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; position: sticky; bottom: 0; background: var(--white); border-radius: 0 0 14px 14px; }
+
+    /* Modal buttons */
+    .btn-modal-cancel { height: 36px; padding: 0 16px; background: var(--white); border: 1.5px solid var(--border); border-radius: 7px; font-size: 13px; font-weight: 500; font-family: inherit; color: var(--gray-700); cursor: pointer; transition: background 0.12s; }
+    .btn-modal-cancel:hover { background: var(--gray-100); }
+    .btn-modal-save { height: 36px; padding: 0 22px; background: var(--navy); color: #fff; border: none; border-radius: 7px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; transition: background 0.15s; }
+    .btn-modal-save:hover { background: var(--navy-mid); }
+    .btn-modal-delete { height: 36px; padding: 0 16px; background: none; color: var(--red); border: 1.5px solid var(--red-border); border-radius: 7px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.12s; }
+    .btn-modal-delete:hover { background: var(--red-bg); }
+
+    /* Inline alert */
+    .inline-msg { display: none; padding: 9px 13px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 14px; align-items: center; justify-content: space-between; gap: 10px; }
+    .inline-msg.show { display: flex; }
+    .inline-msg.success { background: var(--green-bg); border: 1px solid #bbf7d0; color: #15803d; }
+    .inline-msg.error   { background: var(--red-bg); border: 1px solid var(--red-border); color: #b91c1c; }
+    .inline-msg button  { background: none; border: none; cursor: pointer; font-size: 16px; opacity: 0.6; flex-shrink: 0; line-height: 1; }
+
+    /* ═══ TOAST ═══ */
+    .toast {
+      position: fixed; top: 72px; right: 28px;
+      min-width: 290px; max-width: 360px;
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 12px 16px;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13.5px; font-weight: 500;
+      box-shadow: var(--shadow-lg); z-index: 9999;
+      pointer-events: none; opacity: 0; transform: translateX(20px);
+      transition: all 0.25s ease;
+    }
+    .toast.show { opacity: 1; transform: translateX(0); pointer-events: all; }
+    .toast-bar { width: 4px; border-radius: 2px; flex-shrink: 0; align-self: stretch; }
+    .toast.success .toast-bar { background: var(--green); }
+    .toast.error   .toast-bar { background: var(--red); }
+    .toast-content { flex: 1; }
+    .toast-title  { font-weight: 700; color: var(--gray-900); font-size: 13.5px; }
+    .toast-detail { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+    .toast-close  { cursor: pointer; color: var(--gray-300); font-size: 17px; pointer-events: all; flex-shrink: 0; }
+    .toast-close:hover { color: var(--gray-700); }
+
+    /* ═══ FOOTER ═══ */
+    .site-footer {
+      background: var(--navy); padding: 26px 40px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+      flex-shrink: 0;
+    }
+    .footer-col h4 { font-size: 10.5px; font-weight: 800; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px; }
+    .footer-col p  { font-size: 12.5px; color: rgba(255,255,255,0.65); line-height: 1.9; }
+    .footer-icons  { display: flex; gap: 8px; margin-top: 8px; }
+    .footer-icon   { width: 34px; height: 34px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+    .footer-icon:hover { background: rgba(255,255,255,0.2); }
+
+    /* ═══ EMPTY STATE ═══ */
+    .empty-state { text-align: center; padding: 48px 24px; color: var(--gray-400); }
+    .empty-state svg { margin-bottom: 12px; opacity: 0.4; }
+    .empty-state p { font-size: 14px; }
+
+
+    /* ═══ TAIKHOAN PAGE ═══ */
+    main { flex: 1; padding: 28px 40px 36px; }
+
+    .action-bar {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .filter-tabs { display: flex; align-items: center; gap: 6px; margin-left: 12px; }
+    .tab-btn {
+      height: 32px; padding: 0 14px;
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 20px; font-size: 12.5px; font-weight: 600;
+      font-family: inherit; color: var(--gray-500); cursor: pointer;
+      transition: all 0.12s;
+    }
+    .tab-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .tab-btn:hover:not(.active) { background: var(--gray-50); border-color: var(--gray-300); }
+    .count-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--blue-50); color: var(--blue);
+      border: 1px solid var(--blue-100); border-radius: 10px;
+      padding: 0 7px; height: 18px; font-size: 11px; font-weight: 700;
+      margin-left: 4px;
+    }
+
+    /* Table */
+    .role-pill { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .role-admin { background: #ede9fe; color: #5b21b6; border: 1px solid #ddd6fe; }
+    .role-thuthu { background: var(--blue-50); color: var(--blue); border: 1px solid var(--blue-100); }
+    .role-docgia { background: var(--green-bg); color: #15803d; border: 1px solid #bbf7d0; }
+    .status-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; }
+    .status-dot::before { content: ''; width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .status-active::before { background: var(--green); }
+    .status-inactive::before { background: var(--gray-300); }
+    .btn-tbl { height: 28px; padding: 0 12px; border-radius: 6px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.1s; border: 1.5px solid; }
+    .btn-edit { background: var(--blue-50); color: var(--blue); border-color: var(--blue-100); }
+    .btn-edit:hover { background: var(--blue-100); }
+    .btn-del  { background: var(--red-bg); color: var(--red); border-color: var(--red-border); }
+    .btn-del:hover { background: #fce8e6; }
+    td.actions { white-space: nowrap; }
+    td.actions > * + * { margin-left: 6px; }
+
+    /* Avatar cell */
+    .user-cell { display: flex; align-items: center; gap: 10px; }
+    .avatar-sm {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--blue-50); border: 1.5px solid var(--blue-100);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: var(--blue); flex-shrink: 0;
+    }
+    .user-cell-name { font-weight: 600; color: var(--gray-900); font-size: 13.5px; }
+    .user-cell-id   { font-size: 12px; color: var(--gray-400); }
+
+    /* Modal form grid 3-col */
+    .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field.span2 { grid-column: span 2; }
+    .field.span3 { grid-column: 1 / -1; }
+
+    /* Delete confirm modal */
+    .del-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--red-bg); border: 2px solid var(--red-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+    .del-body { text-align: center; padding: 28px 24px 20px; }
+    .del-body p { font-size: 14px; color: var(--gray-700); line-height: 1.6; margin-top: 6px; }
+    .del-body strong { font-weight: 700; color: var(--gray-900); }
+
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a class="brand" href="#">
+      <div class="brand-icon">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">LIBRARY UNIVERSITY</div>
+        <div class="brand-sub">Hệ thống quản lý thư viện</div>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="taikhoan.html" class="active">Quản lý tài khoản</a>
+      <a href="quanlysach.html">Quản lý sách</a>
+      <a href="muonsach.html">Quản lý mượn sách</a>
+      <a href="trasach.html">Quản lý trả sách</a>
+      <a href="baocao.html">Báo cáo thống kê</a>
+    </nav>
+    <div class="user-btn" id="userBtn">
+      <div class="user-avatar">AD</div>
+      Admin
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="user-dropdown">
+        <a href="taikhoan.html">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Quản lý tài khoản
+        </a>
+        <a href="dangnhap.html" onclick="sessionStorage.clear()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Đăng xuất
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="welcome-strip">
+  <div class="dot"></div>
+  <span class="name">NGUYỄN PHƯƠNG NHI</span>
+  <span class="sub">— Xin chào, Admin! Chúc bạn làm việc hiệu quả.</span>
+</div>
+
+<main>
+  <div class="page-head">
+    <div>
+      <div class="page-label">Thư viện</div>
+      <div class="page-title">Quản lý tài khoản</div>
+    </div>
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="searchInput" type="text" placeholder="Tìm kiếm tài khoản..." />
+    </div>
+  </div>
+
+  <div class="action-bar">
+    <button class="btn-primary" id="btnAdd">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      THÊM TÀI KHOẢN
+    </button>
+    <div class="filter-tabs">
+      <button class="tab-btn active" data-role="all">Tất cả <span class="count-badge" id="cntAll">9</span></button>
+      <button class="tab-btn" data-role="Admin">Admin <span class="count-badge" id="cntAdmin">2</span></button>
+      <button class="tab-btn" data-role="Thủ thư">Thủ thư <span class="count-badge" id="cntTT">1</span></button>
+      <button class="tab-btn" data-role="Độc giả">Độc giả <span class="count-badge" id="cntDG">6</span></button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="card-head-title">Danh sách tài khoản</span>
+      <span class="card-head-meta" id="tableCount"></span>
+    </div>
+    <div class="tbl-wrap">
+      <table id="userTable">
+        <thead>
+          <tr>
+            <th>Họ tên / Mã</th>
+            <th>Lớp</th>
+            <th>Email</th>
+            <th>Vai trò</th>
+            <th>Trạng thái</th>
+            <th style="text-align:right">Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="userBody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<!-- Modal Thêm/Sửa -->
+<div class="overlay" id="overlayForm">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-eyebrow" id="formEyebrow">Tài khoản mới</div>
+        <div class="modal-title" id="formTitle">Thêm tài khoản</div>
+      </div>
+      <button class="modal-x" id="closeForm">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="section-title">Thông tin cơ bản</div>
+        <div class="form-grid-2">
+          <div class="field span2"><label>Họ và tên *</label><input type="text" id="fFullName" placeholder="VD: Nguyễn Văn A" /></div>
+          <div class="field"><label>Mã tài khoản *</label><input type="text" id="fId" placeholder="VD: SV0001" /></div>
+          <div class="field"><label>Vai trò *</label>
+            <select id="fRole">
+              <option>Độc giả</option>
+              <option>Thủ thư</option>
+              <option>Admin</option>
+            </select>
+          </div>
+          <div class="field span2"><label>Email *</label><input type="email" id="fEmail" placeholder="example@gmail.com" /></div>
+          <div class="field"><label>Mật khẩu</label><input type="password" id="fPassword" placeholder="••••••••" /></div>
+          <div class="field"><label>Trạng thái</label>
+            <select id="fStatus"><option>Hoạt động</option><option>Tạm khoá</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="section-title">Thông tin bổ sung</div>
+        <div class="form-grid-2">
+          <div class="field"><label>Ngày sinh</label><input type="date" id="fDob" /></div>
+          <div class="field"><label>Lớp</label><input type="text" id="fClass" placeholder="VD: IS01" /></div>
+          <div class="field"><label>Giới tính</label>
+            <select id="fGender"><option>Nam</option><option>Nữ</option><option>Khác</option></select>
+          </div>
+          <div class="field"><label>Số điện thoại</label><input type="text" id="fPhone" placeholder="0912 345 678" /></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-modal-cancel" id="cancelForm">Hủy</button>
+      <button class="btn-modal-save" id="saveForm">Tạo tài khoản</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Xóa -->
+<div class="overlay" id="overlayDel">
+  <div class="modal modal-sm">
+    <div class="modal-body del-body">
+      <div class="del-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+      </div>
+      <div class="modal-title" style="margin-bottom:6px">Xóa tài khoản?</div>
+      <p>Bạn sắp xóa tài khoản <strong id="delName"></strong>.<br>Hành động này không thể hoàn tác.</p>
+    </div>
+    <div class="modal-foot" style="justify-content:center;gap:12px">
+      <button class="btn-modal-cancel" id="cancelDel" style="min-width:100px">Hủy bỏ</button>
+      <button class="btn-modal-delete" id="confirmDel" style="min-width:120px">Xóa tài khoản</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="gToast">
+  <div class="toast-bar"></div>
+  <div class="toast-content">
+    <div class="toast-title"  id="gToastTitle"></div>
+    <div class="toast-detail" id="gToastDetail"></div>
+  </div>
+  <span class="toast-close" onclick="hideToast()">&#x2715;</span>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-col">
+    <h4>Liên hệ</h4>
+    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: libuniversity@gmail.com</p>
+  </div>
+  <div class="footer-col">
+    <h4>Thời gian hoạt động</h4>
+    <p>Thứ 2 – Thứ 6: 8:00 – 21:00<br>Thứ 7: 9:00 – 17:00<br>Chủ nhật: Đóng cửa</p>
+  </div>
+  <div class="footer-col">
+    <h4>Kết nối với chúng tôi</h4>
+    <div class="footer-icons">
+      <div class="footer-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+      <div class="footer-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon fill="#0f2a5e" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── USER DROPDOWN ── */
+  const userBtn = document.getElementById('userBtn');
+  userBtn.addEventListener('click', e => { e.stopPropagation(); userBtn.classList.toggle('open'); });
+  document.addEventListener('click', () => userBtn.classList.remove('open'));
+  userBtn.querySelector('.user-dropdown').addEventListener('click', e => e.stopPropagation());
+
+  /* ── TOAST ── */
+  let toastTimer;
+  function showToast(title, detail, type='success') {
+    clearTimeout(toastTimer);
+    document.getElementById('gToastTitle').textContent  = title;
+    document.getElementById('gToastDetail').textContent = detail;
+    document.getElementById('gToast').className = `toast ${type} show`;
+    toastTimer = setTimeout(hideToast, 4000);
+  }
+  function hideToast() { document.getElementById('gToast').className = 'toast'; }
+
+  /* ─── DATA ─── */
+  let users = [
+    {id:'AD01',   name:'Nguyễn Phương Nhi', cls:'—',    email:'admin01@gmail.com',     role:'Admin',   status:'Hoạt động', dob:'',           gender:'Nữ',  phone:''},
+    {id:'AD02',   name:'Trần Minh Quân',    cls:'—',    email:'admin02@gmail.com',     role:'Admin',   status:'Hoạt động', dob:'',           gender:'Nam', phone:''},
+    {id:'TT01',   name:'Lê Thị Thu',        cls:'—',    email:'thuthu1@gmail.com',     role:'Thủ thư', status:'Hoạt động', dob:'1995-03-12', gender:'Nữ',  phone:'0912 111 222'},
+    {id:'PM0100', name:'Lê Thanh Ngân',     cls:'IS01', email:'leengan.k5@gmail.com',  role:'Độc giả', status:'Hoạt động', dob:'2003-07-25', gender:'Nữ',  phone:'0934 567 890'},
+    {id:'SV0054', name:'Trần Bảo Nhi',      cls:'IS01', email:'baonhi@gmail.com',      role:'Độc giả', status:'Hoạt động', dob:'2003-11-02', gender:'Nữ',  phone:''},
+    {id:'SV0076', name:'Phạm Yến Nhi',      cls:'IS02', email:'yennhipham@gmail.com',  role:'Độc giả', status:'Hoạt động', dob:'2004-01-17', gender:'Nữ',  phone:''},
+    {id:'SV0080', name:'Phạm Yến Nhi',      cls:'IS02', email:'yennhi80@gmail.com',    role:'Độc giả', status:'Tạm khoá',  dob:'',           gender:'Nữ',  phone:''},
+    {id:'SV1001', name:'Lý Uyên Nhi',       cls:'DK03', email:'uyennhi@gmail.com',     role:'Độc giả', status:'Hoạt động', dob:'2002-09-30', gender:'Nữ',  phone:''},
+    {id:'SV1011', name:'Trần Tuyết Nhi',    cls:'DK04', email:'tuyetnhi@gmail.com',    role:'Độc giả', status:'Hoạt động', dob:'2003-05-14', gender:'Nữ',  phone:''},
+  ];
+
+  let filterRole = 'all';
+  let editId = null;
+  let deleteId = null;
+
+  function initials(name) { return name.split(' ').slice(-2).map(w=>w[0]).join('').toUpperCase(); }
+
+  function roleClass(r) {
+    if (r==='Admin')   return 'role-admin';
+    if (r==='Thủ thư') return 'role-thuthu';
+    return 'role-docgia';
+  }
+
+  function renderTable(list) {
+    const tbody = document.getElementById('userBody');
+    tbody.innerHTML = list.map(u => `
+      <tr>
+        <td><div class="user-cell">
+          <div class="avatar-sm">${initials(u.name)}</div>
+          <div><div class="user-cell-name">${u.name}</div><div class="user-cell-id">${u.id}</div></div>
+        </div></td>
+        <td>${u.cls || '—'}</td>
+        <td>${u.email}</td>
+        <td><span class="role-pill ${roleClass(u.role)}">${u.role}</span></td>
+        <td><span class="status-dot ${u.status==='Hoạt động'?'status-active':'status-inactive'}">${u.status}</span></td>
+        <td class="actions" style="text-align:right">
+          <button class="btn-tbl btn-edit" onclick="openEdit('${u.id}')">Sửa</button>
+          <button class="btn-tbl btn-del"  onclick="openDel('${u.id}')">Xóa</button>
+        </td>
+      </tr>`).join('');
+    document.getElementById('tableCount').textContent = `${list.length} tài khoản`;
+  }
+
+  function updateCounts() {
+    document.getElementById('cntAll').textContent   = users.length;
+    document.getElementById('cntAdmin').textContent = users.filter(u=>u.role==='Admin').length;
+    document.getElementById('cntTT').textContent    = users.filter(u=>u.role==='Thủ thư').length;
+    document.getElementById('cntDG').textContent    = users.filter(u=>u.role==='Độc giả').length;
+  }
+
+  function currentList() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    let list = filterRole==='all' ? users : users.filter(u=>u.role===filterRole);
+    if (q) list = list.filter(u => u.name.toLowerCase().includes(q) || u.id.toLowerCase().includes(q) || u.email.toLowerCase().includes(q));
+    return list;
+  }
+
+  document.getElementById('searchInput').addEventListener('input', () => renderTable(currentList()));
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      this.classList.add('active');
+      filterRole = this.dataset.role;
+      renderTable(currentList());
+    });
+  });
+
+  /* ─── ADD ─── */
+  document.getElementById('btnAdd').addEventListener('click', () => {
+    editId = null;
+    document.getElementById('formEyebrow').textContent = 'Tài khoản mới';
+    document.getElementById('formTitle').textContent   = 'Thêm tài khoản';
+    document.getElementById('saveForm').textContent    = 'Tạo tài khoản';
+    clearForm();
+    document.getElementById('overlayForm').classList.add('show');
+  });
+
+  function openEdit(id) {
+    const u = users.find(x=>x.id===id); if(!u) return;
+    editId = id;
+    document.getElementById('formEyebrow').textContent = 'Chỉnh sửa';
+    document.getElementById('formTitle').textContent   = 'Sửa tài khoản';
+    document.getElementById('saveForm').textContent    = 'Lưu thay đổi';
+    document.getElementById('fFullName').value = u.name;
+    document.getElementById('fId').value       = u.id;
+    document.getElementById('fRole').value     = u.role;
+    document.getElementById('fEmail').value    = u.email;
+    document.getElementById('fPassword').value = '';
+    document.getElementById('fStatus').value   = u.status;
+    document.getElementById('fDob').value      = u.dob;
+    document.getElementById('fClass').value    = u.cls;
+    document.getElementById('fGender').value   = u.gender;
+    document.getElementById('fPhone').value    = u.phone;
+    document.getElementById('overlayForm').classList.add('show');
+  }
+
+  function clearForm() {
+    ['fFullName','fId','fEmail','fPassword','fDob','fClass','fPhone'].forEach(id=>{
+      document.getElementById(id).value='';
+    });
+    document.getElementById('fRole').value   = 'Độc giả';
+    document.getElementById('fStatus').value = 'Hoạt động';
+    document.getElementById('fGender').value = 'Nam';
+  }
+
+  document.getElementById('saveForm').addEventListener('click', () => {
+    const name = document.getElementById('fFullName').value.trim();
+    const id   = document.getElementById('fId').value.trim();
+    const email= document.getElementById('fEmail').value.trim();
+    if (!name || !id || !email) { alert('Vui lòng điền đầy đủ thông tin bắt buộc.'); return; }
+
+    if (editId) {
+      const u = users.find(x=>x.id===editId);
+      if (u) { u.name=name; u.id=id; u.email=email; u.role=document.getElementById('fRole').value; u.status=document.getElementById('fStatus').value; u.dob=document.getElementById('fDob').value; u.cls=document.getElementById('fClass').value; u.gender=document.getElementById('fGender').value; u.phone=document.getElementById('fPhone').value; }
+      showToast('Đã lưu thay đổi', name, 'success');
+    } else {
+      if (users.find(x=>x.id===id)) { alert('Mã tài khoản đã tồn tại.'); return; }
+      users.unshift({id,name,email,role:document.getElementById('fRole').value,status:document.getElementById('fStatus').value,dob:document.getElementById('fDob').value,cls:document.getElementById('fClass').value,gender:document.getElementById('fGender').value,phone:document.getElementById('fPhone').value});
+      showToast('Thêm tài khoản thành công', name, 'success');
+    }
+    document.getElementById('overlayForm').classList.remove('show');
+    updateCounts(); renderTable(currentList());
+  });
+
+  /* ─── DELETE ─── */
+  function openDel(id) {
+    const u = users.find(x=>x.id===id); if(!u) return;
+    deleteId = id;
+    document.getElementById('delName').textContent = `${u.name} (${u.id})`;
+    document.getElementById('overlayDel').classList.add('show');
+  }
+  document.getElementById('confirmDel').addEventListener('click', () => {
+    const u = users.find(x=>x.id===deleteId);
+    users = users.filter(x=>x.id!==deleteId);
+    document.getElementById('overlayDel').classList.remove('show');
+    showToast('Đã xóa tài khoản', u?u.name:'', 'error');
+    updateCounts(); renderTable(currentList());
+  });
+
+  /* ─── CLOSE ─── */
+  ['closeForm','cancelForm'].forEach(id=>document.getElementById(id).addEventListener('click',()=>document.getElementById('overlayForm').classList.remove('show')));
+  ['cancelDel'].forEach(id=>document.getElementById(id).addEventListener('click',()=>document.getElementById('overlayDel').classList.remove('show')));
+  document.getElementById('overlayForm').addEventListener('click',e=>{if(e.target===e.currentTarget)e.target.classList.remove('show');});
+  document.getElementById('overlayDel').addEventListener('click',e=>{if(e.target===e.currentTarget)e.target.classList.remove('show');});
+
+  /* ─── INIT ─── */
+  updateCounts();
+  renderTable(users);
+</script>
+</body>
+</html>
