@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quản lý kho sách — Library University</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+  <style>
+    /* ═══ RESET & BASE ═══ */
+    :root {
+      --navy:       #0f2a5e;
+      --navy-mid:   #163880;
+      --blue:       #1a56c8;
+      --blue-light: #2e6ddf;
+      --blue-50:    #eef4ff;
+      --blue-100:   #d9e8ff;
+      --red:        #c0392b;
+      --red-bg:     #fdf2f1;
+      --red-border: #f5c6c2;
+      --green:      #16a34a;
+      --green-bg:   #f0fdf4;
+      --amber:      #b45309;
+      --amber-bg:   #fffbeb;
+      --gray-900:   #0f172a;
+      --gray-700:   #334155;
+      --gray-600:   #4b5563;
+      --gray-500:   #64748b;
+      --gray-400:   #94a3b8;
+      --gray-300:   #cbd5e1;
+      --gray-100:   #f1f5f9;
+      --gray-50:    #f8fafc;
+      --white:      #ffffff;
+      --border:     #e2e8f0;
+      --shadow-sm:  0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md:  0 4px 16px rgba(0,0,0,0.10);
+      --shadow-lg:  0 8px 32px rgba(0,0,0,0.14);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      background: #f0f4f8;
+      color: var(--gray-700);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ═══ HEADER ═══ */
+    .header {
+      background: var(--navy);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      position: sticky; top: 0; z-index: 100;
+      flex-shrink: 0;
+    }
+    .header-inner {
+      display: flex; align-items: center;
+      height: 56px; padding: 0 32px; width: 100%;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; flex-shrink: 0; margin-right: 28px;
+    }
+    .brand-icon {
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-name { font-size: 12.5px; font-weight: 800; color: #fff; letter-spacing: 1.4px; line-height: 1.2; white-space: nowrap; }
+    .brand-sub  { font-size: 9.5px; color: rgba(255,255,255,0.5); letter-spacing: 0.3px; white-space: nowrap; }
+
+    /* Nav: flex-1, each item fixed-width clips overflow */
+    .nav-links { display: flex; align-items: center; flex: 1; height: 56px; min-width: 0; }
+    .nav-links a {
+      font-size: 12.5px; font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      padding: 0 12px; height: 56px;
+      display: flex; align-items: center;
+      border-bottom: 3px solid transparent;
+      border-top: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+      overflow: hidden;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+    .nav-links a:hover  { color: rgba(255,255,255,0.9); }
+    .nav-links a.active { color: #fff; font-weight: 700; border-bottom-color: #5b9cf6; }
+
+    /* User button */
+    .user-btn {
+      display: flex; align-items: center; gap: 8px; padding: 6px 14px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px; font-size: 13px; font-weight: 600; color: #fff;
+      cursor: pointer; position: relative; transition: background 0.15s;
+      flex-shrink: 0; margin-left: auto; user-select: none;
+    }
+    .user-btn:hover { background: rgba(255,255,255,0.18); }
+    .user-avatar {
+      width: 26px; height: 26px; background: rgba(255,255,255,0.2);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 8px);
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 8px; min-width: 190px;
+      box-shadow: var(--shadow-lg); z-index: 200; overflow: hidden;
+    }
+    .user-btn.open .user-dropdown { display: block; }
+    .user-dropdown a {
+      display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+      font-size: 13px; color: var(--gray-700); text-decoration: none;
+      border-bottom: 1px solid var(--gray-100); transition: background 0.1s;
+    }
+    .user-dropdown a:last-child { border-bottom: none; color: var(--red); }
+    .user-dropdown a:hover { background: var(--gray-50); }
+
+    /* ═══ WELCOME STRIP ═══ */
+    .welcome-strip {
+      background: linear-gradient(90deg, #e8f0fe 0%, #f0f6ff 100%);
+      border-bottom: 1px solid #c7d9f7;
+      padding: 7px 32px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      flex-shrink: 0;
+    }
+    .welcome-strip .dot  { width: 6px; height: 6px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+    .welcome-strip .name { font-size: 13px; font-weight: 700; color: var(--red); letter-spacing: 0.3px; white-space: nowrap; }
+    .welcome-strip .sub  { font-size: 12px; color: var(--gray-500); white-space: nowrap; }
+
+    /* ═══ PAGE HEADER (shared across ALL pages) ═══ */
+    .page-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px; gap: 20px; flex-shrink: 0;
+    }
+    .page-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.2px; color: var(--blue); margin-bottom: 3px;
+    }
+    .page-title {
+      font-family: 'Lora', serif;
+      font-size: 24px; font-weight: 600; color: var(--navy); letter-spacing: -0.3px;
+    }
+
+    /* Search input (used on multiple pages) */
+    .search-wrap { position: relative; width: 260px; flex-shrink: 0; }
+    .search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; }
+    .search-input {
+      width: 100%; height: 36px; padding: 0 12px 0 34px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 13px; font-family: inherit; color: var(--gray-700);
+      background: var(--white); outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .search-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,200,0.1); }
+    .search-input::placeholder { color: var(--gray-300); }
+
+    /* ═══ CARDS ═══ */
+    .card {
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 12px; box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .card-head {
+      padding: 12px 20px; border-bottom: 1.5px solid var(--border);
+      background: var(--gray-50);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .card-head-title { font-size: 13px; font-weight: 700; color: var(--gray-700); }
+    .card-head-meta  { font-size: 12px; color: var(--gray-400); }
+
+    /* ═══ BADGES ═══ */
+    .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .badge-green { background: var(--green-bg); color: #15803d; border: 1px solid #bbf7d0; }
+    .badge-amber { background: var(--amber-bg); color: #92400e; border: 1px solid #fde68a; }
+    .badge-red   { background: var(--red-bg);   color: #b91c1c; border: 1px solid var(--red-border); }
+    .badge-blue  { background: var(--blue-50);  color: var(--blue); border: 1px solid var(--blue-100); }
+
+    /* ═══ BUTTONS ═══ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 7px;
+      height: 36px; padding: 0 18px;
+      background: var(--navy); color: #fff; border: none; border-radius: 8px;
+      font-size: 13px; font-weight: 700; font-family: inherit;
+      cursor: pointer; white-space: nowrap; letter-spacing: 0.2px;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-primary:hover  { background: var(--navy-mid); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 7px;
+      height: 36px; padding: 0 16px;
+      background: var(--white); color: var(--navy);
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 13px; font-weight: 600; font-family: inherit;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn-secondary:hover { background: var(--gray-50); border-color: var(--gray-300); }
+
+    /* ═══ FORM FIELDS ═══ */
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label { font-size: 12px; font-weight: 700; color: var(--gray-600); }
+    .field input, .field select, .field textarea {
+      padding: 8px 11px; border: 1.5px solid var(--border); border-radius: 7px;
+      font-size: 13.5px; font-family: inherit; color: var(--gray-700);
+      background: var(--white); outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,200,0.1);
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--gray-300); font-size: 13px; }
+    .field input[readonly] { background: var(--gray-50); color: var(--gray-500); cursor: default; }
+    .field textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+    .field select { cursor: pointer; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field.full { grid-column: 1 / -1; }
+
+    /* ═══ SECTION TITLE ═══ */
+    .section-title {
+      font-size: 10.5px; font-weight: 700; color: var(--gray-400);
+      text-transform: uppercase; letter-spacing: 0.9px;
+      margin-bottom: 14px; padding-bottom: 10px;
+      border-bottom: 1.5px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-title::before { content: ''; width: 3px; height: 12px; background: var(--blue); border-radius: 2px; }
+
+    /* ═══ TABLE ═══ */
+    .tbl-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 10px 16px; text-align: left;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--gray-400);
+      background: var(--gray-50); border-bottom: 1.5px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: 11px 16px; font-size: 13.5px; color: var(--gray-700);
+      border-bottom: 1px solid var(--border); vertical-align: middle;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--gray-50); }
+
+    /* ═══ CHECK CARD ═══ */
+    .check-card {
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 18px 22px; margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .check-card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: var(--gray-400); margin-bottom: 10px; }
+    .check-row { display: flex; align-items: center; gap: 10px; }
+    .check-input {
+      flex: 1; height: 38px; padding: 0 13px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 13.5px; font-family: inherit; color: var(--gray-700);
+      background: var(--white); outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .check-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,200,0.1); }
+    .check-input::placeholder { color: var(--gray-300); }
+    .btn-check {
+      height: 38px; padding: 0 20px;
+      background: var(--navy); color: #fff; border: none; border-radius: 8px;
+      font-size: 13.5px; font-weight: 600; font-family: inherit;
+      cursor: pointer; white-space: nowrap; transition: background 0.15s;
+    }
+    .btn-check:hover { background: var(--navy-mid); }
+    .check-status { display: none; margin-top: 10px; padding: 9px 13px; border-radius: 8px; font-size: 13px; font-weight: 600; align-items: center; gap: 8px; }
+    .check-status.show { display: flex; }
+    .check-status.ok    { background: var(--green-bg); color: #15803d; border: 1px solid #bbf7d0; }
+    .check-status.error { background: var(--red-bg); color: #b91c1c; border: 1px solid var(--red-border); }
+
+    /* ═══ MODAL OVERLAY ═══ */
+    .overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(9,17,36,0.55); backdrop-filter: blur(3px);
+      z-index: 300; align-items: center; justify-content: center; padding: 24px;
+    }
+    .overlay.show { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 14px;
+      width: 100%; max-width: 640px; max-height: 88vh; overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: modalIn 0.22s ease;
+    }
+    .modal-sm { max-width: 440px; }
+    @keyframes modalIn { from { opacity:0; transform:translateY(-16px) scale(0.98) } to { opacity:1; transform:translateY(0) scale(1) } }
+    .modal-head {
+      padding: 18px 22px 16px; border-bottom: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: var(--white); z-index: 1;
+      border-radius: 14px 14px 0 0;
+    }
+    .modal-eyebrow { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 2px; }
+    .modal-title   { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; color: var(--navy); }
+    .modal-x { width: 30px; height: 30px; border: none; background: var(--gray-100); border-radius: 6px; cursor: pointer; font-size: 15px; color: var(--gray-500); display: flex; align-items: center; justify-content: center; transition: all 0.12s; }
+    .modal-x:hover { background: var(--red-bg); color: var(--red); }
+    .modal-body { padding: 22px; }
+    .modal-section { margin-bottom: 22px; }
+    .modal-section:last-child { margin-bottom: 0; }
+    .modal-foot { padding: 14px 22px; border-top: 1.5px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; position: sticky; bottom: 0; background: var(--white); border-radius: 0 0 14px 14px; }
+
+    /* Modal buttons */
+    .btn-modal-cancel { height: 36px; padding: 0 16px; background: var(--white); border: 1.5px solid var(--border); border-radius: 7px; font-size: 13px; font-weight: 500; font-family: inherit; color: var(--gray-700); cursor: pointer; transition: background 0.12s; }
+    .btn-modal-cancel:hover { background: var(--gray-100); }
+    .btn-modal-save { height: 36px; padding: 0 22px; background: var(--navy); color: #fff; border: none; border-radius: 7px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; transition: background 0.15s; }
+    .btn-modal-save:hover { background: var(--navy-mid); }
+    .btn-modal-delete { height: 36px; padding: 0 16px; background: none; color: var(--red); border: 1.5px solid var(--red-border); border-radius: 7px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.12s; }
+    .btn-modal-delete:hover { background: var(--red-bg); }
+
+    /* Inline alert */
+    .inline-msg { display: none; padding: 9px 13px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 14px; align-items: center; justify-content: space-between; gap: 10px; }
+    .inline-msg.show { display: flex; }
+    .inline-msg.success { background: var(--green-bg); border: 1px solid #bbf7d0; color: #15803d; }
+    .inline-msg.error   { background: var(--red-bg); border: 1px solid var(--red-border); color: #b91c1c; }
+    .inline-msg button  { background: none; border: none; cursor: pointer; font-size: 16px; opacity: 0.6; flex-shrink: 0; line-height: 1; }
+
+    /* ═══ TOAST ═══ */
+    .toast {
+      position: fixed; top: 72px; right: 28px;
+      min-width: 290px; max-width: 360px;
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 12px 16px;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13.5px; font-weight: 500;
+      box-shadow: var(--shadow-lg); z-index: 9999;
+      pointer-events: none; opacity: 0; transform: translateX(20px);
+      transition: all 0.25s ease;
+    }
+    .toast.show { opacity: 1; transform: translateX(0); pointer-events: all; }
+    .toast-bar { width: 4px; border-radius: 2px; flex-shrink: 0; align-self: stretch; }
+    .toast.success .toast-bar { background: var(--green); }
+    .toast.error   .toast-bar { background: var(--red); }
+    .toast-content { flex: 1; }
+    .toast-title  { font-weight: 700; color: var(--gray-900); font-size: 13.5px; }
+    .toast-detail { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+    .toast-close  { cursor: pointer; color: var(--gray-300); font-size: 17px; pointer-events: all; flex-shrink: 0; }
+    .toast-close:hover { color: var(--gray-700); }
+
+    /* ═══ FOOTER ═══ */
+    .site-footer {
+      background: var(--navy); padding: 26px 40px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+      flex-shrink: 0;
+    }
+    .footer-col h4 { font-size: 10.5px; font-weight: 800; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px; }
+    .footer-col p  { font-size: 12.5px; color: rgba(255,255,255,0.65); line-height: 1.9; }
+    .footer-icons  { display: flex; gap: 8px; margin-top: 8px; }
+    .footer-icon   { width: 34px; height: 34px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+    .footer-icon:hover { background: rgba(255,255,255,0.2); }
+
+    /* ═══ EMPTY STATE ═══ */
+    .empty-state { text-align: center; padding: 48px 24px; color: var(--gray-400); }
+    .empty-state svg { margin-bottom: 12px; opacity: 0.4; }
+    .empty-state p { font-size: 14px; }
+
+
+    /* ═══ QUANLYSACH PAGE ═══ */
+    .body-wrap { flex: 1; display: flex; overflow: hidden; min-height: 0; }
+    main { flex: 1; min-width: 0; padding: 28px 40px 36px; overflow-y: auto; }
+
+    .action-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+
+    /* Book list */
+    .book-list { list-style: none; }
+    .book-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 20px; border-bottom: 1px solid var(--border);
+      cursor: pointer; transition: background 0.12s;
+    }
+    .book-item:last-child { border-bottom: none; }
+    .book-item:hover { background: var(--gray-50); }
+    .book-item.active { background: var(--blue-50); border-left: 3px solid var(--blue); padding-left: 17px; }
+    .book-star { flex-shrink: 0; color: var(--gray-300); font-size: 16px; cursor: pointer; transition: color 0.15s; line-height: 1; }
+    .book-star.starred { color: #f59e0b; }
+    .book-star:hover { color: #f59e0b; }
+    .book-info { flex: 1; min-width: 0; }
+    .book-name { font-size: 13.5px; font-weight: 600; color: var(--gray-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+    .book-id   { font-size: 12px; color: var(--gray-400); font-weight: 500; }
+    .book-chevron { flex-shrink: 0; color: var(--gray-300); display: flex; align-items: center; }
+    .book-item.active .book-chevron { color: var(--blue); }
+
+    /* Side panel */
+    .side-panel {
+      width: 0; overflow: hidden;
+      background: var(--white); border-left: 1.5px solid var(--border);
+      box-shadow: -4px 0 20px rgba(0,0,0,0.06);
+      transition: width 0.28s ease;
+      display: flex; flex-direction: column;
+      flex-shrink: 0;
+    }
+    .side-panel.open { width: 380px; }
+    .panel-inner { width: 380px; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+    .panel-head {
+      padding: 16px 20px 14px; border-bottom: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0; background: var(--white);
+    }
+    .panel-title { font-family: 'Lora', serif; font-size: 16px; font-weight: 600; color: var(--navy); }
+    .panel-close { width: 28px; height: 28px; border: none; background: var(--gray-100); border-radius: 6px; cursor: pointer; color: var(--gray-500); display: flex; align-items: center; justify-content: center; transition: all 0.12s; font-size: 14px; }
+    .panel-close:hover { background: var(--red-bg); color: var(--red); }
+    .panel-body { padding: 20px; flex: 1; overflow-y: auto; }
+    .panel-foot { padding: 12px 20px; border-top: 1.5px solid var(--border); display: flex; align-items: center; gap: 8px; flex-shrink: 0; background: var(--white); }
+    .btn-panel-save { flex: 1; height: 36px; background: var(--blue); color: #fff; border: none; border-radius: 7px; font-size: 13.5px; font-weight: 700; font-family: inherit; cursor: pointer; transition: background 0.15s; }
+    .btn-panel-save:hover { background: var(--blue-light); }
+    .btn-panel-delete { height: 36px; padding: 0 14px; background: none; color: var(--red); border: 1.5px solid var(--red-border); border-radius: 7px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.12s; white-space: nowrap; }
+    .btn-panel-delete:hover { background: var(--red-bg); }
+    .panel-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .panel-field label { font-size: 12px; font-weight: 700; color: var(--gray-600); }
+    .panel-field input, .panel-field select, .panel-field textarea { padding: 8px 11px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 13.5px; font-family: inherit; color: var(--gray-700); background: var(--white); outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+    .panel-field input:focus, .panel-field select:focus, .panel-field textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,200,0.1); }
+    .panel-field input::placeholder, .panel-field textarea::placeholder { color: var(--gray-300); font-size: 13px; }
+    .panel-field textarea { resize: vertical; min-height: 76px; line-height: 1.5; }
+    .panel-section { font-size: 10.5px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 12px; margin-top: 18px; padding-bottom: 9px; border-bottom: 1.5px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .panel-section::before { content: ''; width: 3px; height: 12px; background: var(--blue); border-radius: 2px; }
+    .panel-section:first-child { margin-top: 0; }
+
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a class="brand" href="#">
+      <div class="brand-icon">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">LIBRARY UNIVERSITY</div>
+        <div class="brand-sub">Hệ thống quản lý thư viện</div>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="taikhoan.html">Quản lý tài khoản</a>
+      <a href="quanlysach.html" class="active">Quản lý sách</a>
+      <a href="muonsach.html">Quản lý mượn sách</a>
+      <a href="trasach.html">Quản lý trả sách</a>
+      <a href="baocao.html">Báo cáo thống kê</a>
+    </nav>
+    <div class="user-btn" id="userBtn">
+      <div class="user-avatar">AD</div>
+      Admin
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="user-dropdown">
+        <a href="taikhoan.html">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Quản lý tài khoản
+        </a>
+        <a href="dangnhap.html" onclick="sessionStorage.clear()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Đăng xuất
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="welcome-strip">
+  <div class="dot"></div>
+  <span class="name">NGUYỄN PHƯƠNG NHI</span>
+  <span class="sub">— Xin chào, Admin! Chúc bạn làm việc hiệu quả.</span>
+</div>
+
+<div class="body-wrap">
+<main id="mainContent">
+  <div class="page-head">
+    <div>
+      <div class="page-label">Thư viện</div>
+      <div class="page-title">Quản lý kho sách</div>
+    </div>
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="searchInput" type="text" placeholder="Tìm kiếm sách..." />
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn-primary" id="btnAddNew">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      THÊM SÁCH MỚI
+    </button>
+    <a class="btn-secondary" href="muonsach.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      MƯỢN / TRẢ SÁCH
+    </a>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="card-head-title">Danh mục quản lý</span>
+      <span class="card-head-meta" id="lastUpdated"></span>
+    </div>
+    <ul class="book-list" id="bookList"></ul>
+  </div>
+</main>
+
+<aside class="side-panel" id="sidePanel">
+  <div class="panel-inner">
+    <div class="panel-head">
+      <div class="panel-title" id="panelTitle">Thêm sách mới</div>
+      <button class="panel-close" id="panelClose">&#x2715;</button>
+    </div>
+    <div class="panel-body">
+      <div class="panel-section">Thông tin cơ bản</div>
+      <div class="panel-field"><label>Tiêu đề cuốn sách</label><input type="text" id="fTitle" placeholder="Nhập tên sách..." /></div>
+      <div class="panel-field"><label>Ngày/Tháng/Năm xuất bản</label><input type="date" id="fDate" /></div>
+      <div class="panel-field"><label>Thể loại</label>
+        <select id="fGenre">
+          <option>Giáo trình</option><option>Sách tham khảo</option>
+          <option>Tài liệu ôn thi</option><option>Nghiên cứu khoa học</option>
+          <option>Sách bài tập</option><option>Khác</option>
+        </select>
+      </div>
+      <div class="panel-field"><label>Tác giả xuất bản</label><input type="text" id="fAuthor" placeholder="VD: TS. Hàn Minh Phương" /></div>
+      <div class="panel-field"><label>Số lượng sách có trong kho</label><input type="number" id="fQty" placeholder="30" min="0" /></div>
+      <div class="panel-section">Mô tả chi tiết</div>
+      <div class="panel-field"><label>Mô tả</label><textarea id="fDesc" placeholder="Mô tả ngắn về cuốn sách..."></textarea></div>
+      <div class="panel-field"><label>Tóm tắt nội dung</label><textarea id="fSummary" placeholder="Tóm tắt nội dung chính..." style="min-height:88px"></textarea></div>
+      <div class="panel-field"><label>Vị trí lưu trữ</label><input type="text" id="fLocation" placeholder="VD: Kệ A3 - Tầng 2" /></div>
+    </div>
+    <div class="panel-foot" id="panelFoot"></div>
+  </div>
+</aside>
+</div>
+
+<div class="toast" id="gToast">
+  <div class="toast-bar"></div>
+  <div class="toast-content">
+    <div class="toast-title"  id="gToastTitle"></div>
+    <div class="toast-detail" id="gToastDetail"></div>
+  </div>
+  <span class="toast-close" onclick="hideToast()">&#x2715;</span>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-col">
+    <h4>Liên hệ</h4>
+    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: libuniversity@gmail.com</p>
+  </div>
+  <div class="footer-col">
+    <h4>Thời gian hoạt động</h4>
+    <p>Thứ 2 – Thứ 6: 8:00 – 21:00<br>Thứ 7: 9:00 – 17:00<br>Chủ nhật: Đóng cửa</p>
+  </div>
+  <div class="footer-col">
+    <h4>Kết nối với chúng tôi</h4>
+    <div class="footer-icons">
+      <div class="footer-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+      <div class="footer-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon fill="#0f2a5e" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── USER DROPDOWN ── */
+  const userBtn = document.getElementById('userBtn');
+  userBtn.addEventListener('click', e => { e.stopPropagation(); userBtn.classList.toggle('open'); });
+  document.addEventListener('click', () => userBtn.classList.remove('open'));
+  userBtn.querySelector('.user-dropdown').addEventListener('click', e => e.stopPropagation());
+
+  /* ── TOAST ── */
+  let toastTimer;
+  function showToast(title, detail, type='success') {
+    clearTimeout(toastTimer);
+    document.getElementById('gToastTitle').textContent  = title;
+    document.getElementById('gToastDetail').textContent = detail;
+    document.getElementById('gToast').className = `toast ${type} show`;
+    toastTimer = setTimeout(hideToast, 4000);
+  }
+  function hideToast() { document.getElementById('gToast').className = 'toast'; }
+
+  /* ─── LAST UPDATED ─── */
+  (function(){
+    const n=new Date(), pad=x=>String(x).padStart(2,'0');
+    document.getElementById('lastUpdated').textContent=`Cập nhật gần nhất: ${pad(n.getHours())}h${pad(n.getMinutes())}p ${pad(n.getDate())}/${pad(n.getMonth()+1)}/${n.getFullYear()}`;
+  })();
+
+  /* ─── DATA ─── */
+  let books = [
+    {id:'012345',title:'Giáo trình Phân tích và Thiết kế hệ thống thông tin',genre:'Giáo trình',author:'TS. Nguyễn Văn A',date:'2024-01-15',qty:40,starred:true, desc:'Giáo trình chính thức dùng trong đào tạo đại học ngành HTTT.',summary:'Trình bày các phương pháp phân tích và thiết kế HTTT theo hướng cấu trúc và hướng đối tượng, bao gồm UML, ERD và các mô hình dữ liệu.',location:'Kệ A1 - Tầng 1'},
+    {id:'012346',title:'Giáo trình Cơ sở dữ liệu',genre:'Giáo trình',author:'PGS. Trần Thị B',date:'2023-06-20',qty:35,starred:true, desc:'Giáo trình Cơ sở dữ liệu dành cho sinh viên năm 2.',summary:'Lý thuyết mô hình quan hệ, ngôn ngữ SQL, thiết kế và chuẩn hóa CSDL, kèm bài tập thực hành.',location:'Kệ A2 - Tầng 1'},
+    {id:'198767',title:'Sách tham khảo Nghiên cứu khoa học Thương mại điện tử',genre:'Sách tham khảo',author:'GS. Lê Văn C',date:'2022-11-10',qty:20,starred:false,desc:'Tài liệu nghiên cứu chuyên sâu về thương mại điện tử tại Việt Nam.',summary:'Phân tích xu hướng phát triển TMĐT, các mô hình kinh doanh số, thanh toán điện tử và bảo mật giao dịch trực tuyến.',location:'Kệ B3 - Tầng 2'},
+    {id:'234156',title:'Tài liệu ôn IELTS Cambridge',genre:'Tài liệu ôn thi',author:'Cambridge ESOL',date:'2023-03-01',qty:50,starred:false,desc:'Bộ tài liệu luyện thi IELTS chính thức từ Cambridge.',summary:'15 bài thi mẫu đầy đủ 4 kỹ năng Listening, Reading, Writing, Speaking kèm đáp án và band score descriptors.',location:'Kệ C1 - Tầng 2'},
+    {id:'012348',title:'Giáo trình Quản trị thương mại điện tử',genre:'Giáo trình',author:'TS. Phạm Thị D',date:'2023-09-15',qty:28,starred:false,desc:'Giáo trình dành cho sinh viên chuyên ngành TMĐT.',summary:'Kiến thức về quản trị website bán hàng, SEO, digital marketing, logistics và quản lý đơn hàng trực tuyến.',location:'Kệ A4 - Tầng 1'},
+    {id:'245678',title:'Sách bài tập Nguyên lý kế toán (Bản 1)',genre:'Sách bài tập',author:'ThS. Hoàng Văn E',date:'2022-08-05',qty:45,starred:false,desc:'Sách bài tập kế toán dành cho sinh viên năm 1.',summary:'Hơn 300 bài tập từ cơ bản đến nâng cao về nguyên lý kế toán, bảng cân đối kế toán và báo cáo tài chính.',location:'Kệ D2 - Tầng 3'},
+    {id:'301122',title:'Giáo trình Lịch sử Đảng Cộng sản Việt Nam',genre:'Giáo trình',author:'Bộ Giáo dục',date:'2021-12-01',qty:60,starred:false,desc:'Giáo trình bắt buộc về Lịch sử Đảng Cộng sản Việt Nam.',summary:'Quá trình hình thành, phát triển và lãnh đạo của Đảng CSVN từ 1930 đến nay, gắn với lịch sử dân tộc.',location:'Kệ E1 - Tầng 1'},
+    {id:'089034',title:'Bài tập Kinh tế lượng',genre:'Sách bài tập',author:'PGS. Vũ Thị F',date:'2023-07-12',qty:30,starred:false,desc:'Bài tập thực hành môn Kinh tế lượng.',summary:'Hướng dẫn giải bài tập kinh tế lượng ứng dụng Eviews và Stata, gồm hồi quy tuyến tính, kiểm định giả thuyết và phân tích chuỗi thời gian.',location:'Kệ D1 - Tầng 3'},
+  ];
+
+  let activeId=null, panelMode=null;
+
+  function renderBooks(list){
+    const el=document.getElementById('bookList');
+    if(!list.length){el.innerHTML=`<div class="empty-state"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><p>Không tìm thấy sách nào.</p></div>`;return;}
+    el.innerHTML=list.map(b=>`
+      <li class="book-item ${activeId===b.id?'active':''}" onclick="openEdit('${b.id}')">
+        <span class="book-star ${b.starred?'starred':''}" onclick="toggleStar(event,'${b.id}')">★</span>
+        <div class="book-info"><div class="book-name">${b.title}</div><div class="book-id">${b.id}</div></div>
+        <span class="book-chevron"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+      </li>`).join('');
+  }
+
+  function currentList(){
+    const q=document.getElementById('searchInput').value.toLowerCase();
+    return q?books.filter(b=>b.title.toLowerCase().includes(q)||b.id.toLowerCase().includes(q)):books;
+  }
+
+  document.getElementById('searchInput').addEventListener('input',()=>renderBooks(currentList()));
+  function toggleStar(e,id){e.stopPropagation();const b=books.find(x=>x.id===id);if(b)b.starred=!b.starred;renderBooks(currentList());}
+
+  const panel=document.getElementById('sidePanel');
+  function openPanel(){panel.classList.add('open');}
+  function closePanel(){panel.classList.remove('open');activeId=null;panelMode=null;renderBooks(currentList());}
+  document.getElementById('panelClose').addEventListener('click',closePanel);
+
+  function clearPanelForm(){
+    ['fTitle','fAuthor','fDesc','fSummary','fLocation'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('fDate').value='';
+    document.getElementById('fGenre').value='Giáo trình';
+    document.getElementById('fQty').value='';
+  }
+
+  document.getElementById('btnAddNew').addEventListener('click',()=>{
+    panelMode='add';activeId=null;
+    document.getElementById('panelTitle').textContent='Thêm sách mới';
+    clearPanelForm();
+    document.getElementById('panelFoot').innerHTML=`<button class="btn-panel-save" style="flex:1" onclick="saveAdd()">Thêm sách</button>`;
+    renderBooks(currentList()); openPanel();
+  });
+
+  function openEdit(id){
+    const b=books.find(x=>x.id===id);if(!b)return;
+    panelMode='edit';activeId=id;
+    document.getElementById('panelTitle').textContent='Chỉnh sửa thông tin sách';
+    document.getElementById('fTitle').value=b.title;
+    document.getElementById('fDate').value=b.date;
+    document.getElementById('fGenre').value=b.genre;
+    document.getElementById('fAuthor').value=b.author;
+    document.getElementById('fQty').value=b.qty;
+    document.getElementById('fDesc').value=b.desc||'';
+    document.getElementById('fSummary').value=b.summary||'';
+    document.getElementById('fLocation').value=b.location||'';
+    document.getElementById('panelFoot').innerHTML=`<button class="btn-panel-save" onclick="saveEdit()">Lưu thay đổi</button><button class="btn-panel-delete" onclick="deleteBook('${id}')">Xóa</button>`;
+    renderBooks(currentList()); openPanel();
+  }
+
+  function saveAdd(){
+    const title=document.getElementById('fTitle').value.trim();
+    if(!title){showToast('Thiếu thông tin','Vui lòng nhập tiêu đề cuốn sách.','error');return;}
+    books.unshift({id:String(Math.floor(100000+Math.random()*900000)),title,date:document.getElementById('fDate').value,genre:document.getElementById('fGenre').value,author:document.getElementById('fAuthor').value.trim(),qty:parseInt(document.getElementById('fQty').value)||0,starred:false,desc:document.getElementById('fDesc').value.trim(),summary:document.getElementById('fSummary').value.trim(),location:document.getElementById('fLocation').value.trim()});
+    closePanel();showToast('Thêm sách thành công',title,'success');renderBooks(currentList());
+  }
+
+  function saveEdit(){
+    const b=books.find(x=>x.id===activeId);if(!b)return;
+    const title=document.getElementById('fTitle').value.trim();
+    if(!title){showToast('Thiếu thông tin','Vui lòng nhập tiêu đề cuốn sách.','error');return;}
+    b.title=title;b.date=document.getElementById('fDate').value;b.genre=document.getElementById('fGenre').value;b.author=document.getElementById('fAuthor').value.trim();b.qty=parseInt(document.getElementById('fQty').value)||0;b.desc=document.getElementById('fDesc').value.trim();b.summary=document.getElementById('fSummary').value.trim();b.location=document.getElementById('fLocation').value.trim();
+    closePanel();showToast('Lưu thành công',b.title,'success');renderBooks(currentList());
+  }
+
+  function deleteBook(id){
+    const b=books.find(x=>x.id===id);
+    if(!b||!confirm(`Xóa sách "${b.title}"?`))return;
+    books=books.filter(x=>x.id!==id);
+    closePanel();showToast('Đã xóa sách',b.title,'error');renderBooks(currentList());
+  }
+
+  renderBooks(books);
+</script>
+</body>
+</html>
