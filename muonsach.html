@@ -122,7 +122,6 @@
     .check-status.ok{background:var(--green-bg);color:#15803d;border:1px solid #bbf7d0;}
     .check-status.error{background:var(--red-bg);color:#b91c1c;border:1px solid var(--red-border);}
     .check-status.warn{background:var(--amber-bg);color:var(--amber);border:1px solid #fde68a;}
-    /* SLIP */
     .slip-actions-bar{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
     .btn-new-slip{display:none;align-items:center;gap:8px;height:38px;padding:0 20px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:13.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:background 0.15s;}
     .btn-new-slip.show{display:inline-flex;}
@@ -153,20 +152,32 @@
     .slip-body-actions{display:flex;gap:8px;margin-top:14px;}
     .btn-edit-slip{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 14px;background:var(--blue-50);color:var(--blue);border:1px solid var(--blue-100);border-radius:6px;font-size:12.5px;font-weight:600;font-family:inherit;cursor:pointer;transition:background 0.15s;}
     .btn-edit-slip:hover{background:var(--blue-100);}
-    .book-selector{border:1.5px solid var(--border);border-radius:9px;overflow:hidden;}
+    .book-selector{border:1.5px solid var(--border);border-radius:9px;overflow:visible;}
     .book-selector-header{padding:10px 14px;background:var(--gray-50);border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
     .book-selector-label{font-size:12px;font-weight:600;color:#4b5563;}
     .btn-add-book{height:28px;padding:0 12px;background:var(--blue);color:#fff;border:none;border-radius:5px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:5px;transition:background 0.15s;}
     .btn-add-book:hover{background:var(--blue-light);}
     .book-rows{padding:8px;min-height:44px;display:flex;flex-direction:column;gap:6px;}
     .book-row{display:flex;align-items:center;gap:8px;}
-    .book-row select{flex:1;height:34px;padding:0 10px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;color:var(--gray-700);background:var(--white);outline:none;transition:border-color 0.15s;}
-    .book-row select:focus{border-color:var(--blue);}
     .book-row .qty-input{width:68px;height:34px;padding:0 8px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;color:var(--gray-700);background:var(--white);outline:none;text-align:center;transition:border-color 0.15s;}
     .book-row .qty-input:focus{border-color:var(--blue);}
     .qty-label{font-size:11.5px;font-weight:600;color:var(--gray-500);white-space:nowrap;}
     .btn-rm-book{width:28px;height:28px;border:none;background:var(--gray-100);border-radius:5px;cursor:pointer;color:var(--gray-400);font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.12s;}
     .btn-rm-book:hover{background:var(--red-bg);color:var(--red);}
+    /* Autocomplete book input */
+    .book-ac-wrap{flex:1;position:relative;}
+    .book-ac-input-row{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:6px;background:var(--white);overflow:visible;transition:border-color 0.15s,box-shadow 0.15s;}
+    .book-ac-input-row:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,200,0.1);}
+    .book-ac-input-row.has-value{border-color:var(--blue-100);}
+    .book-ac-text{flex:1;height:34px;padding:0 8px 0 10px;border:none;outline:none;font-size:13px;font-family:inherit;color:var(--gray-700);background:transparent;}
+    .book-ac-text::placeholder{color:var(--gray-300);}
+    .book-ac-arrow{width:28px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gray-400);flex-shrink:0;transition:color 0.15s;border:none;background:transparent;}
+    .book-ac-arrow:hover{color:var(--blue);}
+    .book-ac-dropdown{display:none;position:fixed;background:var(--white);border:1.5px solid var(--border);border-radius:8px;box-shadow:var(--shadow-lg);z-index:9000;max-height:200px;overflow-y:auto;}
+    .book-ac-dropdown.open{display:block;}
+    .book-ac-item{padding:8px 12px;font-size:13px;color:var(--gray-700);cursor:pointer;transition:background 0.1s;}
+    .book-ac-item:hover,.book-ac-item.active{background:var(--blue-50);color:var(--blue);}
+    .book-ac-empty{padding:10px 12px;font-size:12.5px;color:var(--gray-400);font-style:italic;}
   </style>
 </head>
 <body>
@@ -297,7 +308,7 @@
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-modal-back" id="btnBack">
+      <button class="btn-modal-back" id="btnBack" onclick="goToMain()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
         Quay lại
       </button>
@@ -319,7 +330,7 @@
 <footer class="site-footer">
   <div class="footer-col">
     <h4>Liên hệ</h4>
-    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: libuniversity@gmail.com</p>
+    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cea2a7acbba0a7b8abbcbda7bab78ea9a3afa7a2e0ada1a3">[email&#160;protected]</a></p>
   </div>
   <div class="footer-col">
     <h4>Thời gian hoạt động</h4>
@@ -334,7 +345,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const userBtn = document.getElementById('userBtn');
   userBtn.addEventListener('click', e => { e.stopPropagation(); userBtn.classList.toggle('open'); });
   document.addEventListener('click', () => userBtn.classList.remove('open'));
@@ -350,8 +361,7 @@
   }
   function hideToast() { document.getElementById('gToast').className = 'toast'; }
 
-  // Danh sách phiếu phạt chưa thanh toán (đồng bộ với baocao)
-  const unpaidFines = ['AD02','TT02']; // docGiaId có phiếu phạt chưa thanh toán
+  const unpaidFines = ['AD02','TT02'];
 
   const readers = [
     {email:'leengan.k5@gmail.com', id:'PM0100', name:'Lê Thanh Ngân',     cls:'IS01'},
@@ -376,7 +386,7 @@
 
   let currentReader = null;
   let openSlipId = null;
-  let editingSlipId = null; // null = tạo mới, string = đang sửa
+  let editingSlipId = null;
 
   function badgeClass(s){
     if(s==='Đã trả sách') return 'badge badge-green';
@@ -384,18 +394,11 @@
     return 'badge badge-red';
   }
 
-  // Kiểm tra độc giả có phiếu quá hạn không
   function hasOverdueSlip(readerId) {
     return slips.some(s => s.readerId === readerId && s.status === 'Quá hạn');
   }
-
-  // Kiểm tra độc giả có phiếu phạt chưa thanh toán không
   function hasUnpaidFine(readerId) {
     return unpaidFines.includes(readerId);
-  }
-
-  function canCreateSlip(readerId) {
-    return !hasOverdueSlip(readerId) && !hasUnpaidFine(readerId);
   }
 
   function renderSlips(list) {
@@ -452,7 +455,6 @@
 
   document.getElementById('btnCheck').addEventListener('click', checkReader);
   document.getElementById('emailInput').addEventListener('keydown', e=>{ if(e.key==='Enter') checkReader(); });
-  // Xóa kết quả khi xóa hết input
   document.getElementById('emailInput').addEventListener('input', function(){
     if(!this.value.trim()) {
       currentReader = null;
@@ -502,7 +504,6 @@
     }
   }
 
-  // Mở modal tạo mới
   document.getElementById('btnNewSlip').addEventListener('click', () => {
     if(!currentReader) return;
     editingSlipId = null;
@@ -513,8 +514,6 @@
     document.getElementById('fReaderId').value = currentReader.id;
     document.getElementById('fEmail').value    = currentReader.email;
     document.getElementById('fClass').value    = currentReader.cls;
-
-    // Mặc định: ngày mượn = hôm nay, ngày trả = hôm nay + 3 tháng
     const today = new Date();
     const ret   = new Date(today);
     ret.setMonth(ret.getMonth() + 3);
@@ -526,7 +525,6 @@
     document.getElementById('overlaySlip').classList.add('show');
   });
 
-  // Mở modal chỉnh sửa
   function openEditSlip(slipId) {
     const s = slips.find(x=>x.id===slipId);
     if(!s) return;
@@ -538,13 +536,10 @@
     document.getElementById('fReaderId').value = s.readerId;
     document.getElementById('fEmail').value    = s.email;
     document.getElementById('fClass').value    = s.cls;
-
-    // Parse date dd/mm/yyyy → yyyy-mm-dd
     function toISO(d){const[dd,mm,yy]=d.split('/');return`${yy}-${mm}-${dd}`;}
     document.getElementById('fBorrowDate').value = toISO(s.borrowDate);
     document.getElementById('fReturnDate').value = toISO(s.returnDate);
     document.getElementById('fNote').value = s.note||'';
-
     document.getElementById('bookRows').innerHTML = '';
     s.books.forEach(b => addBookRow(b.title, b.qty));
     closeSlipAlert();
@@ -554,8 +549,141 @@
   function addBookRow(title='', qty=1){
     const row = document.createElement('div');
     row.className = 'book-row';
-    row.innerHTML = `<select><option value="">-- Chọn đầu sách --</option>${bookOptions.map(b=>`<option ${b===title?'selected':''}>${b}</option>`).join('')}</select><span class="qty-label">Số lượng:</span><input class="qty-input" type="number" min="1" max="10" value="${qty}" placeholder="1"/><button class="btn-rm-book" onclick="this.closest('.book-row').remove()">&#x2715;</button>`;
+    row.innerHTML = `
+      <div class="book-ac-wrap">
+        <div class="book-ac-input-row ${title?'has-value':''}">
+          <input class="book-ac-text" type="text" placeholder="Nhập tên sách..." value="${title}" autocomplete="off" />
+          <button type="button" class="book-ac-arrow" tabindex="-1" title="Xem tất cả sách">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+        <div class="book-ac-dropdown"></div>
+        <input type="hidden" class="book-ac-value" value="${title}" />
+      </div>
+      <span class="qty-label">Số lượng:</span>
+      <input class="qty-input" type="number" min="1" max="10" value="${qty}" placeholder="1"/>
+      <button class="btn-rm-book" onclick="this.closest('.book-row').remove()">&#x2715;</button>`;
     document.getElementById('bookRows').appendChild(row);
+    initBookAC(row);
+  }
+
+  function initBookAC(row) {
+    const textInput  = row.querySelector('.book-ac-text');
+    const hiddenVal  = row.querySelector('.book-ac-value');
+    const dropdown   = row.querySelector('.book-ac-dropdown');
+    const arrowBtn   = row.querySelector('.book-ac-arrow');
+    const inputWrap  = row.querySelector('.book-ac-input-row');
+    let activeIdx    = -1;
+
+    function renderDropdown(list) {
+      if(!list.length){
+        dropdown.innerHTML = `<div class="book-ac-empty">Không tìm thấy sách phù hợp</div>`;
+      } else {
+        dropdown.innerHTML = list.map((b,i)=>`<div class="book-ac-item" data-val="${b}">${b}</div>`).join('');
+        dropdown.querySelectorAll('.book-ac-item').forEach(item => {
+          item.addEventListener('mousedown', e => {
+            e.preventDefault();
+            selectBook(item.dataset.val);
+          });
+        });
+      }
+      activeIdx = -1;
+    }
+
+    function openDropdown(filter='') {
+      const q = filter.toLowerCase();
+      const list = q ? bookOptions.filter(b=>b.toLowerCase().includes(q)) : bookOptions;
+      renderDropdown(list);
+      // Tính vị trí fixed dựa trên tọa độ của input wrapper
+      const rect = inputWrap.getBoundingClientRect();
+      dropdown.style.left   = rect.left + 'px';
+      dropdown.style.width  = rect.width + 'px';
+      // Hiển thị xuống dưới nếu đủ chỗ, ngược lại hiện lên trên
+      const spaceBelow = window.innerHeight - rect.bottom;
+      if(spaceBelow >= 160) {
+        dropdown.style.top    = (rect.bottom + 4) + 'px';
+        dropdown.style.bottom = 'auto';
+      } else {
+        dropdown.style.bottom = (window.innerHeight - rect.top + 4) + 'px';
+        dropdown.style.top    = 'auto';
+      }
+      dropdown.classList.add('open');
+    }
+
+    function closeDropdown() {
+      dropdown.classList.remove('open');
+      activeIdx = -1;
+    }
+
+    function selectBook(val) {
+      textInput.value  = val;
+      hiddenVal.value  = val;
+      inputWrap.classList.add('has-value');
+      closeDropdown();
+      textInput.focus();
+    }
+
+    // Gõ → lọc và mở dropdown
+    textInput.addEventListener('input', () => {
+      hiddenVal.value = '';
+      inputWrap.classList.remove('has-value');
+      openDropdown(textInput.value);
+    });
+
+    // Mũi tên ▼ → toggle toàn bộ danh sách (chỉ mở khi bấm, không tự mở khi focus)
+    arrowBtn.addEventListener('mousedown', e => {
+      e.preventDefault(); // ngăn focus side effect
+      if(dropdown.classList.contains('open')){
+        closeDropdown();
+      } else {
+        openDropdown(''); // hiện toàn bộ khi bấm mũi tên
+      }
+    });
+
+    // Keyboard navigation
+    textInput.addEventListener('keydown', e => {
+      const items = dropdown.querySelectorAll('.book-ac-item');
+      if(e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeIdx = Math.min(activeIdx+1, items.length-1);
+        items.forEach((el,i)=>el.classList.toggle('active', i===activeIdx));
+        if(items[activeIdx]) items[activeIdx].scrollIntoView({block:'nearest'});
+      } else if(e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeIdx = Math.max(activeIdx-1, 0);
+        items.forEach((el,i)=>el.classList.toggle('active', i===activeIdx));
+        if(items[activeIdx]) items[activeIdx].scrollIntoView({block:'nearest'});
+      } else if(e.key === 'Enter') {
+        e.preventDefault();
+        if(activeIdx>=0 && items[activeIdx]) selectBook(items[activeIdx].dataset.val);
+      } else if(e.key === 'Escape') {
+        closeDropdown();
+      }
+    });
+
+    // Click ngoài → đóng
+    document.addEventListener('click', e => {
+      if(!row.contains(e.target) && !dropdown.contains(e.target)) closeDropdown();
+    });
+
+    // Cập nhật vị trí khi scroll (modal hoặc window)
+    function updatePos() {
+      if(!dropdown.classList.contains('open')) return;
+      const rect = inputWrap.getBoundingClientRect();
+      dropdown.style.left  = rect.left + 'px';
+      dropdown.style.width = rect.width + 'px';
+      const spaceBelow = window.innerHeight - rect.bottom;
+      if(spaceBelow >= 160) {
+        dropdown.style.top    = (rect.bottom + 4) + 'px';
+        dropdown.style.bottom = 'auto';
+      } else {
+        dropdown.style.bottom = (window.innerHeight - rect.top + 4) + 'px';
+        dropdown.style.top    = 'auto';
+      }
+    }
+    const modal = row.closest('.modal');
+    if(modal) modal.addEventListener('scroll', updatePos);
+    window.addEventListener('scroll', updatePos, true);
   }
   document.getElementById('btnAddBookRow').addEventListener('click', ()=>addBookRow());
 
@@ -564,9 +692,17 @@
     const returnDate = document.getElementById('fReturnDate').value;
     const rows  = [...document.querySelectorAll('#bookRows .book-row')];
     const books = rows.map(r=>{
-      const sel = r.querySelector('select');
-      const qty = parseInt(r.querySelector('.qty-input').value)||1;
-      return sel.value ? {title:sel.value, qty} : null;
+      // Ưu tiên hidden value (đã chọn từ dropdown), fallback text input nếu khớp bookOptions
+      const hidden = r.querySelector('.book-ac-value');
+      const text   = r.querySelector('.book-ac-text');
+      const qty    = parseInt(r.querySelector('.qty-input').value)||1;
+      let bookTitle = hidden ? hidden.value : '';
+      // Nếu hidden trống nhưng text khớp chính xác một mục trong danh sách → chấp nhận
+      if(!bookTitle && text) {
+        const matched = bookOptions.find(b => b.toLowerCase() === text.value.trim().toLowerCase());
+        if(matched) bookTitle = matched;
+      }
+      return bookTitle ? {title: bookTitle, qty} : null;
     }).filter(Boolean);
 
     if(!borrowDate||!returnDate){showSlipAlert('Vui lòng chọn ngày mượn và ngày trả.','error');return;}
@@ -574,7 +710,6 @@
     if(new Date(returnDate)<=new Date(borrowDate)){showSlipAlert('Ngày trả phải sau ngày mượn.','error');return;}
 
     if(editingSlipId) {
-      // Cập nhật phiếu đang sửa
       const idx = slips.findIndex(x=>x.id===editingSlipId);
       if(idx>-1){
         slips[idx].books      = books;
@@ -586,11 +721,10 @@
       setTimeout(()=>{
         document.getElementById('overlaySlip').classList.remove('show');
         openSlipId = editingSlipId;
-        reRender();
+        goToMain();
         showToast('Cập nhật thành công', editingSlipId + ' đã được cập nhật', 'success');
       }, 900);
     } else {
-      // Tạo phiếu mới
       const reader = readers.find(r=>r.id===document.getElementById('fReaderId').value)||currentReader;
       const newSlip = {
         id: 'PM' + String(slips.length+1).padStart(3,'0'),
@@ -604,7 +738,7 @@
       showSlipAlert('Tạo phiếu mượn thành công!','success');
       setTimeout(()=>{
         document.getElementById('overlaySlip').classList.remove('show');
-        reRender();
+        goToMain();
         showToast('Tạo phiếu thành công', newSlip.id + ' – ' + reader.name, 'success');
       }, 900);
     }
@@ -612,11 +746,20 @@
 
   function formatDate(iso){const[y,m,d]=iso.split('-');return`${d}/${m}/${y}`;}
 
-  // Nút Quay lại
-  document.getElementById('btnBack').addEventListener('click', () => {
+  // Quay về giao diện chính: đóng modal + reset filter + hiển thị tất cả phiếu
+  window.goToMain = function() {
     document.getElementById('overlaySlip').classList.remove('show');
-  });
+    currentReader = null;
+    document.getElementById('emailInput').value = '';
+    document.getElementById('checkStatus').className = 'check-status';
+    document.getElementById('btnNewSlip').classList.remove('show');
+    renderSlips(slips);
+  }
 
+  // Nút Quay lại trong modal → về giao diện chính
+  document.getElementById('btnBack').addEventListener('click', goToMain);
+
+  // Nút Đặt lại
   document.getElementById('btnReset').addEventListener('click', () => {
     document.getElementById('bookRows').innerHTML=''; addBookRow();
     document.getElementById('fNote').value=''; closeSlipAlert();
@@ -631,7 +774,6 @@
   }
   function closeSlipAlert(){document.getElementById('slipAlert').className='inline-msg';}
 
-  // Khởi tạo: hiển thị tất cả phiếu
   renderSlips(slips);
 </script>
 </body>
