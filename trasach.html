@@ -76,7 +76,17 @@
     .check-status.ok{background:var(--green-bg);color:#15803d;border:1px solid #bbf7d0;}
     .check-status.error{background:var(--red-bg);color:#b91c1c;border:1px solid var(--red-border);}
 
-    /* ALL SLIPS TABLE (hiển thị mặc định) */
+    /* TABS */
+    .tabs{display:flex;gap:0;margin-bottom:0;border-bottom:2px solid var(--border);}
+    .tab-btn{height:38px;padding:0 20px;background:none;border:none;border-bottom:2.5px solid transparent;margin-bottom:-2px;font-size:13px;font-weight:600;font-family:inherit;color:var(--gray-400);cursor:pointer;transition:color 0.15s,border-color 0.15s;white-space:nowrap;}
+    .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
+    .tab-btn:hover:not(.active){color:var(--gray-700);}
+    .tabs-wrap{background:var(--white);border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:20px;}
+    .tabs-header{padding:0 20px;border-bottom:1.5px solid var(--border);background:var(--gray-50);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    .tabs-header-left{display:flex;align-items:center;gap:0;}
+    .tabs-header-meta{font-size:12px;color:var(--gray-400);padding:10px 0;}
+
+    /* ALL SLIPS TABLE */
     .card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:20px;}
     .card-head{padding:12px 20px;border-bottom:1.5px solid var(--border);background:var(--gray-50);display:flex;align-items:center;justify-content:space-between;gap:12px;}
     .card-head-title{font-size:13px;font-weight:700;color:var(--gray-700);}
@@ -87,6 +97,13 @@
     tbody td{padding:11px 16px;font-size:13.5px;color:var(--gray-700);border-bottom:1px solid var(--border);vertical-align:middle;}
     tbody tr:last-child td{border-bottom:none;}
     tbody tr:hover{background:var(--gray-50);}
+
+    /* SEARCH RESULT BACK */
+    .search-result-bar{display:none;align-items:center;gap:10px;margin-bottom:12px;padding:10px 16px;background:var(--blue-50);border:1.5px solid var(--blue-100);border-radius:8px;}
+    .search-result-bar.show{display:flex;}
+    .search-result-bar span{font-size:13px;color:var(--blue);font-weight:600;flex:1;}
+    .btn-reset-search{height:30px;padding:0 14px;background:var(--white);border:1.5px solid var(--blue-100);border-radius:6px;font-size:12.5px;font-weight:600;color:var(--blue);font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:5px;transition:background 0.12s;}
+    .btn-reset-search:hover{background:var(--blue-100);}
 
     /* CONTENT AREA: phiếu chi tiết */
     .content-area{display:none;gap:20px;align-items:flex-start;margin-bottom:20px;}
@@ -148,6 +165,20 @@
     .fine-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;border-top:1.5px solid var(--border);flex-wrap:wrap;}
     .fine-total{font-size:13px;color:var(--gray-700);}
     .fine-total strong{color:#b91c1c;font-size:14px;}
+
+    /* EDIT FINE MODAL */
+    .form-group{margin-bottom:14px;}
+    .form-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-400);margin-bottom:6px;display:block;}
+    .form-input{width:100%;height:36px;padding:0 12px;border:1.5px solid var(--border);border-radius:7px;font-size:13.5px;font-family:inherit;color:var(--gray-700);background:var(--white);outline:none;transition:border-color 0.15s;}
+    .form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,200,0.1);}
+    .form-input[readonly]{background:var(--gray-50);color:var(--gray-500);cursor:default;}
+    .form-textarea{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:13.5px;font-family:inherit;color:var(--gray-700);background:var(--white);outline:none;resize:vertical;min-height:70px;transition:border-color 0.15s;}
+    .form-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,200,0.1);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .fine-status-tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;}
+    .fine-status-tag.pending{background:var(--amber-bg);color:#92400e;border:1px solid #fde68a;}
+    .fine-status-tag.paid{background:var(--green-bg);color:#15803d;border:1px solid #bbf7d0;}
+    .fine-status-tag.cancelled{background:var(--gray-100);color:var(--gray-500);border:1px solid var(--border);}
 
     /* TOAST */
     .toast{position:fixed;top:72px;right:28px;min-width:290px;max-width:360px;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow-lg);z-index:9999;pointer-events:none;opacity:0;transform:translateX(20px);transition:all 0.25s ease;}
@@ -223,9 +254,9 @@
       <div class="page-label">Thư viện</div>
       <div class="page-title">Quản lý trả sách</div>
     </div>
-    <div class="search-wrap">
+    <div class="search-wrap" id="searchWrap">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input class="search-input" id="searchInput" type="text" placeholder="Tìm mã phiếu phạt..." />
+      <input class="search-input" id="searchInput" type="text" placeholder="Tìm mã phiếu, độc giả..." />
     </div>
   </div>
 
@@ -242,27 +273,67 @@
     </div>
   </div>
 
-  <!-- BẢNG TẤT CẢ PHIẾU MƯỢN (hiển thị mặc định) -->
-  <div class="card" id="allSlipsCard">
-    <div class="card-head">
-      <span class="card-head-title" id="allSlipsTitle">Tất cả phiếu mượn</span>
-      <span class="card-head-meta" id="allSlipsCount"></span>
+  <!-- SEARCH RESULT BAR (nút quay lại sau khi tìm kiếm) -->
+  <div class="search-result-bar" id="searchResultBar">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <span id="searchResultText">Đang hiển thị kết quả tìm kiếm</span>
+    <button class="btn-reset-search" id="btnResetSearch">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Xem tất cả
+    </button>
+  </div>
+
+  <!-- TABS: Phiếu mượn / Phiếu phạt -->
+  <div class="tabs-wrap" id="allSlipsCard">
+    <div class="tabs-header">
+      <div class="tabs-header-left">
+        <div class="tabs">
+          <button class="tab-btn active" id="tabSlips" onclick="switchTab('slips')">Phiếu mượn</button>
+          <button class="tab-btn" id="tabFines" onclick="switchTab('fines')">Phiếu phạt</button>
+        </div>
+      </div>
+      <span class="tabs-header-meta" id="allSlipsCount"></span>
     </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Mã phiếu</th>
-            <th>Độc giả</th>
-            <th>Ngày mượn</th>
-            <th>Ngày trả</th>
-            <th>Sách mượn</th>
-            <th>Trạng thái</th>
-            <th>Hành động</th>
-          </tr>
-        </thead>
-        <tbody id="allSlipsBody"></tbody>
-      </table>
+
+    <!-- TAB: Phiếu mượn -->
+    <div id="panelSlips">
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã phiếu</th>
+              <th>Độc giả</th>
+              <th>Ngày mượn</th>
+              <th>Ngày trả</th>
+              <th>Sách mượn</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="allSlipsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB: Phiếu phạt -->
+    <div id="panelFines" style="display:none;">
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã phiếu phạt</th>
+              <th>Mã phiếu mượn</th>
+              <th>Độc giả</th>
+              <th>Số ngày trễ</th>
+              <th>Tiền phạt</th>
+              <th>Lý do</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="finesBody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -314,7 +385,7 @@
   </div>
 </main>
 
-<!-- Modal phiếu phạt -->
+<!-- Modal tạo phiếu phạt -->
 <div class="overlay" id="fineOverlay">
   <div class="modal">
     <div class="modal-head">
@@ -328,15 +399,28 @@
       <div class="modal-section">
         <div class="section-title">Thông tin phiếu phạt</div>
         <div class="fine-meta-grid">
-          <div class="fmg-head">Mã phiếu</div><div class="fmg-head">Họ tên độc giả</div><div class="fmg-head">Tiền phạt</div>
+          <div class="fmg-head">Mã phiếu</div><div class="fmg-head">Họ tên độc giả</div><div class="fmg-head" style="text-align:right">Tiền phạt</div>
           <div class="fmg-val code" id="fineCode"></div>
           <div class="fmg-val name-box" id="fineName"></div>
           <div class="fmg-val amount" id="fineAmount"></div>
         </div>
       </div>
       <div class="modal-section">
-        <div class="section-title">Lý do phạt</div>
-        <div class="fine-reason-box"><ul id="fineReasons"></ul></div>
+        <div class="section-title">Chỉnh sửa phiếu phạt</div>
+        <div class="form-row" style="margin-bottom:14px;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Số ngày trễ</label>
+            <input class="form-input" id="fineOverdueDaysInput" type="number" min="0" />
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Tiền phạt (đ)</label>
+            <input class="form-input" id="fineAmountInput" type="number" min="0" step="1000" />
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">Ghi chú lý do</label>
+          <textarea class="form-textarea" id="fineNoteInput" placeholder="Ghi chú lý do phạt..."></textarea>
+        </div>
       </div>
       <div class="fine-foot">
         <div class="fine-total">Tổng tiền phạt: <strong id="fineTotalText"></strong></div>
@@ -345,6 +429,64 @@
           <button class="btn-modal-save" id="confirmFine">Xác nhận phiếu phạt</button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal chỉnh sửa phiếu phạt -->
+<div class="overlay" id="editFineOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-eyebrow">Chỉnh sửa</div>
+        <div class="modal-title" id="editFineModalTitle">Chỉnh sửa phiếu phạt</div>
+      </div>
+      <button class="modal-x" id="closeEditFine">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="section-title">Thông tin chung</div>
+        <div class="form-row" style="margin-bottom:14px;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Mã phiếu phạt</label>
+            <input class="form-input" id="editFineId" readonly />
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Mã phiếu mượn</label>
+            <input class="form-input" id="editFineSlipId" readonly />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Họ tên độc giả</label>
+          <input class="form-input" id="editFineName" readonly />
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Số ngày trễ</label>
+            <input class="form-input" id="editFineOverdueDays" type="number" min="0" />
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Tiền phạt (đ)</label>
+            <input class="form-input" id="editFineAmountInput" type="number" min="0" step="1000" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="section-title">Lý do phạt</div>
+        <textarea class="form-textarea" id="editFineNote" placeholder="Ghi chú lý do phạt..."></textarea>
+      </div>
+      <div class="modal-section">
+        <div class="section-title">Trạng thái phiếu phạt</div>
+        <select class="status-select" id="editFineStatus" style="width:100%;height:36px;padding:0 12px;">
+          <option value="pending">Chờ thanh toán</option>
+          <option value="paid">Đã thanh toán</option>
+          <option value="cancelled">Đã hủy</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-modal-cancel" id="cancelEditFine">Hủy</button>
+      <button class="btn-modal-save" id="confirmEditFine">Lưu thay đổi</button>
     </div>
   </div>
 </div>
@@ -408,14 +550,60 @@
     {id:'PM003',readerId:'SV0054',readerName:'Trần Bảo Nhi',email:'baonhi@gmail.com',cls:'IS01',borrowDate:'05/03/2026',returnDate:'12/03/2026',status:'Quá hạn',books:[{title:'Tài liệu ôn IELTS Cambridge',qty:1}]},
   ];
 
+  // Fine counter for generating IDs
+  let fineCounter = 1;
+
+  // Fines list
+  let fines = [
+    {
+      id: 'PP001',
+      slipId: 'PM003',
+      readerId: 'SV0054',
+      readerName: 'Trần Bảo Nhi',
+      overdueDays: 1,
+      amount: 5000,
+      note: 'Quá hạn 1 ngày × 5.000đ',
+      status: 'pending'
+    }
+  ];
+
   let currentSlip = null;
+  let currentFineEdit = null;
+  let currentTab = 'slips';
+  let isFiltered = false;
+  let filteredSlipsList = null;
 
   function badgePill(s) {
     const cls = s==='Đã trả sách'?'badge-green':s==='Chưa trả sách'?'badge-amber':'badge-red';
     return `<span class="badge ${cls}">${s}</span>`;
   }
 
-  /* RENDER BẢNG TỔNG */
+  function fineStatusTag(s) {
+    const map = {pending:'Chờ thanh toán',paid:'Đã thanh toán',cancelled:'Đã hủy'};
+    const cls = s==='paid'?'paid':s==='cancelled'?'cancelled':'pending';
+    return `<span class="fine-status-tag ${cls}">${map[s]||s}</span>`;
+  }
+
+  /* TABS */
+  function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('tabSlips').classList.toggle('active', tab==='slips');
+    document.getElementById('tabFines').classList.toggle('active', tab==='fines');
+    document.getElementById('panelSlips').style.display = tab==='slips'?'':'none';
+    document.getElementById('panelFines').style.display = tab==='fines'?'':'none';
+    if (tab==='fines') {
+      document.getElementById('allSlipsCount').textContent = fines.length + ' phiếu phạt';
+      document.getElementById('searchWrap').style.display = 'none';
+      renderFines(fines);
+    } else {
+      document.getElementById('searchWrap').style.display = '';
+      const list = filteredSlipsList || slips;
+      document.getElementById('allSlipsCount').textContent = list.length + ' phiếu';
+      renderAllSlips(list);
+    }
+  }
+
+  /* RENDER BẢNG PHIẾU MƯỢN */
   function renderAllSlips(list) {
     document.getElementById('allSlipsCount').textContent = list.length + ' phiếu';
     document.getElementById('allSlipsBody').innerHTML = list.length ? list.map(s => `
@@ -431,12 +619,29 @@
       `<tr><td colspan="7" style="text-align:center;color:var(--gray-400);padding:40px">Không tìm thấy phiếu mượn nào.</td></tr>`;
   }
 
+  /* RENDER BẢNG PHIẾU PHẠT */
+  function renderFines(list) {
+    document.getElementById('finesBody').innerHTML = list.length ? list.map(f => `
+      <tr>
+        <td><span class="badge badge-red">${f.id}</span></td>
+        <td><span class="badge badge-blue">${f.slipId}</span></td>
+        <td><strong style="color:var(--gray-900)">${f.readerName}</strong><br><span style="font-size:12px;color:var(--gray-400)">${f.readerId}</span></td>
+        <td><strong style="color:#b91c1c">${f.overdueDays}</strong> ngày</td>
+        <td><strong style="color:#b91c1c">${f.amount.toLocaleString('vi-VN')}đ</strong></td>
+        <td style="font-size:12.5px;max-width:200px;white-space:normal;line-height:1.5">${f.note}</td>
+        <td>${fineStatusTag(f.status)}</td>
+        <td><button class="btn-secondary" style="height:28px;font-size:12px;padding:0 12px" onclick="openEditFine('${f.id}')">Chỉnh sửa</button></td>
+      </tr>`).join('') :
+      `<tr><td colspan="8" style="text-align:center;color:var(--gray-400);padding:40px">Chưa có phiếu phạt nào.</td></tr>`;
+  }
+
   /* LOAD CHI TIẾT PHIẾU */
   function loadSlip(id) {
     const slip = slips.find(x => x.id === id);
     if (!slip) return;
     currentSlip = slip;
     document.getElementById('allSlipsCard').style.display = 'none';
+    document.getElementById('searchResultBar').classList.remove('show');
     document.getElementById('contentArea').classList.add('visible');
     document.getElementById('slipTitle').textContent = `Phiếu mượn sách – ${slip.id}`;
     document.getElementById('slipReader').textContent = `${slip.readerName} · ${slip.readerId} · Lớp ${slip.cls}`;
@@ -448,11 +653,24 @@
     document.getElementById('overdueNote').style.display = slip.status==='Quá hạn' ? 'inline-flex' : 'none';
   }
 
-  /* QUAY LẠI */
+  /* QUAY LẠI từ chi tiết phiếu */
   document.getElementById('btnBack').addEventListener('click', () => {
     document.getElementById('contentArea').classList.remove('visible');
     document.getElementById('allSlipsCard').style.display = 'block';
+    if (isFiltered) document.getElementById('searchResultBar').classList.add('show');
     currentSlip = null;
+  });
+
+  /* RESET TÌM KIẾM – nút Xem tất cả */
+  document.getElementById('btnResetSearch').addEventListener('click', () => {
+    isFiltered = false;
+    filteredSlipsList = null;
+    document.getElementById('emailInput').value = '';
+    document.getElementById('searchInput').value = '';
+    document.getElementById('checkStatus').className = 'check-status';
+    document.getElementById('searchResultBar').classList.remove('show');
+    document.getElementById('allSlipsTitle') && (document.getElementById('allSlipsTitle').textContent = 'Tất cả phiếu mượn');
+    renderAllSlips(slips);
   });
 
   /* TRA CỨU */
@@ -465,8 +683,10 @@
     const msgEl = document.getElementById('checkMsg');
     const iconEl = document.getElementById('checkIcon');
     if (!val) {
+      isFiltered = false;
+      filteredSlipsList = null;
+      document.getElementById('searchResultBar').classList.remove('show');
       renderAllSlips(slips);
-      document.getElementById('allSlipsTitle').textContent = 'Tất cả phiếu mượn';
       statusEl.className = 'check-status'; return;
     }
     const found = readers.find(r => r.email.toLowerCase()===val || r.id.toLowerCase()===val);
@@ -475,12 +695,19 @@
       msgEl.textContent = `Tìm thấy ${matched.length} phiếu mượn${found ? ' của ' + found.name : ''}`;
       iconEl.innerHTML = '<polyline points="20 6 9 17 4 12"/>';
       statusEl.className = 'check-status show ok';
-      document.getElementById('allSlipsTitle').textContent = found ? `Phiếu mượn của ${found.name}` : 'Kết quả tìm kiếm';
+      isFiltered = true;
+      filteredSlipsList = matched;
+      document.getElementById('searchResultText').textContent = `Đang hiển thị ${matched.length} phiếu mượn${found ? ' của ' + found.name : ''}`;
+      document.getElementById('searchResultBar').classList.add('show');
       renderAllSlips(matched);
     } else {
       msgEl.textContent = 'Không tìm thấy phiếu mượn.';
       iconEl.innerHTML = '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>';
       statusEl.className = 'check-status show error';
+      isFiltered = true;
+      filteredSlipsList = [];
+      document.getElementById('searchResultText').textContent = 'Không tìm thấy phiếu mượn phù hợp';
+      document.getElementById('searchResultBar').classList.add('show');
       renderAllSlips([]);
     }
   }
@@ -488,8 +715,9 @@
   /* TÌM KIẾM REALTIME */
   document.getElementById('searchInput').addEventListener('input', function() {
     const q = this.value.toLowerCase();
-    const filtered = q ? slips.filter(s => s.readerName.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) || s.readerId.toLowerCase().includes(q)) : slips;
-    document.getElementById('allSlipsTitle').textContent = q ? 'Kết quả tìm kiếm' : 'Tất cả phiếu mượn';
+    if (currentTab !== 'slips') return;
+    const base = filteredSlipsList || slips;
+    const filtered = q ? base.filter(s => s.readerName.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) || s.readerId.toLowerCase().includes(q)) : base;
     renderAllSlips(filtered);
   });
 
@@ -502,34 +730,107 @@
     renderAllSlips(slips);
   });
 
-  /* TẠO PHIẾU PHẠT */
+  /* TÍNH SỐ NGÀY TRỄ */
+  function calcOverdueDays(returnDate) {
+    const today = new Date();
+    const [d,m,y] = returnDate.split('/');
+    const due = new Date(`${y}-${m}-${d}`);
+    return Math.max(0, Math.floor((today - due) / (1000*60*60*24)));
+  }
+
+  /* TẠO PHIẾU PHẠT — chỉ tính 5k/ngày, không tính theo đầu sách */
+  function updateFineModalTotal() {
+    const amount = parseInt(document.getElementById('fineAmountInput').value) || 0;
+    document.getElementById('fineAmount').textContent = amount.toLocaleString('vi-VN') + 'đ';
+    document.getElementById('fineTotalText').textContent = amount.toLocaleString('vi-VN') + 'đ';
+  }
+
+  document.getElementById('fineOverdueDaysInput').addEventListener('input', function() {
+    const days = parseInt(this.value) || 0;
+    document.getElementById('fineAmountInput').value = days * 5000;
+    updateFineModalTotal();
+  });
+
+  document.getElementById('fineAmountInput').addEventListener('input', updateFineModalTotal);
+
   document.getElementById('btnCreateFine').addEventListener('click', () => {
     if (!currentSlip) return;
-    const today = new Date();
-    const [d,m,y] = currentSlip.returnDate.split('/');
-    const due = new Date(`${y}-${m}-${d}`);
-    const overdueDays = Math.max(0, Math.floor((today-due)/(1000*60*60*24)));
     const finePerDay = 5000;
-    const totalFine = overdueDays*finePerDay + currentSlip.books.reduce((a,b)=>a+b.qty,0)*2000;
+    const overdueDays = calcOverdueDays(currentSlip.returnDate);
+    const totalFine = overdueDays * finePerDay;
+
     document.getElementById('fineCode').textContent = currentSlip.id;
     document.getElementById('fineName').textContent = currentSlip.readerName;
-    document.getElementById('fineAmount').textContent = totalFine.toLocaleString('vi-VN')+'đ';
-    const reasons = [];
-    if (overdueDays>0) reasons.push(`Quá hạn ${overdueDays} ngày × ${finePerDay.toLocaleString('vi-VN')}đ = ${(overdueDays*finePerDay).toLocaleString('vi-VN')}đ`);
-    reasons.push(`Phí quản lý (${currentSlip.books.reduce((a,b)=>a+b.qty,0)} cuốn × 2.000đ) = ${(currentSlip.books.reduce((a,b)=>a+b.qty,0)*2000).toLocaleString('vi-VN')}đ`);
-    document.getElementById('fineReasons').innerHTML = reasons.map(r=>`<li>${r}</li>`).join('');
-    document.getElementById('fineTotalText').textContent = totalFine.toLocaleString('vi-VN')+'đ';
+    document.getElementById('fineOverdueDaysInput').value = overdueDays;
+    document.getElementById('fineAmountInput').value = totalFine;
+    document.getElementById('fineNoteInput').value = overdueDays > 0
+      ? `Quá hạn ${overdueDays} ngày × 5.000đ/ngày`
+      : 'Không có ngày trễ';
+    updateFineModalTotal();
     document.getElementById('fineOverlay').classList.add('show');
   });
 
   document.getElementById('confirmFine').addEventListener('click', () => {
+    if (!currentSlip) return;
+    const overdueDays = parseInt(document.getElementById('fineOverdueDaysInput').value) || 0;
+    const totalFine = parseInt(document.getElementById('fineAmountInput').value) || 0;
+    const note = document.getElementById('fineNoteInput').value || 'Không có ghi chú';
+    const newFine = {
+      id: 'PP' + String(fines.length + 1).padStart(3, '0'),
+      slipId: currentSlip.id,
+      readerId: currentSlip.readerId,
+      readerName: currentSlip.readerName,
+      overdueDays,
+      amount: totalFine,
+      note,
+      status: 'pending'
+    };
+    fines.push(newFine);
     document.getElementById('fineOverlay').classList.remove('show');
-    showToast('Đã tạo phiếu phạt', 'Phiếu phạt đã được lưu thành công', 'success');
+    showToast('Đã tạo phiếu phạt', `${newFine.id} — ${newFine.readerName}`, 'success');
+    if (currentTab === 'fines') renderFines(fines);
   });
 
   ['closeFine','cancelFine'].forEach(id =>
     document.getElementById(id).addEventListener('click', () => document.getElementById('fineOverlay').classList.remove('show')));
   document.getElementById('fineOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) e.target.classList.remove('show'); });
+
+  /* CHỈNH SỬA PHIẾU PHẠT */
+  function openEditFine(id) {
+    const fine = fines.find(f => f.id === id);
+    if (!fine) return;
+    currentFineEdit = fine;
+    document.getElementById('editFineModalTitle').textContent = `Chỉnh sửa phiếu phạt ${fine.id}`;
+    document.getElementById('editFineId').value = fine.id;
+    document.getElementById('editFineSlipId').value = fine.slipId;
+    document.getElementById('editFineName').value = fine.readerName;
+    document.getElementById('editFineOverdueDays').value = fine.overdueDays;
+    document.getElementById('editFineAmountInput').value = fine.amount;
+    document.getElementById('editFineNote').value = fine.note;
+    document.getElementById('editFineStatus').value = fine.status;
+    document.getElementById('editFineOverlay').classList.add('show');
+  }
+
+  /* Tự tính lại tiền khi đổi số ngày */
+  document.getElementById('editFineOverdueDays').addEventListener('input', function() {
+    const days = parseInt(this.value) || 0;
+    document.getElementById('editFineAmountInput').value = days * 5000;
+  });
+
+  document.getElementById('confirmEditFine').addEventListener('click', () => {
+    if (!currentFineEdit) return;
+    currentFineEdit.overdueDays = parseInt(document.getElementById('editFineOverdueDays').value) || 0;
+    currentFineEdit.amount = parseInt(document.getElementById('editFineAmountInput').value) || 0;
+    currentFineEdit.note = document.getElementById('editFineNote').value;
+    currentFineEdit.status = document.getElementById('editFineStatus').value;
+    document.getElementById('editFineOverlay').classList.remove('show');
+    showToast('Đã cập nhật phiếu phạt', `${currentFineEdit.id} — ${currentFineEdit.amount.toLocaleString('vi-VN')}đ`, 'success');
+    renderFines(fines);
+  });
+
+  ['closeEditFine','cancelEditFine'].forEach(id =>
+    document.getElementById(id).addEventListener('click', () => document.getElementById('editFineOverlay').classList.remove('show')));
+  document.getElementById('editFineOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) e.target.classList.remove('show'); });
 
   /* INIT */
   renderAllSlips(slips);
