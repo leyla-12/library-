@@ -166,6 +166,25 @@
     .fine-total{font-size:13px;color:var(--gray-700);}
     .fine-total strong{color:#b91c1c;font-size:14px;}
 
+    /* DAMAGE SECTION */
+    .damage-table{width:100%;border-collapse:collapse;margin-bottom:10px;}
+    .damage-table th{padding:7px 10px;text-align:left;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--gray-400);background:var(--gray-50);border-bottom:1.5px solid var(--border);}
+    .damage-table td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:middle;}
+    .damage-table tbody tr:last-child td{border-bottom:none;}
+    .damage-book-name{font-size:13px;color:var(--gray-700);font-weight:500;}
+    .damage-type-select{height:30px;padding:0 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12.5px;font-family:inherit;color:var(--gray-700);background:var(--white);outline:none;width:100%;}
+    .damage-type-select:focus{border-color:var(--blue);}
+    .damage-amt{width:110px;height:30px;padding:0 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12.5px;font-family:inherit;color:var(--gray-700);background:var(--white);outline:none;text-align:right;}
+    .damage-amt:focus{border-color:var(--blue);}
+    .damage-subtotal{font-size:12.5px;font-weight:700;color:#b91c1c;text-align:right;white-space:nowrap;padding-right:4px;}
+    .damage-other-input{display:none;width:100%;height:28px;margin-top:5px;padding:0 8px;border:1.5px solid var(--blue-100);border-radius:6px;font-size:12px;font-family:inherit;color:var(--gray-700);background:var(--blue-50);outline:none;}
+    .damage-other-input:focus{border-color:var(--blue);}
+    .damage-other-input.show{display:block;}
+    .section-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
+    .section-toggle-icon{font-size:11px;color:var(--blue);font-weight:700;margin-left:8px;flex-shrink:0;}
+    .damage-summary{display:flex;justify-content:flex-end;padding:6px 4px 2px;font-size:12.5px;color:var(--gray-600);}
+    .damage-summary strong{color:#b91c1c;margin-left:6px;}
+
     /* EDIT FINE MODAL */
     .form-group{margin-bottom:14px;}
     .form-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-400);margin-bottom:6px;display:block;}
@@ -176,9 +195,8 @@
     .form-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,200,0.1);}
     .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
     .fine-status-tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;}
-    .fine-status-tag.pending{background:var(--amber-bg);color:#92400e;border:1px solid #fde68a;}
+    .fine-status-tag.pending{background:var(--red-bg);color:#b91c1c;border:1px solid var(--red-border);}
     .fine-status-tag.paid{background:var(--green-bg);color:#15803d;border:1px solid #bbf7d0;}
-    .fine-status-tag.cancelled{background:var(--gray-100);color:var(--gray-500);border:1px solid var(--border);}
 
     /* TOAST */
     .toast{position:fixed;top:72px;right:28px;min-width:290px;max-width:360px;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow-lg);z-index:9999;pointer-events:none;opacity:0;transform:translateX(20px);transition:all 0.25s ease;}
@@ -229,10 +247,6 @@
       Admin
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
       <div class="user-dropdown">
-        <a href="taikhoan.html">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-          Quản lý tài khoản
-        </a>
         <a href="index.html" onclick="sessionStorage.clear()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           Đăng xuất
@@ -405,28 +419,63 @@
           <div class="fmg-val amount" id="fineAmount"></div>
         </div>
       </div>
+      <!-- Phạt quá hạn -->
       <div class="modal-section">
-        <div class="section-title">Chỉnh sửa phiếu phạt</div>
+        <div class="section-title">Phạt quá hạn</div>
         <div class="form-row" style="margin-bottom:14px;">
           <div class="form-group" style="margin-bottom:0;">
             <label class="form-label">Số ngày trễ</label>
             <input class="form-input" id="fineOverdueDaysInput" type="number" min="0" />
           </div>
           <div class="form-group" style="margin-bottom:0;">
-            <label class="form-label">Tiền phạt (đ)</label>
+            <label class="form-label">Tiền phạt quá hạn (đ)</label>
             <input class="form-input" id="fineAmountInput" type="number" min="0" step="1000" />
           </div>
         </div>
-        <div class="form-group" style="margin-bottom:0;">
-          <label class="form-label">Ghi chú lý do</label>
-          <textarea class="form-textarea" id="fineNoteInput" placeholder="Ghi chú lý do phạt..."></textarea>
+      </div>
+
+      <!-- Phạt mất / hư hỏng sách -->
+      <div class="modal-section" style="margin-bottom:16px;">
+        <div class="section-title section-toggle" onclick="toggleDamageSection()">
+          <span>Phạt mất / hư hỏng sách</span>
+          <span class="section-toggle-icon" id="damageSectionIcon">+ Mở rộng</span>
+        </div>
+        <div id="damageSectionBody" style="display:none;margin-top:12px;">
+          <table class="damage-table">
+            <thead>
+              <tr>
+                <th style="width:38%">Đầu sách</th>
+                <th style="width:30%">Loại vi phạm</th>
+                <th style="width:20%">Số tiền (đ)</th>
+                <th style="width:12%;text-align:right">Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody id="damageRows"></tbody>
+          </table>
+          <div class="damage-summary">Tổng tiền mất/hư: <strong id="damageTotalText">0đ</strong></div>
         </div>
       </div>
-      <div class="fine-foot">
+
+      <!-- Ghi chú & tổng -->
+      <div class="modal-section">
+        <div class="section-title">Ghi chú lý do</div>
+        <textarea class="form-textarea" id="fineNoteInput" placeholder="Ghi chú lý do phạt (tổng hợp tự động hoặc nhập tay)..." style="margin-bottom:0;"></textarea>
+      </div>
+
+      <div class="fine-foot" style="flex-wrap:wrap;gap:12px;">
         <div class="fine-total">Tổng tiền phạt: <strong id="fineTotalText"></strong></div>
-        <div style="display:flex;gap:8px">
-          <button class="btn-modal-cancel" id="cancelFine">Hủy</button>
-          <button class="btn-modal-save" id="confirmFine">Xác nhận phiếu phạt</button>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--gray-400);">Trạng thái:</span>
+            <select id="fineStatusInput" class="status-select" style="height:32px;font-size:13px;padding:0 10px;">
+              <option value="pending">Chưa thanh toán</option>
+              <option value="paid">Đã thanh toán</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-modal-cancel" id="cancelFine">Hủy</button>
+            <button class="btn-modal-save" id="confirmFine">Xác nhận phiếu phạt</button>
+          </div>
         </div>
       </div>
     </div>
@@ -478,9 +527,8 @@
       <div class="modal-section">
         <div class="section-title">Trạng thái phiếu phạt</div>
         <select class="status-select" id="editFineStatus" style="width:100%;height:36px;padding:0 12px;">
-          <option value="pending">Chờ thanh toán</option>
+          <option value="pending">Chưa thanh toán</option>
           <option value="paid">Đã thanh toán</option>
-          <option value="cancelled">Đã hủy</option>
         </select>
       </div>
     </div>
@@ -503,7 +551,7 @@
 <footer class="site-footer">
   <div class="footer-col">
     <h4>Liên hệ</h4>
-    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: libuniversity@gmail.com</p>
+    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="412d2823342f283724333228353801262c20282d6f222e2c">[email&#160;protected]</a></p>
   </div>
   <div class="footer-col">
     <h4>Thời gian hoạt động</h4>
@@ -518,7 +566,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   /* DROPDOWN */
   const userBtn = document.getElementById('userBtn');
   userBtn.addEventListener('click', e => { e.stopPropagation(); userBtn.classList.toggle('open'); });
@@ -579,8 +627,8 @@
   }
 
   function fineStatusTag(s) {
-    const map = {pending:'Chờ thanh toán',paid:'Đã thanh toán',cancelled:'Đã hủy'};
-    const cls = s==='paid'?'paid':s==='cancelled'?'cancelled':'pending';
+    const map = {pending:'Chưa thanh toán', paid:'Đã thanh toán'};
+    const cls = s==='paid' ? 'paid' : 'pending';
     return `<span class="fine-status-tag ${cls}">${map[s]||s}</span>`;
   }
 
@@ -591,12 +639,13 @@
     document.getElementById('tabFines').classList.toggle('active', tab==='fines');
     document.getElementById('panelSlips').style.display = tab==='slips'?'':'none';
     document.getElementById('panelFines').style.display = tab==='fines'?'':'none';
+    document.getElementById('searchInput').value = '';
     if (tab==='fines') {
+      document.getElementById('searchInput').placeholder = 'Tìm mã phiếu phạt, độc giả...';
       document.getElementById('allSlipsCount').textContent = fines.length + ' phiếu phạt';
-      document.getElementById('searchWrap').style.display = 'none';
       renderFines(fines);
     } else {
-      document.getElementById('searchWrap').style.display = '';
+      document.getElementById('searchInput').placeholder = 'Tìm mã phiếu, độc giả...';
       const list = filteredSlipsList || slips;
       document.getElementById('allSlipsCount').textContent = list.length + ' phiếu';
       renderAllSlips(list);
@@ -715,19 +764,36 @@
   /* TÌM KIẾM REALTIME */
   document.getElementById('searchInput').addEventListener('input', function() {
     const q = this.value.toLowerCase();
-    if (currentTab !== 'slips') return;
-    const base = filteredSlipsList || slips;
-    const filtered = q ? base.filter(s => s.readerName.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) || s.readerId.toLowerCase().includes(q)) : base;
-    renderAllSlips(filtered);
+    if (currentTab === 'fines') {
+      const filtered = q ? fines.filter(f =>
+        f.id.toLowerCase().includes(q) ||
+        f.slipId.toLowerCase().includes(q) ||
+        f.readerName.toLowerCase().includes(q) ||
+        f.readerId.toLowerCase().includes(q)
+      ) : fines;
+      renderFines(filtered);
+    } else {
+      const base = filteredSlipsList || slips;
+      const filtered = q ? base.filter(s =>
+        s.readerName.toLowerCase().includes(q) ||
+        s.id.toLowerCase().includes(q) ||
+        s.readerId.toLowerCase().includes(q)
+      ) : base;
+      renderAllSlips(filtered);
+    }
   });
 
   /* LƯU TRẠNG THÁI */
   document.getElementById('btnSaveStatus').addEventListener('click', () => {
     if (!currentSlip) return;
     currentSlip.status = document.getElementById('statusSelect').value;
-    document.getElementById('overdueNote').style.display = currentSlip.status==='Quá hạn' ? 'inline-flex' : 'none';
     showToast('Cập nhật trạng thái', `${currentSlip.id} — ${currentSlip.status}`, 'success');
-    renderAllSlips(slips);
+    // Quay về danh sách và cập nhật bảng
+    document.getElementById('contentArea').classList.remove('visible');
+    document.getElementById('allSlipsCard').style.display = '';
+    if (isFiltered) document.getElementById('searchResultBar').classList.add('show');
+    renderAllSlips(filteredSlipsList || slips);
+    currentSlip = null;
   });
 
   /* TÍNH SỐ NGÀY TRỄ */
@@ -738,43 +804,162 @@
     return Math.max(0, Math.floor((today - due) / (1000*60*60*24)));
   }
 
-  /* TẠO PHIẾU PHẠT — chỉ tính 5k/ngày, không tính theo đầu sách */
-  function updateFineModalTotal() {
-    const amount = parseInt(document.getElementById('fineAmountInput').value) || 0;
-    document.getElementById('fineAmount').textContent = amount.toLocaleString('vi-VN') + 'đ';
-    document.getElementById('fineTotalText').textContent = amount.toLocaleString('vi-VN') + 'đ';
+  /* TẠO PHIẾU PHẠT */
+  const DAMAGE_PRESETS = {
+    lost: 150000,
+    damaged_heavy: 80000,
+    damaged_light: 30000,
+    cover: 15000,
+    other: 0,
+    none: 0
+  };
+  const DAMAGE_LABELS = {
+    lost: 'Mất sách',
+    damaged_heavy: 'Hư hỏng nặng',
+    damaged_light: 'Hư hỏng nhẹ',
+    cover: 'Rách bìa / ố trang',
+    other: 'Khác',
+    none: 'Không vi phạm'
+  };
+
+  function toggleDamageSection() {
+    const body = document.getElementById('damageSectionBody');
+    const icon = document.getElementById('damageSectionIcon');
+    const isOpen = body.style.display !== 'none';
+    body.style.display = isOpen ? 'none' : 'block';
+    icon.textContent = isOpen ? '+ Mở rộng' : '− Thu gọn';
   }
+
+  function calcDamageTotal() {
+    let total = 0;
+    document.querySelectorAll('#damageRows tr').forEach(tr => {
+      const sel = tr.querySelector('.damage-type-select');
+      const amt = tr.querySelector('.damage-amt');
+      const sub = tr.querySelector('.damage-subtotal');
+      const preset = DAMAGE_PRESETS[sel.value] ?? 0;
+      const val = parseInt(amt.value) || 0;
+      sub.textContent = val.toLocaleString('vi-VN') + 'đ';
+      total += val;
+    });
+    document.getElementById('damageTotalText').textContent = total.toLocaleString('vi-VN') + 'đ';
+    return total;
+  }
+
+  function buildDamageRows(books) {
+    const tbody = document.getElementById('damageRows');
+    tbody.innerHTML = books.map((b, i) => `
+      <tr>
+        <td class="damage-book-name" title="${b.title}">
+          ${b.title.length > 28 ? b.title.slice(0,26)+'…' : b.title}
+          <input class="damage-other-input" type="text" placeholder="Mô tả vi phạm..." oninput="autoFillDamageNote();" />
+        </td>
+        <td>
+          <select class="damage-type-select" data-idx="${i}" onchange="onDamageTypeChange(this)">
+            <option value="none">Không vi phạm</option>
+            <option value="lost">Mất sách</option>
+            <option value="damaged_heavy">Hư hỏng nặng</option>
+            <option value="damaged_light">Hư hỏng nhẹ</option>
+            <option value="cover">Rách bìa / ố trang</option>
+            <option value="other">Khác (tự nhập)</option>
+          </select>
+        </td>
+        <td><input class="damage-amt" type="number" min="0" step="5000" value="0" oninput="calcDamageTotal(); recalcFineTotal();" /></td>
+        <td class="damage-subtotal">0đ</td>
+      </tr>`).join('');
+  }
+
+  function onDamageTypeChange(sel) {
+    const tr = sel.closest('tr');
+    const amtInput = tr.querySelector('.damage-amt');
+    const otherInput = tr.querySelector('.damage-other-input');
+    const preset = DAMAGE_PRESETS[sel.value] ?? 0;
+    amtInput.value = preset;
+    // Hiện ô nhập mô tả nếu chọn "Khác"
+    if (sel.value === 'other') {
+      otherInput.classList.add('show');
+      otherInput.focus();
+    } else {
+      otherInput.classList.remove('show');
+      otherInput.value = '';
+    }
+    calcDamageTotal();
+    recalcFineTotal();
+    autoFillDamageNote();
+  }
+
+  function autoFillDamageNote() {
+    const overdueDays = parseInt(document.getElementById('fineOverdueDaysInput').value) || 0;
+    let parts = [];
+    if (overdueDays > 0) parts.push(`Quá hạn ${overdueDays} ngày × 5.000đ/ngày`);
+    document.querySelectorAll('#damageRows tr').forEach(tr => {
+      const sel = tr.querySelector('.damage-type-select');
+      const bookName = tr.querySelector('.damage-book-name').childNodes[0].textContent.trim();
+      const otherInput = tr.querySelector('.damage-other-input');
+      const amt = parseInt(tr.querySelector('.damage-amt').value) || 0;
+      if (sel.value === 'none') return;
+      const label = sel.value === 'other'
+        ? (otherInput.value.trim() || 'Khác')
+        : DAMAGE_LABELS[sel.value];
+      parts.push(`${label}: "${bookName}" — ${amt.toLocaleString('vi-VN')}đ`);
+    });
+    document.getElementById('fineNoteInput').value = parts.length ? parts.join('\n') : '';
+  }
+
+  function recalcFineTotal() {
+    const overdueAmt = parseInt(document.getElementById('fineAmountInput').value) || 0;
+    const damageAmt  = calcDamageTotal();
+    const total = overdueAmt + damageAmt;
+    document.getElementById('fineAmount').textContent  = total.toLocaleString('vi-VN') + 'đ';
+    document.getElementById('fineTotalText').textContent = total.toLocaleString('vi-VN') + 'đ';
+  }
+
+  function updateFineModalTotal() { recalcFineTotal(); }
 
   document.getElementById('fineOverdueDaysInput').addEventListener('input', function() {
     const days = parseInt(this.value) || 0;
     document.getElementById('fineAmountInput').value = days * 5000;
-    updateFineModalTotal();
+    recalcFineTotal();
+    autoFillDamageNote();
   });
 
-  document.getElementById('fineAmountInput').addEventListener('input', updateFineModalTotal);
+  document.getElementById('fineAmountInput').addEventListener('input', function() {
+    recalcFineTotal();
+    autoFillDamageNote();
+  });
 
   document.getElementById('btnCreateFine').addEventListener('click', () => {
     if (!currentSlip) return;
-    const finePerDay = 5000;
     const overdueDays = calcOverdueDays(currentSlip.returnDate);
-    const totalFine = overdueDays * finePerDay;
+    const overdueAmt  = overdueDays * 5000;
 
     document.getElementById('fineCode').textContent = currentSlip.id;
-    document.getElementById('fineName').textContent = currentSlip.readerName;
+    document.getElementById('fineName').textContent  = currentSlip.readerName;
     document.getElementById('fineOverdueDaysInput').value = overdueDays;
-    document.getElementById('fineAmountInput').value = totalFine;
+    document.getElementById('fineAmountInput').value = overdueAmt;
+
+    // Reset damage section
+    document.getElementById('damageSectionBody').style.display = 'none';
+    document.getElementById('damageSectionIcon').textContent = '+ Mở rộng';
+    buildDamageRows(currentSlip.books);
+    calcDamageTotal();
+    recalcFineTotal();
+
+    // Auto note
     document.getElementById('fineNoteInput').value = overdueDays > 0
       ? `Quá hạn ${overdueDays} ngày × 5.000đ/ngày`
-      : 'Không có ngày trễ';
-    updateFineModalTotal();
+      : '';
+
     document.getElementById('fineOverlay').classList.add('show');
   });
 
   document.getElementById('confirmFine').addEventListener('click', () => {
     if (!currentSlip) return;
     const overdueDays = parseInt(document.getElementById('fineOverdueDaysInput').value) || 0;
-    const totalFine = parseInt(document.getElementById('fineAmountInput').value) || 0;
-    const note = document.getElementById('fineNoteInput').value || 'Không có ghi chú';
+    const overdueAmt  = parseInt(document.getElementById('fineAmountInput').value) || 0;
+    const damageAmt   = calcDamageTotal();
+    const totalFine   = overdueAmt + damageAmt;
+    const note = document.getElementById('fineNoteInput').value.trim() || 'Không có ghi chú';
+    const fineStatus = document.getElementById('fineStatusInput').value;
     const newFine = {
       id: 'PP' + String(fines.length + 1).padStart(3, '0'),
       slipId: currentSlip.id,
@@ -783,11 +968,11 @@
       overdueDays,
       amount: totalFine,
       note,
-      status: 'pending'
+      status: fineStatus
     };
     fines.push(newFine);
     document.getElementById('fineOverlay').classList.remove('show');
-    showToast('Đã tạo phiếu phạt', `${newFine.id} — ${newFine.readerName}`, 'success');
+    showToast('Đã tạo phiếu phạt', `${newFine.id} — ${newFine.readerName} · ${totalFine.toLocaleString('vi-VN')}đ`, 'success');
     if (currentTab === 'fines') renderFines(fines);
   });
 
