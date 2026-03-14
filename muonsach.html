@@ -304,11 +304,11 @@
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-modal-back" id="btnBack"></button>
+      <button class="btn-modal-back" id="btnBack" onclick="goToMain()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
         Quay lại
       </button>
-      <button class="btn-modal-cancel" id="btnReset">Đặt lại</button>
+      <button class="btn-modal-cancel" id="btnReset" style="display:none;">Đặt lại</button>
       <button class="btn-modal-save" id="btnSaveSlip">Lưu phiếu mượn</button>
     </div>
   </div>
@@ -517,6 +517,7 @@
     document.getElementById('fReturnDate').value = ret.toISOString().slice(0,10);
     document.getElementById('fNote').value = '';
     document.getElementById('bookRows').innerHTML = '';
+    document.getElementById('btnReset').style.display = '';
     addBookRow(); closeSlipAlert();
     document.getElementById('overlaySlip').classList.add('show');
   });
@@ -537,6 +538,7 @@
     document.getElementById('fReturnDate').value = toISO(s.returnDate);
     document.getElementById('fNote').value = s.note||'';
     document.getElementById('bookRows').innerHTML = '';
+    document.getElementById('btnReset').style.display = 'none';
     s.books.forEach(b => addBookRow(b.title, b.qty));
     closeSlipAlert();
     document.getElementById('overlaySlip').classList.add('show');
@@ -715,7 +717,6 @@
       }
       showSlipAlert('Cập nhật phiếu thành công!','success');
       setTimeout(()=>{
-        document.getElementById('overlaySlip').classList.remove('show');
         openSlipId = editingSlipId;
         goToMain();
         showToast('Cập nhật thành công', editingSlipId + ' đã được cập nhật', 'success');
@@ -749,6 +750,7 @@
     document.getElementById('emailInput').value = '';
     document.getElementById('checkStatus').className = 'check-status';
     document.getElementById('btnNewSlip').classList.remove('show');
+    openSlipId = null;
     renderSlips(slips);
   }
 
