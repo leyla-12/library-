@@ -178,6 +178,44 @@
     .book-ac-item{padding:8px 12px;font-size:13px;color:var(--gray-700);cursor:pointer;transition:background 0.1s;}
     .book-ac-item:hover,.book-ac-item.active{background:var(--blue-50);color:var(--blue);}
     .book-ac-empty{padding:10px 12px;font-size:12.5px;color:var(--gray-400);font-style:italic;}
+    /* ====== RESPONSIVE FIX ====== */
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* fix form/card */
+.card {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* input không tràn */
+input, button {
+  max-width: 100%;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+  .card {
+    padding: 20px !important;
+    max-width: 95% !important;
+  }
+
+  h1, h2, h3 {
+    font-size: 90%;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+}
   </style>
 </head>
 <body>
