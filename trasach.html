@@ -217,6 +217,44 @@
     .footer-icons{display:flex;gap:8px;margin-top:8px;}
     .footer-icon{width:34px;height:34px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background 0.15s;}
     .footer-icon:hover{background:rgba(255,255,255,0.2);}
+    /* ====== RESPONSIVE FIX ====== */
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* fix form/card */
+.card {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* input không tràn */
+input, button {
+  max-width: 100%;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+  .card {
+    padding: 20px !important;
+    max-width: 95% !important;
+  }
+
+  h1, h2, h3 {
+    font-size: 90%;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+}
   </style>
 </head>
 <body>
