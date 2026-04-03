@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Đăng nhập - Library University</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
       justify-content: center;
       background: url('assets/img/tvien.jpg') center/cover no-repeat;
       position: relative;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
     .login-wrapper {
@@ -165,6 +165,7 @@
     .toast.success { background: #27ae60; }
     .toast.error   { background: #e74c3c; }
   </style>
+  <link rel="stylesheet" href="responsive.css" />
 </head>
 <body>
 
@@ -248,5 +249,6 @@
       }
     });
   </script>
+  <script src="responsive.js"></script>
 </body>
 </html>
