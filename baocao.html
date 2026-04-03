@@ -173,9 +173,9 @@ input, button {
     width: 100%;
   }
 }
-    /* ====== RESPONSIVE FIX FULL ====== */
+   /* ====== RESPONSIVE FIX FULL (FINAL) ====== */
 
-/* chống tràn ngang */
+/* chống tràn */
 html, body {
   max-width: 100%;
   overflow-x: hidden;
@@ -187,12 +187,12 @@ img {
   height: auto;
 }
 
-/* table scroll ngang */
+/* table scroll */
 .table-card {
   overflow-x: auto;
 }
 
-/* mobile */
+/* tablet */
 @media (max-width: 1024px) {
   .sidebar {
     width: 70px;
@@ -207,10 +207,10 @@ img {
   }
 }
 
-/* tablet + mobile */
+/* mobile */
 @media (max-width: 768px) {
 
-  /* header xuống dòng */
+  /* header */
   .header-inner {
     flex-direction: column;
     height: auto;
@@ -228,17 +228,13 @@ img {
     padding: 8px;
   }
 
-  /* sidebar ẩn */
- @media (max-width: 768px) {
-
-  /* sidebar thành menu ngang */
+  /* sidebar thành ngang */
   .sidebar {
     width: 100%;
     height: auto;
     display: flex;
     flex-direction: row;
     overflow-x: auto;
-    position: relative;
   }
 
   .sidebar-item {
@@ -248,26 +244,21 @@ img {
   }
 
   .sidebar-item span {
-    display: none; /* ẩn chữ, giữ icon */
+    display: none;
   }
 
-  /* content xuống dưới */
+  /* content */
   .main-content {
     margin-left: 0;
-  }
-}
-
-  /* content full */
-  .main-content {
     padding: 15px;
   }
 
-  /* stat xuống dòng */
+  /* stat */
   .stat-row {
     grid-template-columns: 1fr;
   }
 
-  /* toolbar xuống dòng */
+  /* toolbar */
   .toolbar {
     flex-direction: column;
     align-items: stretch;
@@ -277,7 +268,7 @@ img {
     width: 100%;
   }
 
-  /* chart nhỏ lại */
+  /* chart */
   .chart-container {
     height: 220px;
   }
