@@ -229,9 +229,33 @@ img {
   }
 
   /* sidebar ẩn */
+ @media (max-width: 768px) {
+
+  /* sidebar thành menu ngang */
   .sidebar {
-    display: none;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    position: relative;
   }
+
+  .sidebar-item {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .sidebar-item span {
+    display: none; /* ẩn chữ, giữ icon */
+  }
+
+  /* content xuống dưới */
+  .main-content {
+    margin-left: 0;
+  }
+}
 
   /* content full */
   .main-content {
