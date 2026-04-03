@@ -1,0 +1,334 @@
+/* ═══════════════════════════════════════════════════════
+   LIBRARY UNIVERSITY — Responsive & Mobile-first Overrides
+   Dán <link rel="stylesheet" href="responsive.css"> vào
+   cuối <head> của mọi trang (sau style inline).
+═══════════════════════════════════════════════════════ */
+
+/* ─── HAMBURGER BUTTON (ẩn trên desktop) ─────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 7px;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: 12px;
+  transition: background 0.15s;
+}
+.hamburger:hover { background: rgba(255,255,255,0.2); }
+.hamburger span {
+  display: block;
+  width: 18px; height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.25s ease;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ─── MOBILE DRAWER OVERLAY ──────────────────────────── */
+.mobile-nav-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(9,17,36,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+}
+.mobile-nav-overlay.show { display: block; }
+
+/* ─── MOBILE DRAWER ──────────────────────────────────── */
+.mobile-drawer {
+  position: fixed;
+  top: 0; left: -280px;
+  width: 280px; height: 100%;
+  background: var(--navy, #0f2a5e);
+  z-index: 201;
+  display: flex; flex-direction: column;
+  padding: 0;
+  transition: left 0.28s cubic-bezier(0.4,0,0.2,1);
+  overflow-y: auto;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.3);
+}
+.mobile-drawer.open { left: 0; }
+
+.mobile-drawer-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.mobile-drawer-brand {
+  flex: 1;
+}
+.mobile-drawer-brand .brand-name {
+  font-size: 12px; font-weight: 800; color: #fff;
+  letter-spacing: 1.4px; line-height: 1.3;
+}
+.mobile-drawer-brand .brand-sub {
+  font-size: 10px; color: rgba(255,255,255,0.5);
+}
+.mobile-drawer-close {
+  width: 30px; height: 30px;
+  background: rgba(255,255,255,0.1);
+  border: none; border-radius: 6px;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.mobile-drawer nav {
+  display: flex; flex-direction: column;
+  padding: 12px 0;
+  flex: 1;
+}
+.mobile-drawer nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 20px;
+  font-size: 14px; font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.mobile-drawer nav a:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+.mobile-drawer nav a.active {
+  color: #fff; font-weight: 700;
+  background: rgba(91,156,246,0.15);
+  border-left-color: #5b9cf6;
+}
+.mobile-drawer-user {
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.mobile-drawer-user a {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 8px;
+  font-size: 13px; font-weight: 600; color: #fff;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.mobile-drawer-user a:hover { background: rgba(255,255,255,0.15); }
+
+/* ─── TABLE: horizontal scroll wrapper ───────────────── */
+.table-scroll-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll-wrap table {
+  min-width: 580px;
+}
+
+/* ─── SIDE PANEL → BOTTOM SHEET on mobile ────────────── */
+
+/* ─── MODAL full-width on small screens ──────────────── */
+
+/* ═══════════════════════════════════════════════════════
+   BREAKPOINTS
+═══════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤ 900px): thu gọn nav, giảm padding ────── */
+@media (max-width: 900px) {
+  .header-inner { padding: 0 16px; }
+  .brand-sub { display: none; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .user-btn .user-name { display: none; }
+
+  /* welcome strip */
+  .welcome-strip { padding: 6px 16px; flex-wrap: wrap; }
+  .welcome-strip .sub { display: none; }
+
+  /* main padding */
+  main { padding: 20px 16px 28px; }
+  .main-content { padding: 20px 16px 28px; }
+
+  /* page-head */
+  .page-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .search-wrap { width: 100% !important; }
+  .search-input { width: 100% !important; }
+
+  /* action-row wrap */
+  .action-row { flex-wrap: wrap; }
+
+  /* stat grid */
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+
+  /* footer */
+  .site-footer { grid-template-columns: 1fr; gap: 24px; padding: 24px 16px; }
+
+  /* baocao sidebar → top tabs */
+  .body-wrap { flex-direction: column; overflow: visible; min-height: unset; }
+  .sidebar {
+    width: 100%; flex-direction: row; flex-wrap: wrap;
+    gap: 4px; padding: 10px 12px;
+    border-right: none; border-bottom: 1.5px solid var(--border);
+    overflow-x: auto;
+  }
+  .sidebar-label { display: none; }
+  .sidebar-item { padding: 7px 12px; font-size: 12px; white-space: nowrap; }
+
+  /* quanlysach side panel → bottom sheet */
+  .side-panel {
+    position: fixed !important;
+    bottom: -100%; left: 0; right: 0;
+    width: 100% !important;
+    height: 85vh;
+    border-left: none !important;
+    border-top: 1.5px solid var(--border);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.15);
+    transition: bottom 0.3s cubic-bezier(0.4,0,0.2,1) !important;
+    z-index: 400;
+  }
+  .side-panel.open {
+    bottom: 0 !important;
+    width: 100% !important;
+  }
+  .panel-inner { width: 100% !important; }
+  /* overlay for panel on mobile */
+  .panel-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(9,17,36,0.45);
+    backdrop-filter: blur(2px);
+    z-index: 399;
+  }
+  .panel-overlay.show { display: block; }
+
+  /* modal */
+  .modal { max-width: 100%; margin: 0; border-radius: 16px 16px 0 0; }
+  .overlay { align-items: flex-end; padding: 0; }
+
+  /* table scroll */
+  .card { overflow: visible; }
+  .table-scroll-wrap { border-radius: 12px; }
+
+  /* form grid */
+  .form-grid { grid-template-columns: 1fr !important; }
+  .field.full { grid-column: auto; }
+
+  /* check-row */
+  .check-row { flex-wrap: wrap; }
+  .check-input { min-width: 0; }
+}
+
+/* ── Mobile (≤ 600px) ────────────────────────────────── */
+@media (max-width: 600px) {
+  /* header */
+  .header-inner { height: 50px; padding: 0 12px; }
+  .brand-name { font-size: 11px; letter-spacing: 0.8px; }
+
+  /* login card */
+  .login-wrapper { padding: 28px 20px; margin: 16px; max-width: 100%; }
+  .card { padding: 24px 20px; max-width: 100%; }
+
+  /* page head title */
+  .page-title { font-size: 19px !important; }
+
+  /* stat row → single col */
+  .stat-row { grid-template-columns: 1fr; }
+
+  /* buttons full-width in action-row */
+  .action-row .btn-primary { width: 100%; justify-content: center; }
+
+  /* modal foot buttons stack */
+  .modal-foot { flex-direction: column; gap: 8px; }
+  .modal-foot button { width: 100%; justify-content: center; }
+  .btn-modal-back { margin-right: 0; }
+
+  /* toast */
+  .toast { left: 12px; right: 12px; min-width: unset; max-width: unset; }
+
+  /* welcome strip */
+  .welcome-strip { padding: 6px 12px; }
+
+  /* table hide less-important cols via data attribute */
+  th[data-hide-mobile], td[data-hide-mobile] { display: none; }
+
+  /* panel foot stack */
+  .panel-foot { flex-direction: column; }
+  .panel-foot button { width: 100% !important; }
+  .btn-panel-save { flex: none !important; }
+
+  /* tabs scroll */
+  .tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .tab-btn { white-space: nowrap; flex-shrink: 0; }
+}
+
+/* ─── Prevent iOS zoom on input focus ────────────────── */
+@media (max-width: 900px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  .search-input, .check-input, .panel-field input,
+  .panel-field select, .panel-field textarea,
+  .field input, .field select, .field textarea,
+  .form-group input, .form-group select {
+    font-size: 16px !important;
+  }
+}
+
+/* ─── LOGIN PAGE specific ──────────────────────────────── */
+@media (max-width: 600px) {
+  .login-wrapper {
+    margin: 16px !important;
+    padding: 28px 20px !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+  /* quenmatkhau card */
+  .card {
+    margin: 16px !important;
+    padding: 28px 20px !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+  /* footer bar on login pages: don't show */
+}
+
+/* ─── Safe area insets (iPhone notch/home bar) ─────────── */
+@supports (padding: max(0px)) {
+  .header-inner {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  main, .main-content {
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+  .mobile-drawer {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .side-panel.open {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .modal-foot {
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+}
+
+/* ─── Landscape phones ──────────────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+  .mobile-drawer { overflow-y: auto; }
+  .side-panel { height: 95vh; }
+}
+
+/* ─── Ensure body scroll not broken by body-wrap overflow ── */
+@media (max-width: 900px) {
+  .body-wrap {
+    flex-direction: column !important;
+    overflow: visible !important;
+    min-height: unset !important;
+  }
+}
