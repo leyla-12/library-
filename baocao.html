@@ -15,216 +15,543 @@
       --gray-50:#f8fafc;--white:#ffffff;--border:#e2e8f0;
       --shadow-sm:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
       --shadow-md:0 4px 16px rgba(0,0,0,0.10);--shadow-lg:0 8px 32px rgba(0,0,0,0.14);
+      --header-h: 56px;
+      --sidebar-w: 210px;
     }
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;background:#f0f4f8;color:var(--gray-700);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
-    .header{background:var(--navy);box-shadow:0 2px 12px rgba(0,0,0,0.2);position:sticky;top:0;z-index:100;flex-shrink:0;}
-    .header-inner{display:flex;align-items:center;height:56px;padding:0 32px;width:100%;}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;margin-right:28px;}
-    .brand-icon{width:32px;height:32px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .brand-name{font-size:12.5px;font-weight:800;color:#fff;letter-spacing:1.4px;line-height:1.2;white-space:nowrap;}
-    .brand-sub{font-size:9.5px;color:rgba(255,255,255,0.5);letter-spacing:0.3px;white-space:nowrap;}
-    .nav-links{display:flex;align-items:center;flex:1;height:56px;min-width:0;}
-    .nav-links a{font-size:12.5px;font-weight:500;color:rgba(255,255,255,0.65);text-decoration:none;padding:0 12px;height:56px;display:flex;align-items:center;border-bottom:3px solid transparent;border-top:3px solid transparent;transition:color 0.15s,border-color 0.15s;white-space:nowrap;overflow:hidden;flex-shrink:1;min-width:0;}
-    .nav-links a:hover{color:rgba(255,255,255,0.9);}
-    .nav-links a.active{color:#fff;font-weight:700;border-bottom-color:#5b9cf6;}
-    .user-btn{display:flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;position:relative;transition:background 0.15s;flex-shrink:0;margin-left:auto;user-select:none;}
-    .user-btn:hover{background:rgba(255,255,255,0.18);}
-    .user-avatar{width:26px;height:26px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
-    .user-dropdown{display:none;position:absolute;right:0;top:calc(100% + 8px);background:var(--white);border:1px solid var(--border);border-radius:8px;min-width:190px;box-shadow:var(--shadow-lg);z-index:200;overflow:hidden;}
-    .user-btn.open .user-dropdown{display:block;}
-    .user-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:var(--gray-700);text-decoration:none;border-bottom:1px solid var(--gray-100);transition:background 0.1s;}
-    .user-dropdown a:last-child{border-bottom:none;color:var(--red);}
-    .user-dropdown a:hover{background:var(--gray-50);}
-    .welcome-strip{background:linear-gradient(90deg,#e8f0fe 0%,#f0f6ff 100%);border-bottom:1px solid #c7d9f7;padding:7px 32px;display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;}
-    .welcome-strip .dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;}
-    .welcome-strip .name{font-size:13px;font-weight:700;color:var(--red);letter-spacing:0.3px;white-space:nowrap;}
-    .welcome-strip .sub{font-size:12px;color:var(--gray-500);white-space:nowrap;}
-    .page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:20px;flex-shrink:0;}
-    .page-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--blue);margin-bottom:3px;}
-    .page-title{font-family:'Lora',serif;font-size:24px;font-weight:600;color:var(--navy);letter-spacing:-0.3px;}
-    .body-wrap{flex:1;display:flex;overflow:hidden;min-height:0;}
-    .sidebar{width:210px;flex-shrink:0;background:var(--white);border-right:1.5px solid var(--border);padding:24px 0 32px;display:flex;flex-direction:column;gap:3px;}
-    .sidebar-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--gray-400);padding:0 18px;margin-bottom:8px;}
-    .sidebar-item{display:flex;align-items:center;gap:9px;padding:9px 18px;margin:0 6px;border-radius:8px;font-size:13px;font-weight:500;color:var(--gray-500);cursor:pointer;transition:all 0.15s;user-select:none;}
-    .sidebar-item:hover{background:var(--gray-50);color:var(--gray-700);}
-    .sidebar-item.active{background:var(--blue-50);color:var(--blue);font-weight:700;border:1px solid var(--blue-100);}
-    .sidebar-item svg{flex-shrink:0;}
-    .main-content{flex:1;min-width:0;padding:28px 36px 36px;overflow-y:auto;}
-    .tab-panel{display:none;}
-    .tab-panel.active{display:block;}
-    .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
-    .stat-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow-sm);}
-    .stat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-400);margin-bottom:8px;}
-    .stat-value{font-family:'Lora',serif;font-size:26px;font-weight:600;color:var(--navy);}
-    .stat-sub{font-size:12px;color:var(--gray-500);margin-top:4px;}
-    .stat-card.red .stat-value{color:var(--red);}
-    .stat-card.green .stat-value{color:var(--green);}
-    .stat-card.blue .stat-value{color:var(--blue);}
-    .stat-card.amber .stat-value{color:var(--amber);}
-    .toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
-    .toolbar-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-    .search-wrap{position:relative;}
-    .search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gray-400);pointer-events:none;}
-    .search-input{width:200px;height:36px;padding:0 12px 0 34px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--gray-700);background:var(--white);outline:none;transition:border-color 0.15s,box-shadow 0.15s;}
-    .search-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,200,0.1);}
-    .search-input::placeholder{color:var(--gray-300);}
-    .filter-select{height:36px;padding:0 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--gray-700);background:var(--white);outline:none;cursor:pointer;transition:border-color 0.15s;}
-    .filter-select:focus{border-color:var(--blue);}
-    .btn-export{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background 0.15s;}
-    .btn-export:hover{background:var(--navy-mid);}
-    .table-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden;}
-    .table-card-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--gray-100);}
-    .table-card-title{font-size:13px;font-weight:700;color:var(--gray-900);}
-    .row-count{font-size:11.5px;font-weight:600;color:var(--gray-500);background:var(--gray-100);padding:2px 9px;border-radius:20px;}
-    table{width:100%;border-collapse:collapse;}
-    thead th{padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-400);background:var(--gray-50);border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
-    tbody tr{border-bottom:1px solid var(--gray-100);transition:background 0.1s;}
-    tbody tr:last-child{border-bottom:none;}
-    tbody tr:hover{background:var(--gray-50);}
-    tbody td{padding:11px 16px;font-size:13px;color:var(--gray-700);vertical-align:middle;}
-    .td-id{font-weight:700;color:var(--gray-900);font-size:12.5px;}
-    .td-name{font-weight:600;color:var(--gray-900);}
-    .td-muted{color:var(--gray-400);}
-    .td-red{font-weight:700;color:var(--red);}
-    .td-blue{font-weight:700;color:var(--blue);}
-    .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap;}
-    .badge::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-    .badge-green{background:var(--green-bg);color:#15803d;border:1px solid #bbf7d0;}
-    .badge-green::before{background:var(--green);}
-    .badge-amber{background:var(--amber-bg);color:var(--amber);border:1px solid #fde68a;}
-    .badge-amber::before{background:#f59e0b;}
-    .badge-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
-    .badge-red::before{background:var(--red);}
-    .btn-detail{display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 12px;background:var(--blue-50);color:var(--blue);border:1px solid var(--blue-100);border-radius:6px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:background 0.15s;}
-    .btn-detail:hover{background:var(--blue-100);}
-    .chart-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow-sm);padding:22px 26px;margin-bottom:22px;}
-    .chart-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:16px;}
-    .chart-title{font-family:'Lora',serif;font-size:16px;font-weight:600;color:var(--navy);margin-bottom:3px;}
-    .chart-sub{font-size:12px;color:var(--gray-400);}
-    .chart-controls{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-    .chart-container{position:relative;height:300px;width:100%;}
-    .overlay{display:none;position:fixed;inset:0;background:rgba(15,42,94,0.45);z-index:400;align-items:center;justify-content:center;padding:24px;}
-    .overlay.show{display:flex;}
-    @keyframes modalIn{from{opacity:0;transform:translateY(-16px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
-    .modal{background:var(--white);border-radius:14px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.22);animation:modalIn 0.22s ease;}
-    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--white);z-index:1;}
-    .modal-eyebrow{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--blue);margin-bottom:3px;}
-    .modal-title{font-family:'Lora',serif;font-size:18px;font-weight:600;color:var(--navy);}
-    .modal-close{width:30px;height:30px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--gray-400);transition:all 0.15s;flex-shrink:0;}
-    .modal-close:hover{background:var(--red-bg);color:var(--red);border-color:var(--red-border);}
-    .modal-body{padding:18px 22px 22px;}
-    .modal-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--gray-100);}
-    .modal-row:last-child{border-bottom:none;}
-    .modal-row-label{font-size:12px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px;}
-    .modal-row-value{font-size:13.5px;font-weight:600;color:var(--gray-900);}
-    .modal-section-label{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--gray-400);margin:14px 0 8px;padding-bottom:8px;border-bottom:1px solid var(--gray-100);}
-    .modal-book-item{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--gray-50);border-radius:8px;margin-bottom:5px;font-size:13px;}
-    .modal-book-name{font-weight:600;color:var(--gray-900);}
-    .modal-foot{display:flex;justify-content:flex-end;padding:12px 22px;border-top:1px solid var(--border);background:var(--gray-50);border-radius:0 0 14px 14px;}
-    .btn-close-modal{height:34px;padding:0 18px;border:1.5px solid var(--border);border-radius:8px;background:var(--white);color:var(--gray-700);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;}
-    .btn-close-modal:hover{background:var(--gray-50);}
-    .toast{position:fixed;bottom:28px;right:28px;display:flex;align-items:center;gap:10px;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow-lg);z-index:9999;min-width:240px;opacity:0;transform:translateY(10px);pointer-events:none;transition:all 0.25s ease;}
-    .toast.show{opacity:1;transform:translateY(0);pointer-events:auto;}
-    .toast-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--green-bg);color:var(--green);font-size:12px;}
-    .toast-title{font-size:13px;font-weight:700;color:var(--gray-900);flex:1;}
-    .toast-close{font-size:14px;color:var(--gray-400);cursor:pointer;}
-    .site-footer{background:var(--navy);padding:26px 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px;flex-shrink:0;}
-    .footer-col h4{font-size:10.5px;font-weight:800;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;}
-    .footer-col p{font-size:12.5px;color:rgba(255,255,255,0.65);line-height:1.9;}
-    .footer-icons{display:flex;gap:8px;margin-top:8px;}
-    .footer-icon{width:34px;height:34px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background 0.15s;}
-    .footer-icon:hover{background:rgba(255,255,255,0.2);}
-    /* ===== RESPONSIVE CHUẨN FINAL ===== */
 
-/* chống tràn ngang */
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-/* tablet */
-@media (max-width: 1024px) {
-  .main-content {
-    padding: 20px;
-  }
-}
+    html { overflow-x: hidden; }
 
-/* mobile */
-@media (max-width: 768px) {
+    body {
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:14px;
+      background:#f0f4f8;
+      color:var(--gray-700);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      -webkit-font-smoothing:antialiased;
+      overflow-x: hidden;
+    }
 
-  body {
-    flex-direction: column;
-  }
+    /* ─── HEADER ─── */
+    .header {
+      background:var(--navy);
+      box-shadow:0 2px 12px rgba(0,0,0,0.2);
+      position:sticky;
+      top:0;
+      z-index:100;
+      flex-shrink:0;
+    }
+    .header-inner {
+      display:flex;
+      align-items:center;
+      height:var(--header-h);
+      padding:0 24px;
+      width:100%;
+      gap:8px;
+    }
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      flex-shrink:0;
+      margin-right:16px;
+    }
+    .brand-icon {
+      width:32px;height:32px;
+      background:rgba(255,255,255,0.15);
+      border:1.5px solid rgba(255,255,255,0.3);
+      border-radius:7px;
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;
+    }
+    .brand-name { font-size:12.5px;font-weight:800;color:#fff;letter-spacing:1.4px;line-height:1.2;white-space:nowrap; }
+    .brand-sub  { font-size:9.5px;color:rgba(255,255,255,0.5);letter-spacing:0.3px;white-space:nowrap; }
 
-  /* header gọn lại */
-  .header-inner {
-    flex-direction: column;
-    height: auto;
-    padding: 10px;
-    gap: 10px;
-  }
+    /* nav */
+    .nav-links {
+      display:flex;
+      align-items:center;
+      flex:1;
+      height:var(--header-h);
+      min-width:0;
+      overflow:hidden;
+    }
+    .nav-links a {
+      font-size:12.5px;font-weight:500;
+      color:rgba(255,255,255,0.65);
+      text-decoration:none;
+      padding:0 11px;
+      height:var(--header-h);
+      display:flex;align-items:center;
+      border-bottom:3px solid transparent;
+      border-top:3px solid transparent;
+      transition:color 0.15s,border-color 0.15s;
+      white-space:nowrap;
+      flex-shrink:0;
+    }
+    .nav-links a:hover { color:rgba(255,255,255,0.9); }
+    .nav-links a.active { color:#fff;font-weight:700;border-bottom-color:#5b9cf6; }
 
-  .nav-links {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+    /* hamburger */
+    .hamburger {
+      display:none;
+      flex-direction:column;
+      justify-content:center;
+      gap:5px;
+      width:36px;height:36px;
+      background:rgba(255,255,255,0.1);
+      border:1px solid rgba(255,255,255,0.2);
+      border-radius:6px;
+      cursor:pointer;
+      padding:6px;
+      flex-shrink:0;
+    }
+    .hamburger span {
+      display:block;height:2px;background:#fff;border-radius:2px;
+      transition:transform 0.2s, opacity 0.2s;
+    }
+    .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
 
-  .nav-links a {
-    height: auto;
-    padding: 8px;
-  }
+    /* mobile nav drawer */
+    .mobile-nav {
+      display:none;
+      flex-direction:column;
+      background:var(--navy-mid);
+      border-top:1px solid rgba(255,255,255,0.1);
+    }
+    .mobile-nav.show { display:flex; }
+    .mobile-nav a {
+      font-size:13px;font-weight:500;
+      color:rgba(255,255,255,0.75);
+      text-decoration:none;
+      padding:13px 20px;
+      border-bottom:1px solid rgba(255,255,255,0.07);
+      transition:background 0.15s,color 0.15s;
+    }
+    .mobile-nav a:hover { background:rgba(255,255,255,0.08);color:#fff; }
+    .mobile-nav a.active { color:#fff;font-weight:700;background:rgba(91,156,246,0.15);border-left:3px solid #5b9cf6; }
 
-  /* sidebar ngang */
-  .sidebar {
-    width: 100%;
-    height: auto;
-    flex-direction: row;
-    overflow-x: auto;
-  }
+    /* user btn */
+    .user-btn {
+      display:flex;align-items:center;gap:8px;
+      padding:6px 12px;
+      background:rgba(255,255,255,0.1);
+      border:1px solid rgba(255,255,255,0.2);
+      border-radius:6px;
+      font-size:13px;font-weight:600;color:#fff;
+      cursor:pointer;
+      position:relative;
+      transition:background 0.15s;
+      flex-shrink:0;
+      margin-left:auto;
+      user-select:none;
+    }
+    .user-btn:hover { background:rgba(255,255,255,0.18); }
+    .user-name { display:inline; }
+    .user-avatar {
+      width:26px;height:26px;
+      background:rgba(255,255,255,0.2);
+      border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:11px;font-weight:700;
+    }
+    .user-dropdown {
+      display:none;position:absolute;right:0;top:calc(100% + 8px);
+      background:var(--white);border:1px solid var(--border);border-radius:8px;
+      min-width:190px;box-shadow:var(--shadow-lg);z-index:200;overflow:hidden;
+    }
+    .user-btn.open .user-dropdown { display:block; }
+    .user-dropdown a {
+      display:flex;align-items:center;gap:10px;
+      padding:10px 16px;font-size:13px;color:var(--gray-700);
+      text-decoration:none;border-bottom:1px solid var(--gray-100);
+      transition:background 0.1s;
+    }
+    .user-dropdown a:last-child { border-bottom:none;color:var(--red); }
+    .user-dropdown a:hover { background:var(--gray-50); }
 
-  .sidebar-item {
-    flex: 1;
-    justify-content: center;
-  }
+    /* ─── WELCOME STRIP ─── */
+    .welcome-strip {
+      background:linear-gradient(90deg,#e8f0fe 0%,#f0f6ff 100%);
+      border-bottom:1px solid #c7d9f7;
+      padding:7px 24px;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      flex-shrink:0;
+    }
+    .welcome-strip .dot { width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0; }
+    .welcome-strip .name { font-size:13px;font-weight:700;color:var(--red);letter-spacing:0.3px;white-space:nowrap; }
+    .welcome-strip .sub  { font-size:12px;color:var(--gray-500);white-space:nowrap; }
 
-  /* content */
-  .main-content {
-    padding: 15px;
-  }
+    /* ─── BODY WRAP ─── */
+    .body-wrap {
+      flex:1;
+      display:flex;
+      overflow:hidden;
+      min-height:0;
+    }
 
-  /* stat */
-  .stat-row {
-    grid-template-columns: 1fr;
-  }
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      width:var(--sidebar-w);
+      flex-shrink:0;
+      background:var(--white);
+      border-right:1.5px solid var(--border);
+      padding:24px 0 32px;
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+    }
+    .sidebar-label {
+      font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;
+      color:var(--gray-400);padding:0 18px;margin-bottom:8px;
+    }
+    .sidebar-item {
+      display:flex;align-items:center;gap:9px;
+      padding:9px 18px;margin:0 6px;
+      border-radius:8px;
+      font-size:13px;font-weight:500;color:var(--gray-500);
+      cursor:pointer;transition:all 0.15s;user-select:none;
+    }
+    .sidebar-item:hover { background:var(--gray-50);color:var(--gray-700); }
+    .sidebar-item.active {
+      background:var(--blue-50);color:var(--blue);
+      font-weight:700;border:1px solid var(--blue-100);
+    }
+    .sidebar-item svg { flex-shrink:0; }
 
-  /* toolbar */
-  .toolbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
+    /* ─── MAIN CONTENT ─── */
+    .main-content {
+      flex:1;
+      min-width:0;
+      padding:28px 32px 36px;
+      overflow-y:auto;
+    }
 
-  .search-input {
-    width: 100%;
-  }
+    /* ─── PAGE HEAD ─── */
+    .page-head {
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:24px;gap:20px;flex-shrink:0;
+    }
+    .page-label { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--blue);margin-bottom:3px; }
+    .page-title { font-family:'Lora',serif;font-size:24px;font-weight:600;color:var(--navy);letter-spacing:-0.3px; }
 
-  /* table scroll */
-  table {
-    display: block;
-    overflow-x: auto;
-  }
+    /* ─── TAB PANELS ─── */
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
 
-  /* chart */
-  .chart-container {
-    height: 220px;
-  }
+    /* ─── STAT ROW ─── */
+    .stat-row {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-bottom:22px;
+    }
+    .stat-card {
+      background:var(--white);border:1.5px solid var(--border);
+      border-radius:12px;padding:18px 20px;box-shadow:var(--shadow-sm);
+    }
+    .stat-label { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-400);margin-bottom:8px; }
+    .stat-value { font-family:'Lora',serif;font-size:26px;font-weight:600;color:var(--navy); }
+    .stat-sub   { font-size:12px;color:var(--gray-500);margin-top:4px; }
+    .stat-card.red   .stat-value { color:var(--red); }
+    .stat-card.green .stat-value { color:var(--green); }
+    .stat-card.blue  .stat-value { color:var(--blue); }
+    .stat-card.amber .stat-value { color:var(--amber); }
 
-  /* footer */
-  .site-footer {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-}
+    /* ─── TOOLBAR ─── */
+    .toolbar {
+      display:flex;align-items:center;justify-content:space-between;
+      gap:10px;margin-bottom:14px;flex-wrap:wrap;
+    }
+    .toolbar-left { display:flex;align-items:center;gap:8px;flex-wrap:wrap; }
+    .search-wrap  { position:relative; }
+    .search-wrap svg { position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gray-400);pointer-events:none; }
+    .search-input {
+      width:200px;height:36px;padding:0 12px 0 34px;
+      border:1.5px solid var(--border);border-radius:8px;
+      font-size:13px;font-family:inherit;color:var(--gray-700);
+      background:var(--white);outline:none;
+      transition:border-color 0.15s,box-shadow 0.15s;
+    }
+    .search-input:focus { border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,200,0.1); }
+    .search-input::placeholder { color:var(--gray-300); }
+    .filter-select {
+      height:36px;padding:0 10px;
+      border:1.5px solid var(--border);border-radius:8px;
+      font-size:13px;font-family:inherit;color:var(--gray-700);
+      background:var(--white);outline:none;cursor:pointer;
+      transition:border-color 0.15s;
+    }
+    .filter-select:focus { border-color:var(--blue); }
+    .btn-export {
+      display:inline-flex;align-items:center;gap:6px;
+      height:36px;padding:0 14px;
+      background:var(--navy);color:#fff;border:none;border-radius:8px;
+      font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;
+      white-space:nowrap;transition:background 0.15s;flex-shrink:0;
+    }
+    .btn-export:hover { background:var(--navy-mid); }
+
+    /* ─── TABLE CARD ─── */
+    .table-card {
+      background:var(--white);border:1.5px solid var(--border);
+      border-radius:12px;box-shadow:var(--shadow-sm);
+      overflow:hidden;
+    }
+    .table-card-header {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:12px 18px;border-bottom:1px solid var(--gray-100);
+    }
+    .table-card-title { font-size:13px;font-weight:700;color:var(--gray-900); }
+    .row-count {
+      font-size:11.5px;font-weight:600;color:var(--gray-500);
+      background:var(--gray-100);padding:2px 9px;border-radius:20px;
+    }
+    .table-wrap { overflow-x:auto;-webkit-overflow-scrolling:touch; }
+    table { width:100%;border-collapse:collapse;min-width:480px; }
+    thead th {
+      padding:10px 16px;font-size:11px;font-weight:700;
+      text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-400);
+      background:var(--gray-50);border-bottom:1px solid var(--border);
+      text-align:left;white-space:nowrap;
+    }
+    tbody tr { border-bottom:1px solid var(--gray-100);transition:background 0.1s; }
+    tbody tr:last-child { border-bottom:none; }
+    tbody tr:hover { background:var(--gray-50); }
+    tbody td { padding:11px 16px;font-size:13px;color:var(--gray-700);vertical-align:middle; }
+    .td-id    { font-weight:700;color:var(--gray-900);font-size:12.5px; }
+    .td-name  { font-weight:600;color:var(--gray-900); }
+    .td-muted { color:var(--gray-400); }
+    .td-red   { font-weight:700;color:var(--red); }
+    .td-blue  { font-weight:700;color:var(--blue); }
+
+    /* ─── BADGES ─── */
+    .badge {
+      display:inline-flex;align-items:center;gap:5px;
+      padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap;
+    }
+    .badge::before { content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0; }
+    .badge-green  { background:var(--green-bg);color:#15803d;border:1px solid #bbf7d0; }
+    .badge-green::before  { background:var(--green); }
+    .badge-amber  { background:var(--amber-bg);color:var(--amber);border:1px solid #fde68a; }
+    .badge-amber::before  { background:#f59e0b; }
+    .badge-red    { background:var(--red-bg);color:var(--red);border:1px solid var(--red-border); }
+    .badge-red::before    { background:var(--red); }
+
+    .btn-detail {
+      display:inline-flex;align-items:center;gap:5px;
+      height:28px;padding:0 12px;
+      background:var(--blue-50);color:var(--blue);
+      border:1px solid var(--blue-100);border-radius:6px;
+      font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;
+      transition:background 0.15s;
+    }
+    .btn-detail:hover { background:var(--blue-100); }
+
+    /* ─── CHART CARD ─── */
+    .chart-card {
+      background:var(--white);border:1.5px solid var(--border);
+      border-radius:12px;box-shadow:var(--shadow-sm);
+      padding:22px 26px;margin-bottom:22px;
+    }
+    .chart-head {
+      display:flex;align-items:flex-start;justify-content:space-between;
+      margin-bottom:20px;gap:16px;flex-wrap:wrap;
+    }
+    .chart-title { font-family:'Lora',serif;font-size:16px;font-weight:600;color:var(--navy);margin-bottom:3px; }
+    .chart-sub   { font-size:12px;color:var(--gray-400); }
+    .chart-controls { display:flex;align-items:center;gap:8px;flex-shrink:0; }
+    .chart-container { position:relative;height:300px;width:100%; }
+
+    /* ─── MODAL ─── */
+    .overlay {
+      display:none;position:fixed;inset:0;
+      background:rgba(15,42,94,0.45);
+      z-index:400;align-items:center;justify-content:center;padding:16px;
+    }
+    .overlay.show { display:flex; }
+    @keyframes modalIn {
+      from{opacity:0;transform:translateY(-16px) scale(0.97);}
+      to{opacity:1;transform:translateY(0) scale(1);}
+    }
+    .modal {
+      background:var(--white);border-radius:14px;
+      width:100%;max-width:520px;max-height:90vh;overflow-y:auto;
+      box-shadow:0 20px 60px rgba(0,0,0,0.22);animation:modalIn 0.22s ease;
+    }
+    .modal-head {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:18px 22px 14px;border-bottom:1px solid var(--border);
+      position:sticky;top:0;background:var(--white);z-index:1;
+    }
+    .modal-eyebrow { font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--blue);margin-bottom:3px; }
+    .modal-title   { font-family:'Lora',serif;font-size:18px;font-weight:600;color:var(--navy); }
+    .modal-close {
+      width:30px;height:30px;border-radius:6px;
+      border:1.5px solid var(--border);background:var(--white);
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;font-size:15px;color:var(--gray-400);
+      transition:all 0.15s;flex-shrink:0;
+    }
+    .modal-close:hover { background:var(--red-bg);color:var(--red);border-color:var(--red-border); }
+    .modal-body { padding:18px 22px 22px; }
+    .modal-row {
+      display:flex;justify-content:space-between;align-items:baseline;
+      padding:9px 0;border-bottom:1px solid var(--gray-100);
+    }
+    .modal-row:last-child { border-bottom:none; }
+    .modal-row-label { font-size:12px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px; }
+    .modal-row-value { font-size:13.5px;font-weight:600;color:var(--gray-900); }
+    .modal-section-label {
+      font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1px;
+      color:var(--gray-400);margin:14px 0 8px;padding-bottom:8px;border-bottom:1px solid var(--gray-100);
+    }
+    .modal-book-item {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:8px 12px;background:var(--gray-50);border-radius:8px;margin-bottom:5px;font-size:13px;
+    }
+    .modal-book-name { font-weight:600;color:var(--gray-900); }
+    .modal-foot {
+      display:flex;justify-content:flex-end;
+      padding:12px 22px;border-top:1px solid var(--border);
+      background:var(--gray-50);border-radius:0 0 14px 14px;
+    }
+    .btn-close-modal {
+      height:34px;padding:0 18px;
+      border:1.5px solid var(--border);border-radius:8px;
+      background:var(--white);color:var(--gray-700);
+      font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;
+    }
+    .btn-close-modal:hover { background:var(--gray-50); }
+
+    /* ─── TOAST ─── */
+    .toast {
+      position:fixed;bottom:24px;right:24px;
+      display:flex;align-items:center;gap:10px;
+      background:var(--white);border:1.5px solid var(--border);border-radius:10px;
+      padding:12px 16px;box-shadow:var(--shadow-lg);z-index:9999;
+      min-width:220px;max-width:calc(100vw - 48px);
+      opacity:0;transform:translateY(10px);pointer-events:none;transition:all 0.25s ease;
+    }
+    .toast.show { opacity:1;transform:translateY(0);pointer-events:auto; }
+    .toast-icon {
+      width:20px;height:20px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;background:var(--green-bg);color:var(--green);font-size:12px;
+    }
+    .toast-title { font-size:13px;font-weight:700;color:var(--gray-900);flex:1; }
+    .toast-close  { font-size:14px;color:var(--gray-400);cursor:pointer;flex-shrink:0; }
+
+    /* ─── FOOTER ─── */
+    .site-footer {
+      background:var(--navy);padding:26px 40px;
+      display:grid;grid-template-columns:repeat(3,1fr);gap:40px;flex-shrink:0;
+    }
+    .footer-col h4 { font-size:10.5px;font-weight:800;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px; }
+    .footer-col p  { font-size:12.5px;color:rgba(255,255,255,0.65);line-height:1.9; }
+    .footer-icons  { display:flex;gap:8px;margin-top:8px; }
+    .footer-icon {
+      width:34px;height:34px;
+      background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);
+      border-radius:8px;display:flex;align-items:center;justify-content:center;
+      transition:background 0.15s;
+    }
+    .footer-icon:hover { background:rgba(255,255,255,0.2); }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+
+    /* ── Tablet (≤ 1024px) ── */
+    @media (max-width:1024px) {
+      .main-content { padding:20px 20px 28px; }
+      .stat-value   { font-size:22px; }
+    }
+
+    /* ── Small tablet / large mobile (≤ 768px) ── */
+    @media (max-width:768px) {
+
+      /* layout: stack vertically */
+      .body-wrap { flex-direction:column; overflow:visible; }
+
+      /* sidebar → horizontal tab strip */
+      .sidebar {
+        width:100%;
+        flex-direction:row;
+        align-items:center;
+        padding:8px 12px;
+        gap:6px;
+        border-right:none;
+        border-bottom:1.5px solid var(--border);
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+      }
+      .sidebar-label { display:none; }
+      .sidebar-item  { flex:0 0 auto;padding:8px 14px;margin:0;font-size:12.5px; }
+      .sidebar-item svg { display:none; }
+
+      /* main */
+      .main-content { padding:16px 14px 24px;overflow-y:visible; }
+
+      /* page head */
+      .page-head   { margin-bottom:16px; }
+      .page-title  { font-size:20px; }
+
+      /* stats: 1 column */
+      .stat-row { grid-template-columns:1fr;gap:10px;margin-bottom:16px; }
+      .stat-card{ padding:14px 16px; }
+      .stat-value { font-size:24px; }
+
+      /* toolbar */
+      .toolbar { flex-direction:column;align-items:stretch;gap:8px; }
+      .toolbar-left { flex-direction:column;align-items:stretch;gap:8px; }
+      .search-wrap { width:100%; }
+      .search-input { width:100%; }
+      .filter-select { width:100%;height:38px; }
+      .btn-export { width:100%;justify-content:center; }
+
+      /* chart */
+      .chart-container { height:220px; }
+      .chart-head { flex-direction:column;gap:10px; }
+      .chart-controls { width:100%; }
+      .chart-controls .filter-select { width:100%; }
+
+      /* welcome strip */
+      .welcome-strip .sub { display:none; }
+
+      /* nav: show hamburger, hide desktop links */
+      .hamburger { display:flex; }
+      .nav-links  { display:none; }
+      .user-name  { display:none; }
+      .user-btn   { padding:6px 8px; }
+    }
+
+    /* ── Mobile (≤ 480px) ── */
+    @media (max-width:480px) {
+      .header-inner { padding:0 12px; }
+      .brand-name   { font-size:11px;letter-spacing:0.8px; }
+      .brand-sub    { display:none; }
+      .main-content { padding:12px 10px 20px; }
+
+      /* footer: single column */
+      .site-footer  { grid-template-columns:1fr;gap:20px;padding:20px 16px;text-align:center; }
+      .footer-icons { justify-content:center; }
+
+      /* modal */
+      .modal { border-radius:10px; }
+      .modal-head { padding:14px 16px 12px; }
+      .modal-body { padding:14px 16px 18px; }
+      .modal-foot { padding:10px 16px; }
+
+      /* toast */
+      .toast { bottom:16px;right:12px;left:12px;min-width:0; }
+    }
   </style>
 </head>
 <body>
@@ -243,6 +570,8 @@ html, body {
         <div class="brand-sub">Hệ thống quản lý thư viện</div>
       </div>
     </a>
+
+    <!-- Desktop nav -->
     <nav class="nav-links">
       <a href="taikhoan.html">Quản lý tài khoản</a>
       <a href="quanlysach.html">Quản lý sách</a>
@@ -250,9 +579,10 @@ html, body {
       <a href="trasach.html">Quản lý trả sách</a>
       <a href="baocao.html" class="active">Báo cáo thống kê</a>
     </nav>
+
     <div class="user-btn" id="userBtn">
       <div class="user-avatar">AD</div>
-      Admin
+      <span class="user-name">Admin</span>
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
       <div class="user-dropdown">
         <a href="index.html" onclick="sessionStorage.clear()">
@@ -261,7 +591,21 @@ html, body {
         </a>
       </div>
     </div>
+
+    <!-- Hamburger (mobile only) -->
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+
+  <!-- Mobile nav drawer -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="taikhoan.html">Quản lý tài khoản</a>
+    <a href="quanlysach.html">Quản lý sách</a>
+    <a href="muonsach.html">Quản lý mượn sách</a>
+    <a href="trasach.html">Quản lý trả sách</a>
+    <a href="baocao.html" class="active">Báo cáo thống kê</a>
+  </nav>
 </header>
 
 <div class="welcome-strip">
@@ -320,7 +664,6 @@ html, body {
             <option value="muon_asc">Đã mượn: Ít nhất</option>
             <option value="kha_desc">Khả dụng: Nhiều nhất</option>
             <option value="kha_asc">Khả dụng: Ít nhất</option>
-
           </select>
         </div>
         <button class="btn-export" onclick="exportCSV('tableSach','kho-sach')">
@@ -330,7 +673,9 @@ html, body {
       </div>
       <div class="table-card">
         <div class="table-card-header"><span class="table-card-title">Danh sách sách</span><span class="row-count" id="countSach">7 đầu sách</span></div>
-        <table id="tableSach"><thead><tr><th>Mã sách</th><th>Tên sách</th><th>Thể loại</th><th>Đã mượn</th><th>Khả dụng</th></tr></thead><tbody id="bodySach"></tbody></table>
+        <div class="table-wrap">
+          <table id="tableSach"><thead><tr><th>Mã sách</th><th>Tên sách</th><th>Thể loại</th><th>Đã mượn</th><th>Khả dụng</th></tr></thead><tbody id="bodySach"></tbody></table>
+        </div>
       </div>
     </div>
 
@@ -364,7 +709,9 @@ html, body {
       </div>
       <div class="table-card">
         <div class="table-card-header"><span class="table-card-title">Danh sách phiếu mượn</span><span class="row-count" id="countMuon">7 phiếu</span></div>
-        <table id="tableMuon"><thead><tr><th>ID độc giả</th><th>Họ tên</th><th>Lớp</th><th>Email</th><th>Trạng thái</th><th></th></tr></thead><tbody id="bodyMuon"></tbody></table>
+        <div class="table-wrap">
+          <table id="tableMuon"><thead><tr><th>ID độc giả</th><th>Họ tên</th><th>Lớp</th><th>Email</th><th>Trạng thái</th><th></th></tr></thead><tbody id="bodyMuon"></tbody></table>
+        </div>
       </div>
     </div>
 
@@ -413,7 +760,9 @@ html, body {
       </div>
       <div class="table-card">
         <div class="table-card-header"><span class="table-card-title">Chi tiết phiếu phạt</span><span class="row-count" id="countPhat">4 phiếu</span></div>
-        <table id="tablePhat"><thead><tr><th>Mã độc giả</th><th>Tên độc giả</th><th>Tháng/Năm</th><th>Tiền phạt</th><th>Trạng thái</th></tr></thead><tbody id="bodyPhat"></tbody></table>
+        <div class="table-wrap">
+          <table id="tablePhat"><thead><tr><th>Mã độc giả</th><th>Tên độc giả</th><th>Tháng/Năm</th><th>Tiền phạt</th><th>Trạng thái</th></tr></thead><tbody id="bodyPhat"></tbody></table>
+        </div>
       </div>
     </div>
   </div>
@@ -460,134 +809,157 @@ html, body {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  /* ── User dropdown ── */
   const userBtn = document.getElementById('userBtn');
   userBtn.addEventListener('click', e => { e.stopPropagation(); userBtn.classList.toggle('open'); });
   document.addEventListener('click', () => userBtn.classList.remove('open'));
   userBtn.querySelector('.user-dropdown').addEventListener('click', e => e.stopPropagation());
 
-const dataSach = [
-  {id:'GT01', name:'Giáo trình Kinh tế lượng',             loai:'Giáo trình', muon:21, khaDung:50},
-  {id:'GT02', name:'Giáo trình Tiếng Anh thương mại 1',    loai:'Giáo trình', muon:20, khaDung:47},
-  {id:'BT01', name:'Bài tập Kinh tế lượng',                loai:'Bài tập',    muon:10, khaDung:38},
-  {id:'BT02', name:'Bài tập Toán cao cấp',                 loai:'Bài tập',    muon:10, khaDung:50},
-  {id:'GT03', name:'Giáo trình Thương mại điện tử',        loai:'Giáo trình', muon:16, khaDung:43},
-  {id:'TL01', name:'Tài liệu tham khảo Nghiên cứu KH',     loai:'Tài liệu',   muon:5,  khaDung:20},
-  {id:'GT04', name:'Giáo trình Marketing căn bản',         loai:'Giáo trình', muon:38, khaDung:60},
-];
-const dataMuon = [
-  {id:'PM0001',docGiaId:'AD01',  name:'Nguyễn Phương Nhi',cls:'—',   email:'admin01@gmail.com',   status:'Đã trả', ngayMuon:'10/01/2026',hanTra:'10/02/2026',sach:['Giáo trình Kinh tế lượng','Bài tập Kinh tế lượng'],thang:'1',nam:'2026'},
-  {id:'PM0002',docGiaId:'AD02',  name:'Nguyễn Hà Nhi',    cls:'—',   email:'admin02@gmail.com',   status:'Chưa trả',ngayMuon:'15/01/2026',hanTra:'15/02/2026',sach:['Giáo trình Thương mại điện tử'],thang:'1',nam:'2026'},
-  {id:'PM0003',docGiaId:'TT02',  name:'Nguyễn Tuệ Nhi',   cls:'—',   email:'thuthu1@gmail.com',   status:'Chưa trả',ngayMuon:'20/02/2026',hanTra:'20/03/2026',sach:['Bài tập Toán cao cấp'],thang:'2',nam:'2026'},
-  {id:'PM0004',docGiaId:'SV0054',name:'Trần Bảo Nhi',      cls:'IS01',email:'baonhi@gmail.com',    status:'Đã trả', ngayMuon:'05/01/2025',hanTra:'05/02/2025',sach:['Giáo trình Marketing căn bản'],thang:'1',nam:'2025'},
-  {id:'PM0005',docGiaId:'SV0076',name:'Phạm Yến Nhi',      cls:'IS02',email:'yennhipham@gmail.com',status:'Đã trả', ngayMuon:'12/02/2025',hanTra:'12/03/2025',sach:['Tài liệu tham khảo Nghiên cứu KH'],thang:'2',nam:'2025'},
-  {id:'PM0006',docGiaId:'SV0123',name:'Phạm Yến Nhi',      cls:'QT01',email:'phamyennhi@gmail.com',status:'Đã trả', ngayMuon:'01/03/2025',hanTra:'01/04/2025',sach:['Giáo trình Tiếng Anh thương mại 1'],thang:'3',nam:'2025'},
-  {id:'PM0007',docGiaId:'SV1011',name:'Trần Tuyết Nhi',    cls:'DK04',email:'tuyetnhi@gmail.com',  status:'Đã trả', ngayMuon:'18/03/2025',hanTra:'18/04/2025',sach:['Giáo trình Kinh tế lượng','Giáo trình Thương mại điện tử'],thang:'3',nam:'2025'},
-];
-const dataPhat = [
-  {id:'PP001',docGiaId:'AD02',   name:'Nguyễn Hà Nhi',  thang:'1',nam:'2026',amount:20000,paid:'Chưa thanh toán'},
-  {id:'PP002',docGiaId:'SV0123', name:'Phạm Yến Nhi',   thang:'3',nam:'2025',amount:15000,paid:'Đã thanh toán'},
-  {id:'PP003',docGiaId:'TT02',   name:'Nguyễn Tuệ Nhi', thang:'2',nam:'2026',amount:10000,paid:'Chưa thanh toán'},
-  {id:'PP004',docGiaId:'SV0076', name:'Phạm Yến Nhi',   thang:'2',nam:'2025',amount:5000, paid:'Đã thanh toán'},
-];
-const chartDataMap = {
-  '2025': [25,30,45,35,40,28,33,50,42,38,55,48],
-  '2026': [30,22,38,44,29,0,0,0,0,0,0,0],
-};
-const monthLabels = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12'];
-const panelTitles = {khosach:'Kho sách',phieumuon:'Phiếu mượn',tienphat:'Tiền phạt'};
+  /* ── Hamburger / mobile nav ── */
+  function toggleMobileNav() {
+    const nav = document.getElementById('mobileNav');
+    const btn = document.getElementById('hamburger');
+    nav.classList.toggle('show');
+    btn.classList.toggle('open');
+  }
 
-function switchPanel(key, el) {
-  document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+key).classList.add('active');
-  document.getElementById('pageTitle').textContent = panelTitles[key];
-  if (key==='tienphat' && !window.chartInstance) initChart();
-}
+  /* ── Data ── */
+  const dataSach = [
+    {id:'GT01', name:'Giáo trình Kinh tế lượng',             loai:'Giáo trình', muon:21, khaDung:50},
+    {id:'GT02', name:'Giáo trình Tiếng Anh thương mại 1',    loai:'Giáo trình', muon:20, khaDung:47},
+    {id:'BT01', name:'Bài tập Kinh tế lượng',                loai:'Bài tập',    muon:10, khaDung:38},
+    {id:'BT02', name:'Bài tập Toán cao cấp',                 loai:'Bài tập',    muon:10, khaDung:50},
+    {id:'GT03', name:'Giáo trình Thương mại điện tử',        loai:'Giáo trình', muon:16, khaDung:43},
+    {id:'TL01', name:'Tài liệu tham khảo Nghiên cứu KH',     loai:'Tài liệu',   muon:5,  khaDung:20},
+    {id:'GT04', name:'Giáo trình Marketing căn bản',         loai:'Giáo trình', muon:38, khaDung:60},
+  ];
+  const dataMuon = [
+    {id:'PM0001',docGiaId:'AD01',  name:'Nguyễn Phương Nhi',cls:'—',   email:'admin01@gmail.com',   status:'Đã trả',  ngayMuon:'10/01/2026',hanTra:'10/02/2026',sach:['Giáo trình Kinh tế lượng','Bài tập Kinh tế lượng'],thang:'1',nam:'2026'},
+    {id:'PM0002',docGiaId:'AD02',  name:'Nguyễn Hà Nhi',    cls:'—',   email:'admin02@gmail.com',   status:'Chưa trả',ngayMuon:'15/01/2026',hanTra:'15/02/2026',sach:['Giáo trình Thương mại điện tử'],thang:'1',nam:'2026'},
+    {id:'PM0003',docGiaId:'TT02',  name:'Nguyễn Tuệ Nhi',   cls:'—',   email:'thuthu1@gmail.com',   status:'Chưa trả',ngayMuon:'20/02/2026',hanTra:'20/03/2026',sach:['Bài tập Toán cao cấp'],thang:'2',nam:'2026'},
+    {id:'PM0004',docGiaId:'SV0054',name:'Trần Bảo Nhi',      cls:'IS01',email:'baonhi@gmail.com',    status:'Đã trả',  ngayMuon:'05/01/2025',hanTra:'05/02/2025',sach:['Giáo trình Marketing căn bản'],thang:'1',nam:'2025'},
+    {id:'PM0005',docGiaId:'SV0076',name:'Phạm Yến Nhi',      cls:'IS02',email:'yennhipham@gmail.com',status:'Đã trả',  ngayMuon:'12/02/2025',hanTra:'12/03/2025',sach:['Tài liệu tham khảo Nghiên cứu KH'],thang:'2',nam:'2025'},
+    {id:'PM0006',docGiaId:'SV0123',name:'Phạm Yến Nhi',      cls:'QT01',email:'phamyennhi@gmail.com',status:'Đã trả',  ngayMuon:'01/03/2025',hanTra:'01/04/2025',sach:['Giáo trình Tiếng Anh thương mại 1'],thang:'3',nam:'2025'},
+    {id:'PM0007',docGiaId:'SV1011',name:'Trần Tuyết Nhi',    cls:'DK04',email:'tuyetnhi@gmail.com',  status:'Đã trả',  ngayMuon:'18/03/2025',hanTra:'18/04/2025',sach:['Giáo trình Kinh tế lượng','Giáo trình Thương mại điện tử'],thang:'3',nam:'2025'},
+  ];
+  const dataPhat = [
+    {id:'PP001',docGiaId:'AD02',   name:'Nguyễn Hà Nhi',  thang:'1',nam:'2026',amount:20000,paid:'Chưa thanh toán'},
+    {id:'PP002',docGiaId:'SV0123', name:'Phạm Yến Nhi',   thang:'3',nam:'2025',amount:15000,paid:'Đã thanh toán'},
+    {id:'PP003',docGiaId:'TT02',   name:'Nguyễn Tuệ Nhi', thang:'2',nam:'2026',amount:10000,paid:'Chưa thanh toán'},
+    {id:'PP004',docGiaId:'SV0076', name:'Phạm Yến Nhi',   thang:'2',nam:'2025',amount:5000, paid:'Đã thanh toán'},
+  ];
+  const chartDataMap = {
+    '2025': [25,30,45,35,40,28,33,50,42,38,55,48],
+    '2026': [30,22,38,44,29,0,0,0,0,0,0,0],
+  };
+  const monthLabels = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12'];
+  const panelTitles = {khosach:'Kho sách',phieumuon:'Phiếu mượn',tienphat:'Tiền phạt'};
 
-function renderSach() {
-  const q=document.getElementById('searchSach').value.toLowerCase();
-  const loai=document.getElementById('filterLoai').value;
-  const sl=document.getElementById('filterSoLuong').value;
-  let data=dataSach.filter(s=>(!q||s.name.toLowerCase().includes(q)||s.id.toLowerCase().includes(q))&&(!loai||s.loai.includes(loai)));
-  if(sl==='muon_asc') data=[...data].sort((a,b)=>a.muon-b.muon);
-  else if(sl==='muon_desc') data=[...data].sort((a,b)=>b.muon-a.muon);
-  else if(sl==='kha_asc') data=[...data].sort((a,b)=>a.khaDung-b.khaDung);
-  else if(sl==='kha_desc') data=[...data].sort((a,b)=>b.khaDung-a.khaDung);
-  document.getElementById('countSach').textContent=data.length+' đầu sách';
-  document.getElementById('bodySach').innerHTML=data.length?data.map(s=>`<tr><td><span class="td-id">${s.id}</span></td><td><span class="td-name">${s.name}</span></td><td>${s.loai}</td><td><span class="td-red">${s.muon}</span></td><td><span class="td-blue">${s.khaDung}</span></td></tr>`).join(''):`<tr><td colspan="5" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
-}
+  /* ── Panel switching ── */
+  function switchPanel(key, el) {
+    document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-'+key).classList.add('active');
+    document.getElementById('pageTitle').textContent = panelTitles[key];
+    if (key==='tienphat' && !window.chartInstance) initChart();
+  }
 
-function renderMuon() {
-  const q=document.getElementById('searchMuon').value.toLowerCase();
-  const status=document.getElementById('filterTrangThaiMuon').value;
-  const time=document.getElementById('filterThangMuon').value;
-  const data=dataMuon.filter(m=>(!q||m.name.toLowerCase().includes(q)||m.docGiaId.toLowerCase().includes(q))&&(!status||m.status===status)&&(!time||m.nam===time||m.thang===time));
-  document.getElementById('countMuon').textContent=data.length+' phiếu';
-  document.getElementById('bodyMuon').innerHTML=data.length?data.map(m=>`<tr><td><span class="td-id">${m.docGiaId}</span></td><td><span class="td-name">${m.name}</span></td><td class="td-muted">${m.cls}</td><td class="td-muted" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.email}</td><td>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':'<span class="badge badge-amber">Chưa trả</span>'}</td><td><button class="btn-detail" onclick="openDetail('${m.id}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Chi tiết</button></td></tr>`).join(''):`<tr><td colspan="6" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
-}
+  /* ── Render functions ── */
+  function renderSach() {
+    const q    = document.getElementById('searchSach').value.toLowerCase();
+    const loai = document.getElementById('filterLoai').value;
+    const sl   = document.getElementById('filterSoLuong').value;
+    let data   = dataSach.filter(s=>(!q||s.name.toLowerCase().includes(q)||s.id.toLowerCase().includes(q))&&(!loai||s.loai.includes(loai)));
+    if(sl==='muon_asc')  data=[...data].sort((a,b)=>a.muon-b.muon);
+    else if(sl==='muon_desc') data=[...data].sort((a,b)=>b.muon-a.muon);
+    else if(sl==='kha_asc')  data=[...data].sort((a,b)=>a.khaDung-b.khaDung);
+    else if(sl==='kha_desc') data=[...data].sort((a,b)=>b.khaDung-a.khaDung);
+    document.getElementById('countSach').textContent = data.length+' đầu sách';
+    document.getElementById('bodySach').innerHTML = data.length
+      ? data.map(s=>`<tr><td><span class="td-id">${s.id}</span></td><td><span class="td-name">${s.name}</span></td><td>${s.loai}</td><td><span class="td-red">${s.muon}</span></td><td><span class="td-blue">${s.khaDung}</span></td></tr>`).join('')
+      : `<tr><td colspan="5" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
+  }
 
-function renderPhat() {
-  const q=document.getElementById('searchPhat').value.toLowerCase();
-  const paid=document.getElementById('filterThanhToan').value;
-  const time=document.getElementById('filterThangPhat').value;
-  const data=dataPhat.filter(p=>(!q||p.name.toLowerCase().includes(q)||p.docGiaId.toLowerCase().includes(q))&&(!paid||p.paid===paid)&&(!time||p.nam===time||p.thang===time));
-  document.getElementById('countPhat').textContent=data.length+' phiếu';
-  document.getElementById('bodyPhat').innerHTML=data.length?data.map(p=>`<tr><td><span class="td-id">${p.docGiaId}</span></td><td><span class="td-name">${p.name}</span></td><td class="td-muted">T${p.thang}/${p.nam}</td><td><span class="td-red">${p.amount.toLocaleString('vi-VN')} VNĐ</span></td><td>${p.paid==='Đã thanh toán'?'<span class="badge badge-green">Đã thanh toán</span>':'<span class="badge badge-red">Chưa thanh toán</span>'}</td></tr>`).join(''):`<tr><td colspan="5" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
-}
+  function renderMuon() {
+    const q      = document.getElementById('searchMuon').value.toLowerCase();
+    const status = document.getElementById('filterTrangThaiMuon').value;
+    const time   = document.getElementById('filterThangMuon').value;
+    const data   = dataMuon.filter(m=>(!q||m.name.toLowerCase().includes(q)||m.docGiaId.toLowerCase().includes(q))&&(!status||m.status===status)&&(!time||m.nam===time||m.thang===time));
+    document.getElementById('countMuon').textContent = data.length+' phiếu';
+    document.getElementById('bodyMuon').innerHTML = data.length
+      ? data.map(m=>`<tr><td><span class="td-id">${m.docGiaId}</span></td><td><span class="td-name">${m.name}</span></td><td class="td-muted">${m.cls}</td><td class="td-muted" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.email}</td><td>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':'<span class="badge badge-amber">Chưa trả</span>'}</td><td><button class="btn-detail" onclick="openDetail('${m.id}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Chi tiết</button></td></tr>`).join('')
+      : `<tr><td colspan="6" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
+  }
 
-function initChart() {
-  const year=document.getElementById('filterNam').value;
-  const ctx=document.getElementById('fineChart').getContext('2d');
-  window.chartInstance=new Chart(ctx,{
-    type:'bar',
-    data:{labels:monthLabels,datasets:[{label:'Tiền phạt (nghìn VND)',data:chartDataMap[year],backgroundColor:'rgba(26,86,200,0.75)',borderColor:'#1a56c8',borderWidth:0,borderRadius:5,hoverBackgroundColor:'rgba(26,86,200,0.95)'}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f2a5e',titleFont:{family:'Plus Jakarta Sans',size:12},bodyFont:{family:'Plus Jakarta Sans',size:13},padding:10,callbacks:{label:c=>` ${c.parsed.y}.000 VNĐ`}}},scales:{x:{grid:{display:false},ticks:{font:{family:'Plus Jakarta Sans',size:12},color:'#94a3b8'}},y:{beginAtZero:true,grid:{color:'#f1f5f9'},ticks:{font:{family:'Plus Jakarta Sans',size:12},color:'#94a3b8',callback:v=>v+'k'}}}}
-  });
-}
+  function renderPhat() {
+    const q    = document.getElementById('searchPhat').value.toLowerCase();
+    const paid = document.getElementById('filterThanhToan').value;
+    const time = document.getElementById('filterThangPhat').value;
+    const data = dataPhat.filter(p=>(!q||p.name.toLowerCase().includes(q)||p.docGiaId.toLowerCase().includes(q))&&(!paid||p.paid===paid)&&(!time||p.nam===time||p.thang===time));
+    document.getElementById('countPhat').textContent = data.length+' phiếu';
+    document.getElementById('bodyPhat').innerHTML = data.length
+      ? data.map(p=>`<tr><td><span class="td-id">${p.docGiaId}</span></td><td><span class="td-name">${p.name}</span></td><td class="td-muted">T${p.thang}/${p.nam}</td><td><span class="td-red">${p.amount.toLocaleString('vi-VN')} VNĐ</span></td><td>${p.paid==='Đã thanh toán'?'<span class="badge badge-green">Đã thanh toán</span>':'<span class="badge badge-red">Chưa thanh toán</span>'}</td></tr>`).join('')
+      : `<tr><td colspan="5" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
+  }
 
-function updateChart() {
-  if(!window.chartInstance){initChart();return;}
-  window.chartInstance.data.datasets[0].data=chartDataMap[document.getElementById('filterNam').value];
-  window.chartInstance.update();
-}
+  /* ── Chart ── */
+  function initChart() {
+    const year = document.getElementById('filterNam').value;
+    const ctx  = document.getElementById('fineChart').getContext('2d');
+    window.chartInstance = new Chart(ctx, {
+      type:'bar',
+      data:{labels:monthLabels,datasets:[{label:'Tiền phạt (nghìn VND)',data:chartDataMap[year],backgroundColor:'rgba(26,86,200,0.75)',borderColor:'#1a56c8',borderWidth:0,borderRadius:5,hoverBackgroundColor:'rgba(26,86,200,0.95)'}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f2a5e',titleFont:{family:'Plus Jakarta Sans',size:12},bodyFont:{family:'Plus Jakarta Sans',size:13},padding:10,callbacks:{label:c=>` ${c.parsed.y}.000 VNĐ`}}},scales:{x:{grid:{display:false},ticks:{font:{family:'Plus Jakarta Sans',size:12},color:'#94a3b8'}},y:{beginAtZero:true,grid:{color:'#f1f5f9'},ticks:{font:{family:'Plus Jakarta Sans',size:12},color:'#94a3b8',callback:v=>v+'k'}}}}
+    });
+  }
 
-function openDetail(id) {
-  const m=dataMuon.find(x=>x.id===id); if(!m) return;
-  document.getElementById('detailTitle').textContent='Phiếu mượn — '+m.id;
-  document.getElementById('detailBody').innerHTML=`
-    <div class="modal-section-label">Thông tin độc giả</div>
-    <div class="modal-row"><span class="modal-row-label">Mã độc giả</span><span class="modal-row-value">${m.docGiaId}</span></div>
-    <div class="modal-row"><span class="modal-row-label">Họ tên</span><span class="modal-row-value">${m.name}</span></div>
-    <div class="modal-row"><span class="modal-row-label">Lớp</span><span class="modal-row-value">${m.cls}</span></div>
-    <div class="modal-row"><span class="modal-row-label">Email</span><span class="modal-row-value">${m.email}</span></div>
-    <div class="modal-section-label">Thông tin phiếu mượn</div>
-    <div class="modal-row"><span class="modal-row-label">Ngày mượn</span><span class="modal-row-value">${m.ngayMuon}</span></div>
-    <div class="modal-row"><span class="modal-row-label">Hạn trả</span><span class="modal-row-value">${m.hanTra}</span></div>
-    <div class="modal-row"><span class="modal-row-label">Trạng thái</span><span>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':'<span class="badge badge-amber">Chưa trả</span>'}</span></div>
-    <div class="modal-section-label">Danh sách sách mượn (${m.sach.length} cuốn)</div>
-    ${m.sach.map((s,i)=>`<div class="modal-book-item"><span class="modal-book-name">${s}</span><span class="td-id" style="font-size:11.5px">Cuốn ${i+1}</span></div>`).join('')}`;
-  document.getElementById('overlayDetail').classList.add('show');
-}
-function closeDetail() { document.getElementById('overlayDetail').classList.remove('show'); }
-document.getElementById('overlayDetail').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDetail();});
+  function updateChart() {
+    if(!window.chartInstance){initChart();return;}
+    window.chartInstance.data.datasets[0].data = chartDataMap[document.getElementById('filterNam').value];
+    window.chartInstance.update();
+  }
 
-function exportCSV(tableId, filename) {
-  const rows=document.querySelectorAll(`#${tableId} tr`);
-  const csv=[...rows].map(r=>[...r.querySelectorAll('th,td')].map(c=>`"${c.innerText.trim()}"`).join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
-  a.download=filename+'.csv'; a.click();
-  showToast('Đã xuất '+filename+'.csv');
-}
+  /* ── Modal ── */
+  function openDetail(id) {
+    const m = dataMuon.find(x=>x.id===id); if(!m) return;
+    document.getElementById('detailTitle').textContent = 'Phiếu mượn — '+m.id;
+    document.getElementById('detailBody').innerHTML = `
+      <div class="modal-section-label">Thông tin độc giả</div>
+      <div class="modal-row"><span class="modal-row-label">Mã độc giả</span><span class="modal-row-value">${m.docGiaId}</span></div>
+      <div class="modal-row"><span class="modal-row-label">Họ tên</span><span class="modal-row-value">${m.name}</span></div>
+      <div class="modal-row"><span class="modal-row-label">Lớp</span><span class="modal-row-value">${m.cls}</span></div>
+      <div class="modal-row"><span class="modal-row-label">Email</span><span class="modal-row-value">${m.email}</span></div>
+      <div class="modal-section-label">Thông tin phiếu mượn</div>
+      <div class="modal-row"><span class="modal-row-label">Ngày mượn</span><span class="modal-row-value">${m.ngayMuon}</span></div>
+      <div class="modal-row"><span class="modal-row-label">Hạn trả</span><span class="modal-row-value">${m.hanTra}</span></div>
+      <div class="modal-row"><span class="modal-row-label">Trạng thái</span><span>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':'<span class="badge badge-amber">Chưa trả</span>'}</span></div>
+      <div class="modal-section-label">Danh sách sách mượn (${m.sach.length} cuốn)</div>
+      ${m.sach.map((s,i)=>`<div class="modal-book-item"><span class="modal-book-name">${s}</span><span class="td-id" style="font-size:11.5px">Cuốn ${i+1}</span></div>`).join('')}`;
+    document.getElementById('overlayDetail').classList.add('show');
+  }
+  function closeDetail() { document.getElementById('overlayDetail').classList.remove('show'); }
+  document.getElementById('overlayDetail').addEventListener('click', e=>{if(e.target===e.currentTarget)closeDetail();});
 
-function showToast(msg) {
-  document.getElementById('toastMsg').textContent=msg;
-  const t=document.getElementById('toast');
-  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
-}
+  /* ── Export CSV ── */
+  function exportCSV(tableId, filename) {
+    const rows = document.querySelectorAll(`#${tableId} tr`);
+    const csv  = [...rows].map(r=>[...r.querySelectorAll('th,td')].map(c=>`"${c.innerText.trim()}"`).join(',')).join('\n');
+    const a    = document.createElement('a');
+    a.href     = 'data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+    a.download = filename+'.csv'; a.click();
+    showToast('Đã xuất '+filename+'.csv');
+  }
 
-renderSach(); renderMuon(); renderPhat();
+  /* ── Toast ── */
+  function showToast(msg) {
+    document.getElementById('toastMsg').textContent = msg;
+    const t = document.getElementById('toast');
+    t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 3000);
+  }
+
+  /* ── Init ── */
+  renderSach(); renderMuon(); renderPhat();
 </script>
 </body>
 </html>
