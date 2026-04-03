@@ -135,73 +135,16 @@
     .footer-icons{display:flex;gap:8px;margin-top:8px;}
     .footer-icon{width:34px;height:34px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background 0.15s;}
     .footer-icon:hover{background:rgba(255,255,255,0.2);}
-    /* ====== RESPONSIVE FIX ====== */
+    /* ===== RESPONSIVE CHUẨN FINAL ===== */
 
+/* chống tràn ngang */
 html, body {
   max-width: 100%;
   overflow-x: hidden;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* fix form/card */
-.card {
-  width: 100%;
-  max-width: 500px;
-}
-
-/* input không tràn */
-input, button {
-  max-width: 100%;
-}
-
-/* mobile */
-@media (max-width: 768px) {
-  .card {
-    padding: 20px !important;
-    max-width: 95% !important;
-  }
-
-  h1, h2, h3 {
-    font-size: 90%;
-  }
-
-  .btn-primary {
-    width: 100%;
-  }
-}
-   /* ====== RESPONSIVE FIX FULL (FINAL) ====== */
-
-/* chống tràn */
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-/* ảnh */
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* table scroll */
-.table-card {
-  overflow-x: auto;
 }
 
 /* tablet */
 @media (max-width: 1024px) {
-  .sidebar {
-    width: 70px;
-  }
-
-  .sidebar-item span {
-    display: none;
-  }
-
   .main-content {
     padding: 20px;
   }
@@ -210,7 +153,11 @@ img {
 /* mobile */
 @media (max-width: 768px) {
 
-  /* header */
+  body {
+    flex-direction: column;
+  }
+
+  /* header gọn lại */
   .header-inner {
     flex-direction: column;
     height: auto;
@@ -228,28 +175,21 @@ img {
     padding: 8px;
   }
 
-  /* sidebar thành ngang */
+  /* sidebar ngang */
   .sidebar {
     width: 100%;
     height: auto;
-    display: flex;
     flex-direction: row;
     overflow-x: auto;
   }
 
   .sidebar-item {
     flex: 1;
-    text-align: center;
-    padding: 10px;
-  }
-
-  .sidebar-item span {
-    display: none;
+    justify-content: center;
   }
 
   /* content */
   .main-content {
-    margin-left: 0;
     padding: 15px;
   }
 
@@ -266,6 +206,12 @@ img {
 
   .search-input {
     width: 100%;
+  }
+
+  /* table scroll */
+  table {
+    display: block;
+    overflow-x: auto;
   }
 
   /* chart */
