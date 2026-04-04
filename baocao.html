@@ -960,6 +960,16 @@
 
   /* ── Init ── */
   renderSach(); renderMuon(); renderPhat();
+  /* Fix: reset mobile nav khi resize lên desktop */
+window.addEventListener('resize', () => {
+  const nav = document.getElementById('mobileNav');
+  const btn = document.getElementById('hamburger');
+
+  if (window.innerWidth > 768) {
+    nav.classList.remove('show');
+    btn.classList.remove('open');
+  }
+});
 </script>
 </body>
 </html>
