@@ -9,6 +9,11 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       font-family: 'Be Vietnam Pro', sans-serif;
       min-height: 100vh;
@@ -164,44 +169,32 @@
     .toast.show { opacity: 1; transform: translateY(0); }
     .toast.success { background: #27ae60; }
     .toast.error   { background: #e74c3c; }
-    /* ====== RESPONSIVE FIX ====== */
 
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
+    img {
+      max-width: 100%;
+      height: auto;
+    }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
+    input, button {
+      max-width: 100%;
+    }
 
-/* fix form/card */
-.card {
-  width: 100%;
-  max-width: 500px;
-}
+    @media (max-width: 768px) {
+      .login-wrapper {
+        padding: 28px 24px;
+        max-width: 95%;
+        margin: 16px;
+      }
+      h2.form-title {
+        font-size: 18px;
+      }
+    }
 
-/* input không tràn */
-input, button {
-  max-width: 100%;
-}
-
-/* mobile */
-@media (max-width: 768px) {
-  .card {
-    padding: 20px !important;
-    max-width: 95% !important;
-  }
-
-  h1, h2, h3 {
-    font-size: 90%;
-  }
-
-  .btn-primary {
-    width: 100%;
-  }
-}
+    @media (max-width: 480px) {
+      .login-wrapper {
+        padding: 24px 16px;
+      }
+    }
   </style>
 </head>
 <body>
