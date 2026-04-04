@@ -17,10 +17,11 @@
       --shadow-md:0 4px 16px rgba(0,0,0,0.10);--shadow-lg:0 8px 32px rgba(0,0,0,0.14);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;background:#f0f4f8;color:var(--gray-700);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
+    html{overflow-x:hidden;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;background:#f0f4f8;color:var(--gray-700);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
     .header{background:var(--navy);box-shadow:0 2px 12px rgba(0,0,0,0.2);position:sticky;top:0;z-index:100;flex-shrink:0;}
-    .header-inner{display:flex;align-items:center;height:56px;padding:0 32px;width:100%;}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;margin-right:28px;}
+    .header-inner{display:flex;align-items:center;height:56px;padding:0 24px;width:100%;gap:8px;}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;margin-right:16px;}
     .brand-icon{width:32px;height:32px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
     .brand-name{font-size:12.5px;font-weight:800;color:#fff;letter-spacing:1.4px;line-height:1.2;white-space:nowrap;}
     .brand-sub{font-size:9.5px;color:rgba(255,255,255,0.5);letter-spacing:0.3px;white-space:nowrap;}
@@ -28,15 +29,31 @@
     .nav-links a{font-size:12.5px;font-weight:500;color:rgba(255,255,255,0.65);text-decoration:none;padding:0 12px;height:56px;display:flex;align-items:center;border-bottom:3px solid transparent;border-top:3px solid transparent;transition:color 0.15s,border-color 0.15s;white-space:nowrap;overflow:hidden;flex-shrink:1;min-width:0;}
     .nav-links a:hover{color:rgba(255,255,255,0.9);}
     .nav-links a.active{color:#fff;font-weight:700;border-bottom-color:#5b9cf6;}
-    .user-btn{display:flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;position:relative;transition:background 0.15s;flex-shrink:0;margin-left:auto;user-select:none;}
+
+    /* hamburger */
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;cursor:pointer;padding:6px;flex-shrink:0;}
+    .hamburger span{display:block;height:2px;background:#fff;border-radius:2px;transition:transform 0.2s,opacity 0.2s;}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .hamburger.open span:nth-child(2){opacity:0;}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+    /* mobile nav drawer */
+    .mobile-nav{display:none;flex-direction:column;background:var(--navy-mid);border-top:1px solid rgba(255,255,255,0.1);}
+    .mobile-nav.show{display:flex;}
+    .mobile-nav a{font-size:13px;font-weight:500;color:rgba(255,255,255,0.75);text-decoration:none;padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);transition:background 0.15s,color 0.15s;}
+    .mobile-nav a:hover{background:rgba(255,255,255,0.08);color:#fff;}
+    .mobile-nav a.active{color:#fff;font-weight:700;background:rgba(91,156,246,0.15);border-left:3px solid #5b9cf6;}
+
+    .user-btn{display:flex;align-items:center;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;position:relative;transition:background 0.15s;flex-shrink:0;margin-left:auto;user-select:none;}
     .user-btn:hover{background:rgba(255,255,255,0.18);}
+    .user-name{display:inline;}
     .user-avatar{width:26px;height:26px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
     .user-dropdown{display:none;position:absolute;right:0;top:calc(100% + 8px);background:var(--white);border:1px solid var(--border);border-radius:8px;min-width:190px;box-shadow:var(--shadow-lg);z-index:200;overflow:hidden;}
     .user-btn.open .user-dropdown{display:block;}
     .user-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:var(--gray-700);text-decoration:none;border-bottom:1px solid var(--gray-100);transition:background 0.1s;}
     .user-dropdown a:last-child{border-bottom:none;color:var(--red);}
     .user-dropdown a:hover{background:var(--gray-50);}
-    .welcome-strip{background:linear-gradient(90deg,#e8f0fe 0%,#f0f6ff 100%);border-bottom:1px solid #c7d9f7;padding:7px 32px;display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;}
+    .welcome-strip{background:linear-gradient(90deg,#e8f0fe 0%,#f0f6ff 100%);border-bottom:1px solid #c7d9f7;padding:7px 24px;display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;}
     .welcome-strip .dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;}
     .welcome-strip .name{font-size:13px;font-weight:700;color:var(--red);letter-spacing:0.3px;white-space:nowrap;}
     .welcome-strip .sub{font-size:12px;color:var(--gray-500);white-space:nowrap;}
@@ -164,7 +181,6 @@
     .qty-label{font-size:11.5px;font-weight:600;color:var(--gray-500);white-space:nowrap;}
     .btn-rm-book{width:28px;height:28px;border:none;background:var(--gray-100);border-radius:5px;cursor:pointer;color:var(--gray-400);font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.12s;}
     .btn-rm-book:hover{background:var(--red-bg);color:var(--red);}
-    /* Autocomplete book input */
     .book-ac-wrap{flex:1;position:relative;}
     .book-ac-input-row{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:6px;background:var(--white);overflow:visible;transition:border-color 0.15s,box-shadow 0.15s;}
     .book-ac-input-row:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,200,0.1);}
@@ -178,44 +194,32 @@
     .book-ac-item{padding:8px 12px;font-size:13px;color:var(--gray-700);cursor:pointer;transition:background 0.1s;}
     .book-ac-item:hover,.book-ac-item.active{background:var(--blue-50);color:var(--blue);}
     .book-ac-empty{padding:10px 12px;font-size:12.5px;color:var(--gray-400);font-style:italic;}
-    /* ====== RESPONSIVE FIX ====== */
 
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* fix form/card */
-.card {
-  width: 100%;
-  max-width: 500px;
-}
-
-/* input không tràn */
-input, button {
-  max-width: 100%;
-}
-
-/* mobile */
-@media (max-width: 768px) {
-  .card {
-    padding: 20px !important;
-    max-width: 95% !important;
-  }
-
-  h1, h2, h3 {
-    font-size: 90%;
-  }
-
-  .btn-primary {
-    width: 100%;
-  }
-}
+    /* ── RESPONSIVE ── */
+    @media (max-width:768px) {
+      .hamburger{display:flex;}
+      .nav-links{display:none;}
+      .user-name{display:none;}
+      .user-btn{padding:6px 8px;}
+      .welcome-strip .sub{display:none;}
+      main{padding:16px 14px 24px;}
+      .page-head{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:16px;}
+      .page-title{font-size:20px;}
+      .search-wrap{width:100%;}
+      .form-grid{grid-template-columns:1fr;}
+      .slip-meta{grid-template-columns:1fr 1fr;}
+      .check-row{flex-wrap:wrap;}
+      .check-input{width:100%;}
+      .btn-check{width:100%;}
+    }
+    @media (max-width:480px) {
+      .header-inner{padding:0 12px;}
+      .brand-sub{display:none;}
+      .site-footer{grid-template-columns:1fr;gap:20px;padding:20px 16px;text-align:center;}
+      .footer-icons{justify-content:center;}
+      .slip-meta{grid-template-columns:1fr;}
+      .toast{right:12px;left:12px;min-width:0;}
+    }
   </style>
 </head>
 <body>
@@ -243,7 +247,7 @@ input, button {
     </nav>
     <div class="user-btn" id="userBtn">
       <div class="user-avatar">AD</div>
-      Admin
+      <span class="user-name">Admin</span>
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
       <div class="user-dropdown">
         <a href="index.html" onclick="sessionStorage.clear()">
@@ -252,7 +256,17 @@ input, button {
         </a>
       </div>
     </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="taikhoan.html">Quản lý tài khoản</a>
+    <a href="quanlysach.html">Quản lý sách</a>
+    <a href="muonsach.html" class="active">Quản lý mượn sách</a>
+    <a href="trasach.html">Quản lý trả sách</a>
+    <a href="baocao.html">Báo cáo thống kê</a>
+  </nav>
 </header>
 
 <div class="welcome-strip">
@@ -364,7 +378,7 @@ input, button {
 <footer class="site-footer">
   <div class="footer-col">
     <h4>Liên hệ</h4>
-    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cea2a7acbba0a7b8abbcbda7bab78ea9a3afa7a2e0ada1a3">[email&#160;protected]</a></p>
+    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: libuniversity@gmail.com</p>
   </div>
   <div class="footer-col">
     <h4>Thời gian hoạt động</h4>
@@ -379,7 +393,15 @@ input, button {
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+  /* ── Hamburger ── */
+  function toggleMobileNav() {
+    const nav = document.getElementById('mobileNav');
+    const btn = document.getElementById('hamburger');
+    nav.classList.toggle('show');
+    btn.classList.toggle('open');
+  }
+
   const userBtn = document.getElementById('userBtn');
   userBtn.addEventListener('click', e => { e.stopPropagation(); userBtn.classList.toggle('open'); });
   document.addEventListener('click', () => userBtn.classList.remove('open'));
@@ -630,11 +652,9 @@ input, button {
       const q = filter.toLowerCase();
       const list = q ? bookOptions.filter(b=>b.toLowerCase().includes(q)) : bookOptions;
       renderDropdown(list);
-      // Tính vị trí fixed dựa trên tọa độ của input wrapper
       const rect = inputWrap.getBoundingClientRect();
       dropdown.style.left   = rect.left + 'px';
       dropdown.style.width  = rect.width + 'px';
-      // Hiển thị xuống dưới nếu đủ chỗ, ngược lại hiện lên trên
       const spaceBelow = window.innerHeight - rect.bottom;
       if(spaceBelow >= 160) {
         dropdown.style.top    = (rect.bottom + 4) + 'px';
@@ -659,24 +679,21 @@ input, button {
       textInput.focus();
     }
 
-    // Gõ → lọc và mở dropdown
     textInput.addEventListener('input', () => {
       hiddenVal.value = '';
       inputWrap.classList.remove('has-value');
       openDropdown(textInput.value);
     });
 
-    // Mũi tên ▼ → toggle toàn bộ danh sách (chỉ mở khi bấm, không tự mở khi focus)
     arrowBtn.addEventListener('mousedown', e => {
-      e.preventDefault(); // ngăn focus side effect
+      e.preventDefault();
       if(dropdown.classList.contains('open')){
         closeDropdown();
       } else {
-        openDropdown(''); // hiện toàn bộ khi bấm mũi tên
+        openDropdown('');
       }
     });
 
-    // Keyboard navigation
     textInput.addEventListener('keydown', e => {
       const items = dropdown.querySelectorAll('.book-ac-item');
       if(e.key === 'ArrowDown') {
@@ -697,12 +714,10 @@ input, button {
       }
     });
 
-    // Click ngoài → đóng
     document.addEventListener('click', e => {
       if(!row.contains(e.target) && !dropdown.contains(e.target)) closeDropdown();
     });
 
-    // Cập nhật vị trí khi scroll (modal hoặc window)
     function updatePos() {
       if(!dropdown.classList.contains('open')) return;
       const rect = inputWrap.getBoundingClientRect();
@@ -728,12 +743,10 @@ input, button {
     const returnDate = document.getElementById('fReturnDate').value;
     const rows  = [...document.querySelectorAll('#bookRows .book-row')];
     const books = rows.map(r=>{
-      // Ưu tiên hidden value (đã chọn từ dropdown), fallback text input nếu khớp bookOptions
       const hidden = r.querySelector('.book-ac-value');
       const text   = r.querySelector('.book-ac-text');
       const qty    = parseInt(r.querySelector('.qty-input').value)||1;
       let bookTitle = hidden ? hidden.value : '';
-      // Nếu hidden trống nhưng text khớp chính xác một mục trong danh sách → chấp nhận
       if(!bookTitle && text) {
         const matched = bookOptions.find(b => b.toLowerCase() === text.value.trim().toLowerCase());
         if(matched) bookTitle = matched;
@@ -781,7 +794,6 @@ input, button {
 
   function formatDate(iso){const[y,m,d]=iso.split('-');return`${d}/${m}/${y}`;}
 
-  // Quay về giao diện chính: đóng modal + reset filter + hiển thị tất cả phiếu
   window.goToMain = function() {
     document.getElementById('overlaySlip').classList.remove('show');
     currentReader = null;
@@ -792,10 +804,8 @@ input, button {
     renderSlips(slips);
   }
 
-  // Nút Quay lại trong modal → về giao diện chính
   document.getElementById('btnBack').addEventListener('click', goToMain);
 
-  // Nút Đặt lại
   document.getElementById('btnReset').addEventListener('click', () => {
     document.getElementById('bookRows').innerHTML=''; addBookRow();
     document.getElementById('fNote').value=''; closeSlipAlert();
