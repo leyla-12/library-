@@ -9,6 +9,11 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       font-family: 'Be Vietnam Pro', sans-serif;
       min-height: 100vh;
@@ -33,6 +38,7 @@
       box-shadow: 0 8px 32px rgba(74,159,212,0.18);
       animation: fadeUp 0.5s ease;
       text-align: center;
+      margin: 16px;
     }
 
     @keyframes fadeUp {
@@ -88,6 +94,7 @@
       transition: border 0.2s;
       background: #fff;
       color: #2c3e50;
+      max-width: 100%;
     }
     .form-group input:focus { border-color: #2980b9; }
 
@@ -105,6 +112,7 @@
       transition: background 0.2s, transform 0.1s;
       font-family: inherit;
       margin-bottom: 16px;
+      max-width: 100%;
     }
     .btn-primary:hover { background: #1f6fa0; }
     .btn-primary:active { transform: scale(0.98); }
@@ -120,7 +128,6 @@
     }
     .bottom-text a:hover { text-decoration: underline; }
 
-    /* Toast */
     .toast {
       position: fixed;
       top: 24px; right: 24px;
@@ -139,50 +146,27 @@
     .toast.show { opacity: 1; transform: translateY(0); }
     .toast.success { background: #27ae60; }
     .toast.error   { background: #e74c3c; }
-    /* ====== RESPONSIVE FIX ====== */
 
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
+    img { max-width: 100%; height: auto; }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
+    @media (max-width: 768px) {
+      .card {
+        padding: 28px 24px;
+        max-width: calc(100% - 32px);
+        margin: 16px;
+      }
+      h2.form-title { font-size: 18px; }
+    }
 
-/* fix form/card */
-.card {
-  width: 100%;
-  max-width: 500px;
-}
-
-/* input không tràn */
-input, button {
-  max-width: 100%;
-}
-
-/* mobile */
-@media (max-width: 768px) {
-  .card {
-    padding: 20px !important;
-    max-width: 95% !important;
-  }
-
-  h1, h2, h3 {
-    font-size: 90%;
-  }
-
-  .btn-primary {
-    width: 100%;
-  }
-}
+    @media (max-width: 480px) {
+      .card { padding: 24px 16px; }
+      .toast { right: 12px; left: 12px; max-width: none; }
+    }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <!-- Logo -->
     <div class="logo-area">
       <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
         <path d="M24 4C24 4 12 10 12 22V38L24 44L36 38V22C36 10 24 4 24 4Z" fill="#2980b9" opacity="0.15"/>
