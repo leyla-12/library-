@@ -638,6 +638,15 @@
   /* ── Init ── */
   updateCounts();
   renderTable(users);
+  window.addEventListener('resize', () => {
+  const nav = document.getElementById('mobileNav');
+  const btn = document.getElementById('hamburger');
+
+  if (window.innerWidth > 768) {
+    nav.classList.remove('show');   // ẩn mobile menu
+    btn.classList.remove('open');   // reset icon hamburger
+  }
+});
 </script>
 </body>
 </html>
