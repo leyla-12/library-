@@ -17,11 +17,13 @@
       --shadow-md:0 4px 16px rgba(0,0,0,0.10);--shadow-lg:0 8px 32px rgba(0,0,0,0.14);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;background:#f0f4f8;color:var(--gray-700);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
+    html{overflow-x:hidden;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;background:#f0f4f8;color:var(--gray-700);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 
+    /* ── HEADER ── */
     .header{background:var(--navy);box-shadow:0 2px 12px rgba(0,0,0,0.2);position:sticky;top:0;z-index:100;flex-shrink:0;}
-    .header-inner{display:flex;align-items:center;height:56px;padding:0 32px;width:100%;}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;margin-right:28px;}
+    .header-inner{display:flex;align-items:center;height:56px;padding:0 24px;width:100%;gap:8px;}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;margin-right:16px;}
     .brand-icon{width:32px;height:32px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
     .brand-name{font-size:12.5px;font-weight:800;color:#fff;letter-spacing:1.4px;line-height:1.2;white-space:nowrap;}
     .brand-sub{font-size:9.5px;color:rgba(255,255,255,0.5);letter-spacing:0.3px;white-space:nowrap;}
@@ -29,8 +31,24 @@
     .nav-links a{font-size:12.5px;font-weight:500;color:rgba(255,255,255,0.65);text-decoration:none;padding:0 12px;height:56px;display:flex;align-items:center;border-bottom:3px solid transparent;border-top:3px solid transparent;transition:color 0.15s,border-color 0.15s;white-space:nowrap;overflow:hidden;flex-shrink:1;min-width:0;}
     .nav-links a:hover{color:rgba(255,255,255,0.9);}
     .nav-links a.active{color:#fff;font-weight:700;border-bottom-color:#5b9cf6;}
-    .user-btn{display:flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;position:relative;transition:background 0.15s;flex-shrink:0;margin-left:auto;user-select:none;}
+
+    /* hamburger */
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;cursor:pointer;padding:6px;flex-shrink:0;}
+    .hamburger span{display:block;height:2px;background:#fff;border-radius:2px;transition:transform 0.2s,opacity 0.2s;}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .hamburger.open span:nth-child(2){opacity:0;}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+    /* mobile nav drawer */
+    .mobile-nav{display:none;flex-direction:column;background:var(--navy-mid);border-top:1px solid rgba(255,255,255,0.1);}
+    .mobile-nav.show{display:flex;}
+    .mobile-nav a{font-size:13px;font-weight:500;color:rgba(255,255,255,0.75);text-decoration:none;padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);transition:background 0.15s,color 0.15s;}
+    .mobile-nav a:hover{background:rgba(255,255,255,0.08);color:#fff;}
+    .mobile-nav a.active{color:#fff;font-weight:700;background:rgba(91,156,246,0.15);border-left:3px solid #5b9cf6;}
+
+    .user-btn{display:flex;align-items:center;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;position:relative;transition:background 0.15s;flex-shrink:0;margin-left:auto;user-select:none;}
     .user-btn:hover{background:rgba(255,255,255,0.18);}
+    .user-name{display:inline;}
     .user-avatar{width:26px;height:26px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
     .user-dropdown{display:none;position:absolute;right:0;top:calc(100% + 8px);background:var(--white);border:1px solid var(--border);border-radius:8px;min-width:190px;box-shadow:var(--shadow-lg);z-index:200;overflow:hidden;}
     .user-btn.open .user-dropdown{display:block;}
@@ -38,7 +56,7 @@
     .user-dropdown a:last-child{border-bottom:none;color:var(--red);}
     .user-dropdown a:hover{background:var(--gray-50);}
 
-    .welcome-strip{background:linear-gradient(90deg,#e8f0fe 0%,#f0f6ff 100%);border-bottom:1px solid #c7d9f7;padding:7px 32px;display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;}
+    .welcome-strip{background:linear-gradient(90deg,#e8f0fe 0%,#f0f6ff 100%);border-bottom:1px solid #c7d9f7;padding:7px 24px;display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;}
     .welcome-strip .dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;}
     .welcome-strip .name{font-size:13px;font-weight:700;color:var(--red);letter-spacing:0.3px;white-space:nowrap;}
     .welcome-strip .sub{font-size:12px;color:var(--gray-500);white-space:nowrap;}
@@ -62,7 +80,6 @@
     .btn-secondary{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 16px;background:var(--white);color:var(--navy);border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background 0.15s,border-color 0.15s;}
     .btn-secondary:hover{background:var(--gray-50);border-color:var(--gray-300);}
 
-    /* CHECK CARD */
     .check-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:18px 22px;margin-bottom:16px;box-shadow:var(--shadow-sm);}
     .check-card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--gray-400);margin-bottom:10px;}
     .check-row{display:flex;align-items:center;gap:10px;}
@@ -76,7 +93,6 @@
     .check-status.ok{background:var(--green-bg);color:#15803d;border:1px solid #bbf7d0;}
     .check-status.error{background:var(--red-bg);color:#b91c1c;border:1px solid var(--red-border);}
 
-    /* TABS */
     .tabs{display:flex;gap:0;margin-bottom:0;border-bottom:2px solid var(--border);}
     .tab-btn{height:38px;padding:0 20px;background:none;border:none;border-bottom:2.5px solid transparent;margin-bottom:-2px;font-size:13px;font-weight:600;font-family:inherit;color:var(--gray-400);cursor:pointer;transition:color 0.15s,border-color 0.15s;white-space:nowrap;}
     .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
@@ -86,26 +102,23 @@
     .tabs-header-left{display:flex;align-items:center;gap:0;}
     .tabs-header-meta{font-size:12px;color:var(--gray-400);padding:10px 0;}
 
-    /* ALL SLIPS TABLE */
     .card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:20px;}
     .card-head{padding:12px 20px;border-bottom:1.5px solid var(--border);background:var(--gray-50);display:flex;align-items:center;justify-content:space-between;gap:12px;}
     .card-head-title{font-size:13px;font-weight:700;color:var(--gray-700);}
     .card-head-meta{font-size:12px;color:var(--gray-400);}
-    .tbl-wrap{overflow-x:auto;}
-    table{width:100%;border-collapse:collapse;}
+    .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    table{width:100%;border-collapse:collapse;min-width:560px;}
     thead th{padding:10px 16px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-400);background:var(--gray-50);border-bottom:1.5px solid var(--border);white-space:nowrap;}
     tbody td{padding:11px 16px;font-size:13.5px;color:var(--gray-700);border-bottom:1px solid var(--border);vertical-align:middle;}
     tbody tr:last-child td{border-bottom:none;}
     tbody tr:hover{background:var(--gray-50);}
 
-    /* SEARCH RESULT BACK */
     .search-result-bar{display:none;align-items:center;gap:10px;margin-bottom:12px;padding:10px 16px;background:var(--blue-50);border:1.5px solid var(--blue-100);border-radius:8px;}
     .search-result-bar.show{display:flex;}
     .search-result-bar span{font-size:13px;color:var(--blue);font-weight:600;flex:1;}
     .btn-reset-search{height:30px;padding:0 14px;background:var(--white);border:1.5px solid var(--blue-100);border-radius:6px;font-size:12.5px;font-weight:600;color:var(--blue);font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:5px;transition:background 0.12s;}
     .btn-reset-search:hover{background:var(--blue-100);}
 
-    /* CONTENT AREA: phiếu chi tiết */
     .content-area{display:none;gap:20px;align-items:flex-start;margin-bottom:20px;}
     .content-area.visible{display:flex;}
     .borrow-slip{flex:1;background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:22px 26px;box-shadow:var(--shadow-sm);}
@@ -118,7 +131,7 @@
     .book-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0;}
     .book-qty-tag{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--blue);background:var(--blue-50);border:1px solid var(--blue-100);border-radius:4px;padding:1px 7px;white-space:nowrap;}
     .slip-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:12px;flex-wrap:wrap;padding-top:14px;border-top:1.5px solid var(--border);}
-    .status-row{display:flex;align-items:center;gap:8px;}
+    .status-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
     .status-row>span{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-400);}
     .status-select{height:34px;padding:0 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit;color:var(--gray-700);background:var(--white);outline:none;cursor:pointer;transition:border-color 0.15s;}
     .status-select:focus{border-color:var(--blue);}
@@ -132,7 +145,6 @@
     .btn-create-fine{display:flex;align-items:center;gap:8px;height:40px;padding:0 20px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:13.5px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;box-shadow:var(--shadow-sm);transition:background 0.15s;}
     .btn-create-fine:hover{background:var(--blue-light);}
 
-    /* MODAL */
     .overlay{display:none;position:fixed;inset:0;background:rgba(9,17,36,0.55);backdrop-filter:blur(3px);z-index:300;align-items:center;justify-content:center;padding:24px;}
     .overlay.show{display:flex;}
     .modal{background:var(--white);border-radius:14px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:modalIn 0.22s ease;}
@@ -166,7 +178,6 @@
     .fine-total{font-size:13px;color:var(--gray-700);}
     .fine-total strong{color:#b91c1c;font-size:14px;}
 
-    /* DAMAGE SECTION */
     .damage-table{width:100%;border-collapse:collapse;margin-bottom:10px;}
     .damage-table th{padding:7px 10px;text-align:left;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--gray-400);background:var(--gray-50);border-bottom:1.5px solid var(--border);}
     .damage-table td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:middle;}
@@ -185,7 +196,6 @@
     .damage-summary{display:flex;justify-content:flex-end;padding:6px 4px 2px;font-size:12.5px;color:var(--gray-600);}
     .damage-summary strong{color:#b91c1c;margin-left:6px;}
 
-    /* EDIT FINE MODAL */
     .form-group{margin-bottom:14px;}
     .form-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-400);margin-bottom:6px;display:block;}
     .form-input{width:100%;height:36px;padding:0 12px;border:1.5px solid var(--border);border-radius:7px;font-size:13.5px;font-family:inherit;color:var(--gray-700);background:var(--white);outline:none;transition:border-color 0.15s;}
@@ -198,7 +208,6 @@
     .fine-status-tag.pending{background:var(--red-bg);color:#b91c1c;border:1px solid var(--red-border);}
     .fine-status-tag.paid{background:var(--green-bg);color:#15803d;border:1px solid #bbf7d0;}
 
-    /* TOAST */
     .toast{position:fixed;top:72px;right:28px;min-width:290px;max-width:360px;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow-lg);z-index:9999;pointer-events:none;opacity:0;transform:translateX(20px);transition:all 0.25s ease;}
     .toast.show{opacity:1;transform:translateX(0);pointer-events:all;}
     .toast-bar{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch;}
@@ -210,51 +219,46 @@
     .toast-close{cursor:pointer;color:var(--gray-300);font-size:17px;pointer-events:all;flex-shrink:0;}
     .toast-close:hover{color:var(--gray-700);}
 
-    /* FOOTER */
     .site-footer{background:var(--navy);padding:26px 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px;flex-shrink:0;}
     .footer-col h4{font-size:10.5px;font-weight:800;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;}
     .footer-col p{font-size:12.5px;color:rgba(255,255,255,0.65);line-height:1.9;}
     .footer-icons{display:flex;gap:8px;margin-top:8px;}
     .footer-icon{width:34px;height:34px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background 0.15s;}
     .footer-icon:hover{background:rgba(255,255,255,0.2);}
-    /* ====== RESPONSIVE FIX ====== */
 
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* fix form/card */
-.card {
-  width: 100%;
-  max-width: 500px;
-}
-
-/* input không tràn */
-input, button {
-  max-width: 100%;
-}
-
-/* mobile */
-@media (max-width: 768px) {
-  .card {
-    padding: 20px !important;
-    max-width: 95% !important;
-  }
-
-  h1, h2, h3 {
-    font-size: 90%;
-  }
-
-  .btn-primary {
-    width: 100%;
-  }
-}
+    /* ══ RESPONSIVE ══ */
+    @media (max-width:768px) {
+      .hamburger{display:flex;}
+      .nav-links{display:none;}
+      .user-name{display:none;}
+      .user-btn{padding:6px 8px;}
+      .welcome-strip .sub{display:none;}
+      main{padding:16px 14px 24px;}
+      .page-head{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:16px;}
+      .page-title{font-size:20px;}
+      .search-wrap{width:100%;}
+      .check-row{flex-wrap:wrap;}
+      .check-input{width:100%;}
+      .btn-check{width:100%;}
+      /* Chi tiết phiếu: stack dọc */
+      .content-area{flex-direction:column;}
+      .fine-trigger{width:100%;}
+      .btn-create-fine{width:100%;justify-content:center;}
+      .slip-bottom{flex-direction:column;align-items:flex-start;}
+      .btn-save-status{width:100%;}
+      /* Fine modal form-row */
+      .form-row{grid-template-columns:1fr;}
+      .fine-meta-grid{grid-template-columns:1fr 1fr;gap:8px;}
+    }
+    @media (max-width:480px) {
+      .header-inner{padding:0 12px;}
+      .brand-sub{display:none;}
+      .site-footer{grid-template-columns:1fr;gap:20px;padding:20px 16px;text-align:center;}
+      .footer-icons{justify-content:center;}
+      .toast{right:12px;left:12px;min-width:0;}
+      .modal{border-radius:10px;}
+      .damage-amt{width:80px;}
+    }
   </style>
 </head>
 <body>
@@ -282,7 +286,7 @@ input, button {
     </nav>
     <div class="user-btn" id="userBtn">
       <div class="user-avatar">AD</div>
-      Admin
+      <span class="user-name">Admin</span>
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
       <div class="user-dropdown">
         <a href="index.html" onclick="sessionStorage.clear()">
@@ -291,7 +295,17 @@ input, button {
         </a>
       </div>
     </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="taikhoan.html">Quản lý tài khoản</a>
+    <a href="quanlysach.html">Quản lý sách</a>
+    <a href="muonsach.html">Quản lý mượn sách</a>
+    <a href="trasach.html" class="active">Quản lý trả sách</a>
+    <a href="baocao.html">Báo cáo thống kê</a>
+  </nav>
 </header>
 
 <div class="welcome-strip">
@@ -312,7 +326,6 @@ input, button {
     </div>
   </div>
 
-  <!-- TRA CỨU -->
   <div class="check-card">
     <div class="check-card-label">Tra cứu phiếu mượn</div>
     <div class="check-row">
@@ -325,7 +338,6 @@ input, button {
     </div>
   </div>
 
-  <!-- SEARCH RESULT BAR (nút quay lại sau khi tìm kiếm) -->
   <div class="search-result-bar" id="searchResultBar">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <span id="searchResultText">Đang hiển thị kết quả tìm kiếm</span>
@@ -335,7 +347,6 @@ input, button {
     </button>
   </div>
 
-  <!-- TABS: Phiếu mượn / Phiếu phạt -->
   <div class="tabs-wrap" id="allSlipsCard">
     <div class="tabs-header">
       <div class="tabs-header-left">
@@ -347,7 +358,6 @@ input, button {
       <span class="tabs-header-meta" id="allSlipsCount"></span>
     </div>
 
-    <!-- TAB: Phiếu mượn -->
     <div id="panelSlips">
       <div class="tbl-wrap">
         <table>
@@ -367,7 +377,6 @@ input, button {
       </div>
     </div>
 
-    <!-- TAB: Phiếu phạt -->
     <div id="panelFines" style="display:none;">
       <div class="tbl-wrap">
         <table>
@@ -389,7 +398,6 @@ input, button {
     </div>
   </div>
 
-  <!-- CHI TIẾT PHIẾU (ẩn, hiện khi bấm Xử lý) -->
   <div class="content-area" id="contentArea">
     <div class="borrow-slip" id="slipCard">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1.5px solid var(--border);">
@@ -457,7 +465,6 @@ input, button {
           <div class="fmg-val amount" id="fineAmount"></div>
         </div>
       </div>
-      <!-- Phạt quá hạn -->
       <div class="modal-section">
         <div class="section-title">Phạt quá hạn</div>
         <div class="form-row" style="margin-bottom:14px;">
@@ -472,7 +479,6 @@ input, button {
         </div>
       </div>
 
-      <!-- Phạt mất / hư hỏng sách -->
       <div class="modal-section" style="margin-bottom:16px;">
         <div class="section-title section-toggle" onclick="toggleDamageSection()">
           <span>Phạt mất / hư hỏng sách</span>
@@ -494,7 +500,6 @@ input, button {
         </div>
       </div>
 
-      <!-- Ghi chú & tổng -->
       <div class="modal-section">
         <div class="section-title">Ghi chú lý do</div>
         <textarea class="form-textarea" id="fineNoteInput" placeholder="Ghi chú lý do phạt (tổng hợp tự động hoặc nhập tay)..." style="margin-bottom:0;"></textarea>
@@ -589,7 +594,7 @@ input, button {
 <footer class="site-footer">
   <div class="footer-col">
     <h4>Liên hệ</h4>
-    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="412d2823342f283724333228353801262c20282d6f222e2c">[email&#160;protected]</a></p>
+    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: libuniversity@gmail.com</p>
   </div>
   <div class="footer-col">
     <h4>Thời gian hoạt động</h4>
@@ -604,7 +609,15 @@ input, button {
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+  /* ── Hamburger ── */
+  function toggleMobileNav() {
+    const nav = document.getElementById('mobileNav');
+    const btn = document.getElementById('hamburger');
+    nav.classList.toggle('show');
+    btn.classList.toggle('open');
+  }
+
   /* DROPDOWN */
   const userBtn = document.getElementById('userBtn');
   userBtn.addEventListener('click', e => { e.stopPropagation(); userBtn.classList.toggle('open'); });
@@ -636,21 +649,8 @@ input, button {
     {id:'PM003',readerId:'SV0054',readerName:'Trần Bảo Nhi',email:'baonhi@gmail.com',cls:'IS01',borrowDate:'05/03/2026',returnDate:'12/03/2026',status:'Quá hạn',books:[{title:'Tài liệu ôn IELTS Cambridge',qty:1}]},
   ];
 
-  // Fine counter for generating IDs
-  let fineCounter = 1;
-
-  // Fines list
   let fines = [
-    {
-      id: 'PP001',
-      slipId: 'PM003',
-      readerId: 'SV0054',
-      readerName: 'Trần Bảo Nhi',
-      overdueDays: 1,
-      amount: 5000,
-      note: 'Quá hạn 1 ngày × 5.000đ',
-      status: 'pending'
-    }
+    {id:'PP001',slipId:'PM003',readerId:'SV0054',readerName:'Trần Bảo Nhi',overdueDays:1,amount:5000,note:'Quá hạn 1 ngày × 5.000đ',status:'pending'}
   ];
 
   let currentSlip = null;
@@ -670,7 +670,6 @@ input, button {
     return `<span class="fine-status-tag ${cls}">${map[s]||s}</span>`;
   }
 
-  /* TABS */
   function switchTab(tab) {
     currentTab = tab;
     document.getElementById('tabSlips').classList.toggle('active', tab==='slips');
@@ -690,7 +689,6 @@ input, button {
     }
   }
 
-  /* RENDER BẢNG PHIẾU MƯỢN */
   function renderAllSlips(list) {
     document.getElementById('allSlipsCount').textContent = list.length + ' phiếu';
     document.getElementById('allSlipsBody').innerHTML = list.length ? list.map(s => `
@@ -706,7 +704,6 @@ input, button {
       `<tr><td colspan="7" style="text-align:center;color:var(--gray-400);padding:40px">Không tìm thấy phiếu mượn nào.</td></tr>`;
   }
 
-  /* RENDER BẢNG PHIẾU PHẠT */
   function renderFines(list) {
     document.getElementById('finesBody').innerHTML = list.length ? list.map(f => `
       <tr>
@@ -722,7 +719,6 @@ input, button {
       `<tr><td colspan="8" style="text-align:center;color:var(--gray-400);padding:40px">Chưa có phiếu phạt nào.</td></tr>`;
   }
 
-  /* LOAD CHI TIẾT PHIẾU */
   function loadSlip(id) {
     const slip = slips.find(x => x.id === id);
     if (!slip) return;
@@ -740,7 +736,6 @@ input, button {
     document.getElementById('overdueNote').style.display = slip.status==='Quá hạn' ? 'inline-flex' : 'none';
   }
 
-  /* QUAY LẠI từ chi tiết phiếu */
   document.getElementById('btnBack').addEventListener('click', () => {
     document.getElementById('contentArea').classList.remove('visible');
     document.getElementById('allSlipsCard').style.display = 'block';
@@ -748,7 +743,6 @@ input, button {
     currentSlip = null;
   });
 
-  /* RESET TÌM KIẾM – nút Xem tất cả */
   document.getElementById('btnResetSearch').addEventListener('click', () => {
     isFiltered = false;
     filteredSlipsList = null;
@@ -756,11 +750,9 @@ input, button {
     document.getElementById('searchInput').value = '';
     document.getElementById('checkStatus').className = 'check-status';
     document.getElementById('searchResultBar').classList.remove('show');
-    document.getElementById('allSlipsTitle') && (document.getElementById('allSlipsTitle').textContent = 'Tất cả phiếu mượn');
     renderAllSlips(slips);
   });
 
-  /* TRA CỨU */
   document.getElementById('btnCheck').addEventListener('click', lookup);
   document.getElementById('emailInput').addEventListener('keydown', e => { if(e.key==='Enter') lookup(); });
 
@@ -799,34 +791,28 @@ input, button {
     }
   }
 
-  /* TÌM KIẾM REALTIME */
   document.getElementById('searchInput').addEventListener('input', function() {
     const q = this.value.toLowerCase();
     if (currentTab === 'fines') {
       const filtered = q ? fines.filter(f =>
-        f.id.toLowerCase().includes(q) ||
-        f.slipId.toLowerCase().includes(q) ||
-        f.readerName.toLowerCase().includes(q) ||
-        f.readerId.toLowerCase().includes(q)
+        f.id.toLowerCase().includes(q) || f.slipId.toLowerCase().includes(q) ||
+        f.readerName.toLowerCase().includes(q) || f.readerId.toLowerCase().includes(q)
       ) : fines;
       renderFines(filtered);
     } else {
       const base = filteredSlipsList || slips;
       const filtered = q ? base.filter(s =>
-        s.readerName.toLowerCase().includes(q) ||
-        s.id.toLowerCase().includes(q) ||
+        s.readerName.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) ||
         s.readerId.toLowerCase().includes(q)
       ) : base;
       renderAllSlips(filtered);
     }
   });
 
-  /* LƯU TRẠNG THÁI */
   document.getElementById('btnSaveStatus').addEventListener('click', () => {
     if (!currentSlip) return;
     currentSlip.status = document.getElementById('statusSelect').value;
     showToast('Cập nhật trạng thái', `${currentSlip.id} — ${currentSlip.status}`, 'success');
-    // Quay về danh sách và cập nhật bảng
     document.getElementById('contentArea').classList.remove('visible');
     document.getElementById('allSlipsCard').style.display = '';
     if (isFiltered) document.getElementById('searchResultBar').classList.add('show');
@@ -834,7 +820,6 @@ input, button {
     currentSlip = null;
   });
 
-  /* TÍNH SỐ NGÀY TRỄ */
   function calcOverdueDays(returnDate) {
     const today = new Date();
     const [d,m,y] = returnDate.split('/');
@@ -842,23 +827,8 @@ input, button {
     return Math.max(0, Math.floor((today - due) / (1000*60*60*24)));
   }
 
-  /* TẠO PHIẾU PHẠT */
-  const DAMAGE_PRESETS = {
-    lost: 150000,
-    damaged_heavy: 80000,
-    damaged_light: 30000,
-    cover: 15000,
-    other: 0,
-    none: 0
-  };
-  const DAMAGE_LABELS = {
-    lost: 'Mất sách',
-    damaged_heavy: 'Hư hỏng nặng',
-    damaged_light: 'Hư hỏng nhẹ',
-    cover: 'Rách bìa / ố trang',
-    other: 'Khác',
-    none: 'Không vi phạm'
-  };
+  const DAMAGE_PRESETS = {lost:150000,damaged_heavy:80000,damaged_light:30000,cover:15000,other:0,none:0};
+  const DAMAGE_LABELS  = {lost:'Mất sách',damaged_heavy:'Hư hỏng nặng',damaged_light:'Hư hỏng nhẹ',cover:'Rách bìa / ố trang',other:'Khác',none:'Không vi phạm'};
 
   function toggleDamageSection() {
     const body = document.getElementById('damageSectionBody');
@@ -874,7 +844,6 @@ input, button {
       const sel = tr.querySelector('.damage-type-select');
       const amt = tr.querySelector('.damage-amt');
       const sub = tr.querySelector('.damage-subtotal');
-      const preset = DAMAGE_PRESETS[sel.value] ?? 0;
       const val = parseInt(amt.value) || 0;
       sub.textContent = val.toLocaleString('vi-VN') + 'đ';
       total += val;
@@ -910,19 +879,10 @@ input, button {
     const tr = sel.closest('tr');
     const amtInput = tr.querySelector('.damage-amt');
     const otherInput = tr.querySelector('.damage-other-input');
-    const preset = DAMAGE_PRESETS[sel.value] ?? 0;
-    amtInput.value = preset;
-    // Hiện ô nhập mô tả nếu chọn "Khác"
-    if (sel.value === 'other') {
-      otherInput.classList.add('show');
-      otherInput.focus();
-    } else {
-      otherInput.classList.remove('show');
-      otherInput.value = '';
-    }
-    calcDamageTotal();
-    recalcFineTotal();
-    autoFillDamageNote();
+    amtInput.value = DAMAGE_PRESETS[sel.value] ?? 0;
+    if (sel.value === 'other') { otherInput.classList.add('show'); otherInput.focus(); }
+    else { otherInput.classList.remove('show'); otherInput.value = ''; }
+    calcDamageTotal(); recalcFineTotal(); autoFillDamageNote();
   }
 
   function autoFillDamageNote() {
@@ -935,9 +895,7 @@ input, button {
       const otherInput = tr.querySelector('.damage-other-input');
       const amt = parseInt(tr.querySelector('.damage-amt').value) || 0;
       if (sel.value === 'none') return;
-      const label = sel.value === 'other'
-        ? (otherInput.value.trim() || 'Khác')
-        : DAMAGE_LABELS[sel.value];
+      const label = sel.value === 'other' ? (otherInput.value.trim() || 'Khác') : DAMAGE_LABELS[sel.value];
       parts.push(`${label}: "${bookName}" — ${amt.toLocaleString('vi-VN')}đ`);
     });
     document.getElementById('fineNoteInput').value = parts.length ? parts.join('\n') : '';
@@ -951,42 +909,25 @@ input, button {
     document.getElementById('fineTotalText').textContent = total.toLocaleString('vi-VN') + 'đ';
   }
 
-  function updateFineModalTotal() { recalcFineTotal(); }
-
   document.getElementById('fineOverdueDaysInput').addEventListener('input', function() {
-    const days = parseInt(this.value) || 0;
-    document.getElementById('fineAmountInput').value = days * 5000;
-    recalcFineTotal();
-    autoFillDamageNote();
+    document.getElementById('fineAmountInput').value = (parseInt(this.value)||0) * 5000;
+    recalcFineTotal(); autoFillDamageNote();
   });
-
-  document.getElementById('fineAmountInput').addEventListener('input', function() {
-    recalcFineTotal();
-    autoFillDamageNote();
-  });
+  document.getElementById('fineAmountInput').addEventListener('input', function() { recalcFineTotal(); autoFillDamageNote(); });
 
   document.getElementById('btnCreateFine').addEventListener('click', () => {
     if (!currentSlip) return;
     const overdueDays = calcOverdueDays(currentSlip.returnDate);
     const overdueAmt  = overdueDays * 5000;
-
     document.getElementById('fineCode').textContent = currentSlip.id;
     document.getElementById('fineName').textContent  = currentSlip.readerName;
     document.getElementById('fineOverdueDaysInput').value = overdueDays;
     document.getElementById('fineAmountInput').value = overdueAmt;
-
-    // Reset damage section
     document.getElementById('damageSectionBody').style.display = 'none';
     document.getElementById('damageSectionIcon').textContent = '+ Mở rộng';
     buildDamageRows(currentSlip.books);
-    calcDamageTotal();
-    recalcFineTotal();
-
-    // Auto note
-    document.getElementById('fineNoteInput').value = overdueDays > 0
-      ? `Quá hạn ${overdueDays} ngày × 5.000đ/ngày`
-      : '';
-
+    calcDamageTotal(); recalcFineTotal();
+    document.getElementById('fineNoteInput').value = overdueDays > 0 ? `Quá hạn ${overdueDays} ngày × 5.000đ/ngày` : '';
     document.getElementById('fineOverlay').classList.add('show');
   });
 
@@ -1000,13 +941,9 @@ input, button {
     const fineStatus = document.getElementById('fineStatusInput').value;
     const newFine = {
       id: 'PP' + String(fines.length + 1).padStart(3, '0'),
-      slipId: currentSlip.id,
-      readerId: currentSlip.readerId,
+      slipId: currentSlip.id, readerId: currentSlip.readerId,
       readerName: currentSlip.readerName,
-      overdueDays,
-      amount: totalFine,
-      note,
-      status: fineStatus
+      overdueDays, amount: totalFine, note, status: fineStatus
     };
     fines.push(newFine);
     document.getElementById('fineOverlay').classList.remove('show');
@@ -1018,7 +955,6 @@ input, button {
     document.getElementById(id).addEventListener('click', () => document.getElementById('fineOverlay').classList.remove('show')));
   document.getElementById('fineOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) e.target.classList.remove('show'); });
 
-  /* CHỈNH SỬA PHIẾU PHẠT */
   function openEditFine(id) {
     const fine = fines.find(f => f.id === id);
     if (!fine) return;
@@ -1034,10 +970,8 @@ input, button {
     document.getElementById('editFineOverlay').classList.add('show');
   }
 
-  /* Tự tính lại tiền khi đổi số ngày */
   document.getElementById('editFineOverdueDays').addEventListener('input', function() {
-    const days = parseInt(this.value) || 0;
-    document.getElementById('editFineAmountInput').value = days * 5000;
+    document.getElementById('editFineAmountInput').value = (parseInt(this.value)||0) * 5000;
   });
 
   document.getElementById('confirmEditFine').addEventListener('click', () => {
