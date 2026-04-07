@@ -163,6 +163,19 @@
     .panel-section::before{content:'';width:3px;height:12px;background:var(--blue);border-radius:2px;}
     .panel-section:first-child{margin-top:0;}
 
+    /* ── Upload ảnh bìa ── */
+    .upload-area{border:2px dashed var(--border);border-radius:9px;background:var(--gray-50);padding:16px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:border-color 0.18s,background 0.18s;min-height:110px;position:relative;text-align:center;}
+    .upload-area:hover{border-color:var(--blue);background:var(--blue-50);}
+    .upload-area.has-img{padding:6px;min-height:unset;border-style:solid;border-color:var(--blue);}
+    .upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .upload-icon{color:var(--blue);opacity:0.75;}
+    .upload-label{font-size:12.5px;font-weight:700;color:var(--blue);}
+    .upload-hint{font-size:11.5px;color:var(--gray-400);}
+    .upload-preview{width:100%;max-height:160px;object-fit:contain;border-radius:6px;display:none;}
+    .upload-preview.show{display:block;}
+    .upload-remove{margin-top:6px;font-size:11.5px;color:var(--red);cursor:pointer;font-weight:600;display:none;background:none;border:none;font-family:inherit;}
+    .upload-remove.show{display:inline-block;}
+
     /* ── RESPONSIVE ── */
     @media (max-width:768px) {
       .hamburger{display:flex;}
@@ -301,6 +314,20 @@
       </div>
       <div class="panel-field"><label>Tác giả xuất bản</label><input type="text" id="fAuthor" placeholder="VD: TS. Hàn Minh Phương" /></div>
       <div class="panel-field"><label>Số lượng sách có trong kho</label><input type="number" id="fQty" placeholder="30" min="0" /></div>
+      <div class="panel-field">
+        <label>Ảnh bìa sách</label>
+        <div class="upload-area" id="uploadArea">
+          <input type="file" id="fCoverImg" accept="image/*" onchange="handleImgUpload(this)" />
+          <svg class="upload-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+          </svg>
+          <span class="upload-label">Nhấn để tải ảnh lên</span>
+          <span class="upload-hint">PNG, JPG, WEBP — tối đa 5MB</span>
+          <img class="upload-preview" id="coverPreview" alt="Ảnh bìa sách" />
+        </div>
+        <button class="upload-remove" id="removeImg" onclick="removeImg()">✕ Xóa ảnh</button>
+      </div>
       <div class="panel-section">Mô tả chi tiết</div>
       <div class="panel-field"><label>Mô tả</label><textarea id="fDesc" placeholder="Mô tả ngắn về cuốn sách..."></textarea></div>
       <div class="panel-field"><label>Tóm tắt nội dung</label><textarea id="fSummary" placeholder="Tóm tắt nội dung chính..." style="min-height:88px"></textarea></div>
@@ -323,7 +350,7 @@
 <footer class="site-footer">
   <div class="footer-col">
     <h4>Liên hệ</h4>
-    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: libuniversity@gmail.com</p>
+    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b4d8ddd6c1daddc2d1c6c7ddc0cdf4d3d9d5ddd89ad7dbd9">[email&#160;protected]</a></p>
   </div>
   <div class="footer-col">
     <h4>Thời gian hoạt động</h4>
@@ -338,7 +365,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   /* ── Hamburger ── */
   function toggleMobileNav() {
     const nav = document.getElementById('mobileNav');
@@ -409,6 +436,39 @@
     document.getElementById('fDate').value='';
     document.getElementById('fGenre').value='Giáo trình';
     document.getElementById('fQty').value='';
+    removeImg();
+  }
+
+  function handleImgUpload(input){
+    const file=input.files[0];
+    if(!file)return;
+    if(file.size>5*1024*1024){alert('Ảnh vượt quá 5MB, vui lòng chọn ảnh nhỏ hơn.');input.value='';return;}
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const prev=document.getElementById('coverPreview');
+      const area=document.getElementById('uploadArea');
+      prev.src=e.target.result;
+      prev.classList.add('show');
+      area.classList.add('has-img');
+      area.querySelector('.upload-icon').style.display='none';
+      area.querySelector('.upload-label').style.display='none';
+      area.querySelector('.upload-hint').style.display='none';
+      document.getElementById('removeImg').classList.add('show');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removeImg(){
+    const prev=document.getElementById('coverPreview');
+    const area=document.getElementById('uploadArea');
+    if(!prev)return;
+    prev.src='';prev.classList.remove('show');
+    area.classList.remove('has-img');
+    area.querySelector('.upload-icon').style.display='';
+    area.querySelector('.upload-label').style.display='';
+    area.querySelector('.upload-hint').style.display='';
+    document.getElementById('removeImg').classList.remove('show');
+    document.getElementById('fCoverImg').value='';
   }
 
   document.getElementById('btnAddNew').addEventListener('click',()=>{
@@ -459,14 +519,13 @@
 
   renderBooks(books);
   window.addEventListener('resize', () => {
-  const nav = document.getElementById('mobileNav');
-  const btn = document.getElementById('hamburger');
-
-  if (window.innerWidth > 768) {
-    nav.classList.remove('show');   // ẩn mobile menu
-    btn.classList.remove('open');   // reset icon hamburger
-  }
-});
+    const nav = document.getElementById('mobileNav');
+    const btn = document.getElementById('hamburger');
+    if(window.innerWidth > 768){
+      nav.classList.remove('show');
+      btn.classList.remove('open');
+    }
+  });
 </script>
 </body>
 </html>
