@@ -350,8 +350,6 @@
     .badge-amber::before  { background:#f59e0b; }
     .badge-red    { background:var(--red-bg);color:var(--red);border:1px solid var(--red-border); }
     .badge-red::before    { background:var(--red); }
-    .badge-overdue { background:#fff7ed;color:#c2410c;border:1px solid #fed7aa; }
-    .badge-overdue::before { background:#ea580c; }
 
     .btn-detail {
       display:inline-flex;align-items:center;gap:5px;
@@ -617,11 +615,11 @@
   </nav>
 </header>
 
-<div class="welcome-strip">
+<!-- <div class="welcome-strip">
   <div class="dot"></div>
   <span class="name">TUYẾT NHUNG</span>
   <span class="sub">— Xin chào, Admin! Chúc bạn làm việc hiệu quả.</span>
-</div>
+</div> -->
 
 <div class="body-wrap">
   <aside class="sidebar">
@@ -663,9 +661,12 @@
           </div>
           <select class="filter-select" id="filterLoai" onchange="renderSach()">
             <option value="">Tất cả thể loại</option>
-            <option value="Giáo trình">Giáo trình</option>
-            <option value="Bài tập">Bài tập</option>
-            <option value="Tài liệu">Tài liệu tham khảo</option>
+<option value="Giáo trình">Giáo trình</option>
+<option value="Sách bài tập">Sách bài tập</option>
+<option value="Sách tham khảo">Sách tham khảo</option>
+<option value="Tài liệu ôn thi">Tài liệu ôn thi</option>
+<option value="Nghiên cứu khoa học">Nghiên cứu khoa học</option>
+<option value="Khác">Khác</option>
           </select>
           <select class="filter-select" id="filterSoLuong" onchange="renderSach()">
             <option value="">Tất cả số lượng</option>
@@ -694,6 +695,7 @@
         <div class="stat-card blue"><div class="stat-label">Tổng phiếu</div><div class="stat-value">7</div><div class="stat-sub">trong hệ thống</div></div>
         <div class="stat-card green"><div class="stat-label">Đã trả</div><div class="stat-value">5</div><div class="stat-sub">phiếu hoàn thành</div></div>
         <div class="stat-card red"><div class="stat-label">Chưa trả</div><div class="stat-value">2</div><div class="stat-sub">phiếu đang mượn</div></div>
+        <div class="stat-card amber"><div class="stat-label">Quá hạn</div><div class="stat-value" id="statQuaHan">0</div><div class="stat-sub">phiếu trễ hạn</div></div>
       </div>
       <div class="toolbar">
         <div class="toolbar-left">
@@ -708,7 +710,7 @@
           <select class="filter-select" id="filterThangMuon" onchange="renderMuon()">
             <option value="">Tất cả thời gian</option>
             <option value="2025">Năm 2025</option><option value="2026">Năm 2026</option>
-            <option value="1">Tháng 1</option><option value="2">Tháng 2</option><option value="3">Tháng 3</option>
+            <option value="1">Tháng 1</option><option value="2">Tháng 2</option><option value="3">Tháng 3</option><option value="4">Tháng 4</option><option value="5">Tháng 5</option><option value="6">Tháng 6</option><option value="7">Tháng 7</option><option value="8">Tháng 8</option><option value="9">Tháng 9</option><option value="10">Tháng 10</option><option value="11">Tháng 11</option><option value="12">Tháng 12</option>
           </select>
         </div>
         <button class="btn-export" onclick="exportCSV('tableMuon','phieu-muon')">
@@ -724,7 +726,7 @@
       </div>
     </div>
 
-    <!-- PANEL: TIỀN PHẠT -->
+    <!-- PANEL: -->
     <div class="tab-panel" id="panel-tienphat">
       <div class="stat-row">
         <div class="stat-card red"><div class="stat-label">Tổng tiền phạt</div><div class="stat-value">50.000</div><div class="stat-sub">VNĐ tích luỹ</div></div>
@@ -801,7 +803,7 @@
 <footer class="site-footer">
   <div class="footer-col">
     <h4>Liên hệ</h4>
-    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f19d9893849f9887948382988588b1969c90989ddf929e9c">[email&#160;protected]</a></p>
+    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bdd1d4dfc8d3d4cbd8cfced4c9c4fddad0dcd4d193ded2d0">[email&#160;protected]</a></p>
   </div>
   <div class="footer-col">
     <h4>Thời gian hoạt động</h4>
@@ -818,12 +820,10 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  /* ── User dropdown ── */
   const userBtn = document.getElementById('userBtn');
   userBtn.addEventListener('click', e => { e.stopPropagation(); userBtn.classList.toggle('open'); });
   document.addEventListener('click', () => userBtn.classList.remove('open'));
   userBtn.querySelector('.user-dropdown').addEventListener('click', e => e.stopPropagation());
-
   /* ── Hamburger / mobile nav ── */
   function toggleMobileNav() {
     const nav = document.getElementById('mobileNav');
@@ -831,153 +831,184 @@
     nav.classList.toggle('show');
     btn.classList.toggle('open');
   }
+const dataSach = [
+  {id:'GT01', name:'Giáo trình Kinh tế lượng',             loai:'Giáo trình', muon:21, khaDung:50},
+  {id:'GT02', name:'Giáo trình Tiếng Anh thương mại 1',    loai:'Giáo trình', muon:20, khaDung:47},
+  {id:'BT01', name:'Bài tập Kinh tế lượng',                loai:'Bài tập',    muon:10, khaDung:38},
+  {id:'BT02', name:'Bài tập Toán cao cấp',                 loai:'Bài tập',    muon:10, khaDung:50},
+  {id:'GT03', name:'Giáo trình Thương mại điện tử',        loai:'Giáo trình', muon:16, khaDung:43},
+  {id:'TL01', name:'Tài liệu tham khảo Nghiên cứu KH',     loai:'Tài liệu',   muon:5,  khaDung:20},
+  {id:'GT04', name:'Giáo trình Marketing căn bản',         loai:'Giáo trình', muon:38, khaDung:60},
+];
+// const dataMuon = [
+//   {id:'PM0001',docGiaId:'AD01',  name:'Nguyễn Phương Nhi',cls:'—',   email:'admin01@gmail.com',   status:'Đã trả', ngayMuon:'10/01/2026',hanTra:'10/02/2026',sach:['Giáo trình Kinh tế lượng','Bài tập Kinh tế lượng'],thang:'1',nam:'2026'},
+//   {id:'PM0002',docGiaId:'AD02',  name:'Nguyễn Hà Nhi',    cls:'—',   email:'admin02@gmail.com',   status:'Chưa trả',ngayMuon:'15/01/2026',hanTra:'15/02/2026',sach:['Giáo trình Thương mại điện tử'],thang:'1',nam:'2026'},
+//   {id:'PM0003',docGiaId:'TT02',  name:'Nguyễn Tuệ Nhi',   cls:'—',   email:'thuthu1@gmail.com',   status:'Chưa trả',ngayMuon:'20/02/2026',hanTra:'20/03/2026',sach:['Bài tập Toán cao cấp'],thang:'2',nam:'2026'},
+//   {id:'PM0004',docGiaId:'SV0054',name:'Trần Bảo Nhi',      cls:'IS01',email:'baonhi@gmail.com',    status:'Đã trả', ngayMuon:'05/01/2025',hanTra:'05/02/2025',sach:['Giáo trình Marketing căn bản'],thang:'1',nam:'2025'},
+//   {id:'PM0005',docGiaId:'SV0076',name:'Phạm Yến Nhi',      cls:'IS02',email:'yennhipham@gmail.com',status:'Đã trả', ngayMuon:'12/02/2025',hanTra:'12/03/2025',sach:['Tài liệu tham khảo Nghiên cứu KH'],thang:'2',nam:'2025'},
+//   {id:'PM0006',docGiaId:'SV0123',name:'Phạm Yến Nhi',      cls:'QT01',email:'phamyennhi@gmail.com',status:'Đã trả', ngayMuon:'01/03/2025',hanTra:'01/04/2025',sach:['Giáo trình Tiếng Anh thương mại 1'],thang:'3',nam:'2025'},
+//   {id:'PM0007',docGiaId:'SV1011',name:'Trần Tuyết Nhi',    cls:'DK04',email:'tuyetnhi@gmail.com',  status:'Đã trả', ngayMuon:'18/03/2025',hanTra:'18/04/2025',sach:['Giáo trình Kinh tế lượng','Giáo trình Thương mại điện tử'],thang:'3',nam:'2025'},
+// ];
+// const dataPhat = [
+//   {id:'PP001',docGiaId:'AD02',   name:'Nguyễn Hà Nhi',  thang:'1',nam:'2026',amount:20000,paid:'Chưa thanh toán'},
+//   {id:'PP002',docGiaId:'SV0123', name:'Phạm Yến Nhi',   thang:'3',nam:'2025',amount:15000,paid:'Đã thanh toán'},
+//   {id:'PP003',docGiaId:'TT02',   name:'Nguyễn Tuệ Nhi', thang:'2',nam:'2026',amount:10000,paid:'Chưa thanh toán'},
+//   {id:'PP004',docGiaId:'SV0076', name:'Phạm Yến Nhi',   thang:'2',nam:'2025',amount:5000, paid:'Đã thanh toán'},
+// ];
+// const chartDataMap = {
+//   '2025': [25,30,45,35,40,28,33,50,42,38,55,48],
+//   '2026': [30,22,38,44,29,0,0,0,0,0,0,0],
+// };
+const monthLabels = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12'];
+const panelTitles = {khosach:'Kho sách',phieumuon:'Phiếu mượn',tienphat:'Tiền phạt'};
 
-  /* ── Data ── */
-  const dataSach = [
-    {id:'GT01', name:'Giáo trình Kinh tế lượng',             loai:'Giáo trình', muon:21, khaDung:50},
-    {id:'GT02', name:'Giáo trình Tiếng Anh thương mại 1',    loai:'Giáo trình', muon:20, khaDung:47},
-    {id:'BT01', name:'Bài tập Kinh tế lượng',                loai:'Bài tập',    muon:10, khaDung:38},
-    {id:'BT02', name:'Bài tập Toán cao cấp',                 loai:'Bài tập',    muon:10, khaDung:50},
-    {id:'GT03', name:'Giáo trình Thương mại điện tử',        loai:'Giáo trình', muon:16, khaDung:43},
-    {id:'TL01', name:'Tài liệu tham khảo Nghiên cứu KH',     loai:'Tài liệu',   muon:5,  khaDung:20},
-    {id:'GT04', name:'Giáo trình Marketing căn bản',         loai:'Giáo trình', muon:38, khaDung:60},
-  ];
-  const dataMuon = [
-    {id:'PM0001',docGiaId:'AD01',  name:'Nguyễn Phương Nhi',cls:'—',   email:'admin01@gmail.com',   status:'Đã trả',  ngayMuon:'10/01/2026',hanTra:'10/02/2026',sach:['Giáo trình Kinh tế lượng','Bài tập Kinh tế lượng'],thang:'1',nam:'2026'},
-    {id:'PM0002',docGiaId:'AD02',  name:'Nguyễn Hà Nhi',    cls:'—',   email:'admin02@gmail.com',   status:'Chưa trả',ngayMuon:'15/01/2026',hanTra:'15/02/2026',sach:['Giáo trình Thương mại điện tử'],thang:'1',nam:'2026'},
-    {id:'PM0003',docGiaId:'TT02',  name:'Nguyễn Tuệ Nhi',   cls:'—',   email:'thuthu1@gmail.com',   status:'Chưa trả',ngayMuon:'20/02/2026',hanTra:'20/03/2026',sach:['Bài tập Toán cao cấp'],thang:'2',nam:'2026'},
-    {id:'PM0004',docGiaId:'SV0054',name:'Trần Bảo Nhi',      cls:'IS01',email:'baonhi@gmail.com',    status:'Đã trả',  ngayMuon:'05/01/2025',hanTra:'05/02/2025',sach:['Giáo trình Marketing căn bản'],thang:'1',nam:'2025'},
-    {id:'PM0005',docGiaId:'SV0076',name:'Phạm Yến Nhi',      cls:'IS02',email:'yennhipham@gmail.com',status:'Đã trả',  ngayMuon:'12/02/2025',hanTra:'12/03/2025',sach:['Tài liệu tham khảo Nghiên cứu KH'],thang:'2',nam:'2025'},
-    {id:'PM0006',docGiaId:'SV0123',name:'Phạm Yến Nhi',      cls:'QT01',email:'phamyennhi@gmail.com',status:'Đã trả',  ngayMuon:'01/03/2025',hanTra:'01/04/2025',sach:['Giáo trình Tiếng Anh thương mại 1'],thang:'3',nam:'2025'},
-    {id:'PM0007',docGiaId:'SV1011',name:'Trần Tuyết Nhi',    cls:'DK04',email:'tuyetnhi@gmail.com',  status:'Đã trả',  ngayMuon:'18/03/2025',hanTra:'18/04/2025',sach:['Giáo trình Kinh tế lượng','Giáo trình Thương mại điện tử'],thang:'3',nam:'2025'},
-  ];
-  const dataPhat = [
-    {id:'PP001',docGiaId:'AD02',   name:'Nguyễn Hà Nhi',  thang:'1',nam:'2026',amount:20000,paid:'Chưa thanh toán'},
-    {id:'PP002',docGiaId:'SV0123', name:'Phạm Yến Nhi',   thang:'3',nam:'2025',amount:15000,paid:'Đã thanh toán'},
-    {id:'PP003',docGiaId:'TT02',   name:'Nguyễn Tuệ Nhi', thang:'2',nam:'2026',amount:10000,paid:'Chưa thanh toán'},
-    {id:'PP004',docGiaId:'SV0076', name:'Phạm Yến Nhi',   thang:'2',nam:'2025',amount:5000, paid:'Đã thanh toán'},
-  ];
-  const chartDataMap = {
-    '2025': [25,30,45,35,40,28,33,50,42,38,55,48],
-    '2026': [30,22,38,44,29,0,0,0,0,0,0,0],
-  };
-  const monthLabels = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12'];
-  const panelTitles = {khosach:'Kho sách',phieumuon:'Phiếu mượn',tienphat:'Tiền phạt'};
+function switchPanel(key, el) {
+  document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+key).classList.add('active');
+  document.getElementById('pageTitle').textContent = panelTitles[key];
+  if (key==='tienphat' && !window.chartInstance) initChart();
+}
 
-  /* ── Panel switching ── */
-  function switchPanel(key, el) {
-    document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
-    el.classList.add('active');
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-    document.getElementById('panel-'+key).classList.add('active');
-    document.getElementById('pageTitle').textContent = panelTitles[key];
-    if (key==='tienphat' && !window.chartInstance) initChart();
-  }
+function renderSach() {
+  const q=document.getElementById('searchSach').value.toLowerCase();
+  const loai=document.getElementById('filterLoai').value;
+  const sl=document.getElementById('filterSoLuong').value;
+  let data=dataSach.filter(s=>(!q||s.name.toLowerCase().includes(q)||s.id.toLowerCase().includes(q))&&(!loai||s.loai.includes(loai)));
+  if(sl==='muon_asc') data=[...data].sort((a,b)=>a.muon-b.muon);
+  else if(sl==='muon_desc') data=[...data].sort((a,b)=>b.muon-a.muon);
+  else if(sl==='kha_asc') data=[...data].sort((a,b)=>a.khaDung-b.khaDung);
+  else if(sl==='kha_desc') data=[...data].sort((a,b)=>b.khaDung-a.khaDung);
+  document.getElementById('countSach').textContent=data.length+' đầu sách';
+  document.getElementById('bodySach').innerHTML=data.length?data.map(s=>`<tr><td><span class="td-id">${s.id}</span></td><td><span class="td-name">${s.name}</span></td><td>${s.loai}</td><td><span class="td-red">${s.muon}</span></td><td><span class="td-blue">${s.khaDung}</span></td></tr>`).join(''):`<tr><td colspan="5" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
+}
 
-  /* ── Render functions ── */
-  function renderSach() {
-    const q    = document.getElementById('searchSach').value.toLowerCase();
-    const loai = document.getElementById('filterLoai').value;
-    const sl   = document.getElementById('filterSoLuong').value;
-    let data   = dataSach.filter(s=>(!q||s.name.toLowerCase().includes(q)||s.id.toLowerCase().includes(q))&&(!loai||s.loai.includes(loai)));
-    if(sl==='muon_asc')  data=[...data].sort((a,b)=>a.muon-b.muon);
-    else if(sl==='muon_desc') data=[...data].sort((a,b)=>b.muon-a.muon);
-    else if(sl==='kha_asc')  data=[...data].sort((a,b)=>a.khaDung-b.khaDung);
-    else if(sl==='kha_desc') data=[...data].sort((a,b)=>b.khaDung-a.khaDung);
-    document.getElementById('countSach').textContent = data.length+' đầu sách';
-    document.getElementById('bodySach').innerHTML = data.length
-      ? data.map(s=>`<tr><td><span class="td-id">${s.id}</span></td><td><span class="td-name">${s.name}</span></td><td>${s.loai}</td><td><span class="td-red">${s.muon}</span></td><td><span class="td-blue">${s.khaDung}</span></td></tr>`).join('')
-      : `<tr><td colspan="5" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
-  }
+function renderMuon() {
+  const q = document.getElementById('searchMuon').value.toLowerCase();
+  const status = document.getElementById('filterTrangThaiMuon').value;
+  const time = document.getElementById('filterThangMuon').value;
 
-  function renderMuon() {
-    const q      = document.getElementById('searchMuon').value.toLowerCase();
-    const status = document.getElementById('filterTrangThaiMuon').value;
-    const time   = document.getElementById('filterThangMuon').value;
-    const data   = dataMuon.filter(m=>(!q||m.name.toLowerCase().includes(q)||m.docGiaId.toLowerCase().includes(q))&&(!status||m.status===status)&&(!time||m.nam===time||m.thang===time));
-    document.getElementById('countMuon').textContent = data.length+' phiếu';
-    document.getElementById('bodyMuon').innerHTML = data.length
-      ? data.map(m=>`<tr><td><span class="td-id">${m.docGiaId}</span></td><td><span class="td-name">${m.name}</span></td><td class="td-muted">${m.cls}</td><td class="td-muted" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.email}</td><td>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':m.status==='Quá hạn'?'<span class="badge badge-overdue">Quá hạn</span>':'<span class="badge badge-amber">Chưa trả</span>'}</td><td><button class="btn-detail" onclick="openDetail('${m.id}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Chi tiết</button></td></tr>`).join('')
-      : `<tr><td colspan="6" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
-  }
+  const data = dataMuon.filter(m =>
+    (!q || m.name.toLowerCase().includes(q) || String(m.docGiaId).toLowerCase().includes(q)) &&
+    (!status || m.status === status) &&
+    (!time || m.nam === Number(time) || m.thang === Number(time))
+  );
 
-  function renderPhat() {
-    const q    = document.getElementById('searchPhat').value.toLowerCase();
-    const paid = document.getElementById('filterThanhToan').value;
-    const time = document.getElementById('filterThangPhat').value;
-    const data = dataPhat.filter(p=>(!q||p.name.toLowerCase().includes(q)||p.docGiaId.toLowerCase().includes(q))&&(!paid||p.paid===paid)&&(!time||p.nam===time||p.thang===time));
-    document.getElementById('countPhat').textContent = data.length+' phiếu';
-    document.getElementById('bodyPhat').innerHTML = data.length
-      ? data.map(p=>`<tr><td><span class="td-id">${p.docGiaId}</span></td><td><span class="td-name">${p.name}</span></td><td class="td-muted">T${p.thang}/${p.nam}</td><td><span class="td-red">${p.amount.toLocaleString('vi-VN')} VNĐ</span></td><td>${p.paid==='Đã thanh toán'?'<span class="badge badge-green">Đã thanh toán</span>':'<span class="badge badge-red">Chưa thanh toán</span>'}</td></tr>`).join('')
-      : `<tr><td colspan="5" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
-  }
+  document.getElementById('countMuon').textContent = data.length + ' phiếu';
+  document.getElementById('statQuaHan').textContent = dataMuon.filter(m => m.status === 'Quá hạn').length;
 
-  /* ── Chart ── */
-  function initChart() {
-    const year = document.getElementById('filterNam').value;
-    const ctx  = document.getElementById('fineChart').getContext('2d');
-    window.chartInstance = new Chart(ctx, {
-      type:'bar',
-      data:{labels:monthLabels,datasets:[{label:'Tiền phạt (nghìn VND)',data:chartDataMap[year],backgroundColor:'rgba(26,86,200,0.75)',borderColor:'#1a56c8',borderWidth:0,borderRadius:5,hoverBackgroundColor:'rgba(26,86,200,0.95)'}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f2a5e',titleFont:{family:'Plus Jakarta Sans',size:12},bodyFont:{family:'Plus Jakarta Sans',size:13},padding:10,callbacks:{label:c=>` ${c.parsed.y}.000 VNĐ`}}},scales:{x:{grid:{display:false},ticks:{font:{family:'Plus Jakarta Sans',size:12},color:'#94a3b8'}},y:{beginAtZero:true,grid:{color:'#f1f5f9'},ticks:{font:{family:'Plus Jakarta Sans',size:12},color:'#94a3b8',callback:v=>v+'k'}}}}
-    });
-  }
+  document.getElementById('bodyMuon').innerHTML = data.length
+    ? data.map(m => `
+      <tr>
+        <td><span class="td-id">${m.docGiaId}</span></td>
+        <td><span class="td-name">${m.name}</span></td>
+        <td class="td-muted">${m.cls}</td>
+        <td class="td-muted" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.email}</td>
 
-  function updateChart() {
-    if(!window.chartInstance){initChart();return;}
-    window.chartInstance.data.datasets[0].data = chartDataMap[document.getElementById('filterNam').value];
-    window.chartInstance.update();
-  }
+        <td>
+          ${
+            m.status === 'Đã trả'
+              ? '<span class="badge badge-green">Đã trả</span>'
+              : m.status === 'Quá hạn'
+                ? '<span class="badge badge-red">Quá hạn</span>'
+                : '<span class="badge badge-amber">Chưa trả</span>'
+          }
+        </td>
 
-  /* ── Modal ── */
-  function openDetail(id) {
-    const m = dataMuon.find(x=>x.id===id); if(!m) return;
-    document.getElementById('detailTitle').textContent = 'Phiếu mượn — '+m.id;
-    document.getElementById('detailBody').innerHTML = `
-      <div class="modal-section-label">Thông tin độc giả</div>
-      <div class="modal-row"><span class="modal-row-label">Mã độc giả</span><span class="modal-row-value">${m.docGiaId}</span></div>
-      <div class="modal-row"><span class="modal-row-label">Họ tên</span><span class="modal-row-value">${m.name}</span></div>
-      <div class="modal-row"><span class="modal-row-label">Lớp</span><span class="modal-row-value">${m.cls}</span></div>
-      <div class="modal-row"><span class="modal-row-label">Email</span><span class="modal-row-value">${m.email}</span></div>
-      <div class="modal-section-label">Thông tin phiếu mượn</div>
-      <div class="modal-row"><span class="modal-row-label">Ngày mượn</span><span class="modal-row-value">${m.ngayMuon}</span></div>
-      <div class="modal-row"><span class="modal-row-label">Hạn trả</span><span class="modal-row-value">${m.hanTra}</span></div>
-      <div class="modal-row"><span class="modal-row-label">Trạng thái</span><span>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':m.status==='Quá hạn'?'<span class="badge badge-overdue">Quá hạn</span>':'<span class="badge badge-amber">Chưa trả</span>'}</span></div>
-      <div class="modal-section-label">Danh sách sách mượn (${m.sach.length} cuốn)</div>
-      ${m.sach.map((s,i)=>`<div class="modal-book-item"><span class="modal-book-name">${s}</span><span class="td-id" style="font-size:11.5px">Cuốn ${i+1}</span></div>`).join('')}`;
-    document.getElementById('overlayDetail').classList.add('show');
-  }
-  function closeDetail() { document.getElementById('overlayDetail').classList.remove('show'); }
-  document.getElementById('overlayDetail').addEventListener('click', e=>{if(e.target===e.currentTarget)closeDetail();});
+        <td>
+          <button class="btn-detail" onclick="openDetail('${m.id}')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg> 
+            Chi tiết
+          </button>
+        </td>
+      </tr>
+    `).join('')
+    : `<tr>
+        <td colspan="6" style="text-align:center;color:var(--gray-400);padding:40px">
+          Không có kết quả
+        </td>
+      </tr>`;
+}
 
-  /* ── Export CSV ── */
-  function exportCSV(tableId, filename) {
-    const rows = document.querySelectorAll(`#${tableId} tr`);
-    const csv  = [...rows].map(r=>[...r.querySelectorAll('th,td')].map(c=>`"${c.innerText.trim()}"`).join(',')).join('\n');
-    const a    = document.createElement('a');
-    a.href     = 'data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
-    a.download = filename+'.csv'; a.click();
-    showToast('Đã xuất '+filename+'.csv');
-  }
+function renderPhat() {
+  const q=document.getElementById('searchPhat').value.toLowerCase();
+  const paid=document.getElementById('filterThanhToan').value;
+  const time=document.getElementById('filterThangPhat').value;
+  const data=dataPhat.filter(p=>(!q||p.name.toLowerCase().includes(q)||p.docGiaId.toLowerCase().includes(q))&&(!paid||p.paid===paid)&&(!time||p.nam===time||p.thang===time));
+  document.getElementById('countPhat').textContent=data.length+' phiếu';
+  document.getElementById('bodyPhat').innerHTML=data.length?data.map(p=>`<tr><td><span class="td-id">${p.docGiaId}</span></td><td><span class="td-name">${p.name}</span></td><td class="td-muted">T${p.thang}/${p.nam}</td><td><span class="td-red">${p.amount.toLocaleString('vi-VN')} VNĐ</span></td><td>${p.paid==='Đã thanh toán'?'<span class="badge badge-green">Đã thanh toán</span>':'<span class="badge badge-red">Chưa thanh toán</span>'}</td></tr>`).join(''):`<tr><td colspan="5" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
+}
 
-  /* ── Toast ── */
-  function showToast(msg) {
-    document.getElementById('toastMsg').textContent = msg;
-    const t = document.getElementById('toast');
-    t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 3000);
-  }
-
-  /* ── Init ── */
-  renderSach(); renderMuon(); renderPhat();
-  /* Fix: reset mobile nav khi resize lên desktop */
-  window.addEventListener('resize', () => {
-    const nav = document.getElementById('mobileNav');
-    const btn = document.getElementById('hamburger');
-    if(window.innerWidth > 768){
-      nav.classList.remove('show');
-      btn.classList.remove('open');
-    }
+function initChart() {
+  const year=document.getElementById('filterNam').value;
+  const ctx=document.getElementById('fineChart').getContext('2d');
+  window.chartInstance=new Chart(ctx,{
+    type:'bar',
+    data:{labels:monthLabels,datasets:[{label:'Tiền phạt (nghìn VND)',data:chartDataMap[year],backgroundColor:'rgba(26,86,200,0.75)',borderColor:'#1a56c8',borderWidth:0,borderRadius:5,hoverBackgroundColor:'rgba(26,86,200,0.95)'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f2a5e',titleFont:{family:'Plus Jakarta Sans',size:12},bodyFont:{family:'Plus Jakarta Sans',size:13},padding:10,callbacks:{label:c=>` ${c.parsed.y}.000 VNĐ`}}},scales:{x:{grid:{display:false},ticks:{font:{family:'Plus Jakarta Sans',size:12},color:'#94a3b8'}},y:{beginAtZero:true,grid:{color:'#f1f5f9'},ticks:{font:{family:'Plus Jakarta Sans',size:12},color:'#94a3b8',callback:v=>v+'k'}}}}
   });
+}
+
+function updateChart() {
+  if(!window.chartInstance){initChart();return;}
+  window.chartInstance.data.datasets[0].data=chartDataMap[document.getElementById('filterNam').value];
+  window.chartInstance.update();
+}
+
+function openDetail(id) {
+  const m=dataMuon.find(x=>x.id===id); if(!m) return;
+  document.getElementById('detailTitle').textContent='Phiếu mượn — '+m.id;
+  document.getElementById('detailBody').innerHTML=`
+    <div class="modal-section-label">Thông tin độc giả</div>
+    <div class="modal-row"><span class="modal-row-label">Mã độc giả</span><span class="modal-row-value">${m.docGiaId}</span></div>
+    <div class="modal-row"><span class="modal-row-label">Họ tên</span><span class="modal-row-value">${m.name}</span></div>
+    <div class="modal-row"><span class="modal-row-label">Lớp</span><span class="modal-row-value">${m.cls}</span></div>
+    <div class="modal-row"><span class="modal-row-label">Email</span><span class="modal-row-value">${m.email}</span></div>
+    <div class="modal-section-label">Thông tin phiếu mượn</div>
+    <div class="modal-row"><span class="modal-row-label">Ngày mượn</span><span class="modal-row-value">${m.ngayMuon}</span></div>
+    <div class="modal-row"><span class="modal-row-label">Hạn trả</span><span class="modal-row-value">${m.hanTra}</span></div>
+    <div class="modal-row"><span class="modal-row-label">Trạng thái</span><span>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':m.status==='Quá hạn'?'<span class="badge badge-red">Quá hạn</span>':'<span class="badge badge-amber">Chưa trả</span>'}</span></div>
+    <div class="modal-section-label">Danh sách sách mượn (${m.sach.length} cuốn)</div>
+    ${m.sach.map((s,i)=>`<div class="modal-book-item"><span class="modal-book-name">${s}</span><span class="td-id" style="font-size:11.5px">Cuốn ${i+1}</span></div>`).join('')}`;
+  document.getElementById('overlayDetail').classList.add('show');
+}
+function closeDetail() { document.getElementById('overlayDetail').classList.remove('show'); }
+document.getElementById('overlayDetail').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDetail();});
+
+function exportCSV(tableId, filename) {
+  const rows=document.querySelectorAll(`#${tableId} tr`);
+  const csv=[...rows].map(r=>[...r.querySelectorAll('th,td')].map(c=>`"${c.innerText.trim()}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+  a.download=filename+'.csv'; a.click();
+  showToast('Đã xuất '+filename+'.csv');
+}
+
+function showToast(msg) {
+  document.getElementById('toastMsg').textContent=msg;
+  const t=document.getElementById('toast');
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+renderSach(); 
+renderMuon(); 
+// renderPhat();
+  /* Fix: reset mobile nav khi resize lên desktop */
+window.addEventListener('resize', () => {
+  const nav = document.getElementById('mobileNav');
+  const btn = document.getElementById('hamburger');
+
+  if (window.innerWidth > 768) {
+    nav.classList.remove('show');
+    btn.classList.remove('open');
+  }
+});
 </script>
-</body>
-</html>
+<script src="../backend/js/index/check_role.js"></script>
+<script src="../backend/js/baocao/get_sach.js"></script>
+<script src="../backend/js/baocao/get_phieumuon.js"></script>
+<script src="https://cdn
