@@ -350,6 +350,8 @@
     .badge-amber::before  { background:#f59e0b; }
     .badge-red    { background:var(--red-bg);color:var(--red);border:1px solid var(--red-border); }
     .badge-red::before    { background:var(--red); }
+    .badge-overdue { background:#fff7ed;color:#c2410c;border:1px solid #fed7aa; }
+    .badge-overdue::before { background:#ea580c; }
 
     .btn-detail {
       display:inline-flex;align-items:center;gap:5px;
@@ -701,7 +703,7 @@
           </div>
           <select class="filter-select" id="filterTrangThaiMuon" onchange="renderMuon()">
             <option value="">Tất cả trạng thái</option>
-            <option value="Đã trả">Đã trả</option><option value="Chưa trả">Chưa trả</option>
+            <option value="Đã trả">Đã trả</option><option value="Chưa trả">Chưa trả</option><option value="Quá hạn">Quá hạn</option>
           </select>
           <select class="filter-select" id="filterThangMuon" onchange="renderMuon()">
             <option value="">Tất cả thời gian</option>
@@ -799,7 +801,7 @@
 <footer class="site-footer">
   <div class="footer-col">
     <h4>Liên hệ</h4>
-    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: libuniversity@gmail.com</p>
+    <p>Địa chỉ: Hồ Tùng Mậu, Từ Liêm, Hà Nội<br>Điện thoại: (84)24.12.345.678<br>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f19d9893849f9887948382988588b1969c90989ddf929e9c">[email&#160;protected]</a></p>
   </div>
   <div class="footer-col">
     <h4>Thời gian hoạt động</h4>
@@ -814,7 +816,7 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   /* ── User dropdown ── */
   const userBtn = document.getElementById('userBtn');
@@ -895,7 +897,7 @@
     const data   = dataMuon.filter(m=>(!q||m.name.toLowerCase().includes(q)||m.docGiaId.toLowerCase().includes(q))&&(!status||m.status===status)&&(!time||m.nam===time||m.thang===time));
     document.getElementById('countMuon').textContent = data.length+' phiếu';
     document.getElementById('bodyMuon').innerHTML = data.length
-      ? data.map(m=>`<tr><td><span class="td-id">${m.docGiaId}</span></td><td><span class="td-name">${m.name}</span></td><td class="td-muted">${m.cls}</td><td class="td-muted" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.email}</td><td>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':'<span class="badge badge-amber">Chưa trả</span>'}</td><td><button class="btn-detail" onclick="openDetail('${m.id}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Chi tiết</button></td></tr>`).join('')
+      ? data.map(m=>`<tr><td><span class="td-id">${m.docGiaId}</span></td><td><span class="td-name">${m.name}</span></td><td class="td-muted">${m.cls}</td><td class="td-muted" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.email}</td><td>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':m.status==='Quá hạn'?'<span class="badge badge-overdue">Quá hạn</span>':'<span class="badge badge-amber">Chưa trả</span>'}</td><td><button class="btn-detail" onclick="openDetail('${m.id}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Chi tiết</button></td></tr>`).join('')
       : `<tr><td colspan="6" style="text-align:center;color:var(--gray-400);padding:40px">Không có kết quả</td></tr>`;
   }
 
@@ -940,7 +942,7 @@
       <div class="modal-section-label">Thông tin phiếu mượn</div>
       <div class="modal-row"><span class="modal-row-label">Ngày mượn</span><span class="modal-row-value">${m.ngayMuon}</span></div>
       <div class="modal-row"><span class="modal-row-label">Hạn trả</span><span class="modal-row-value">${m.hanTra}</span></div>
-      <div class="modal-row"><span class="modal-row-label">Trạng thái</span><span>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':'<span class="badge badge-amber">Chưa trả</span>'}</span></div>
+      <div class="modal-row"><span class="modal-row-label">Trạng thái</span><span>${m.status==='Đã trả'?'<span class="badge badge-green">Đã trả</span>':m.status==='Quá hạn'?'<span class="badge badge-overdue">Quá hạn</span>':'<span class="badge badge-amber">Chưa trả</span>'}</span></div>
       <div class="modal-section-label">Danh sách sách mượn (${m.sach.length} cuốn)</div>
       ${m.sach.map((s,i)=>`<div class="modal-book-item"><span class="modal-book-name">${s}</span><span class="td-id" style="font-size:11.5px">Cuốn ${i+1}</span></div>`).join('')}`;
     document.getElementById('overlayDetail').classList.add('show');
@@ -968,15 +970,14 @@
   /* ── Init ── */
   renderSach(); renderMuon(); renderPhat();
   /* Fix: reset mobile nav khi resize lên desktop */
-window.addEventListener('resize', () => {
-  const nav = document.getElementById('mobileNav');
-  const btn = document.getElementById('hamburger');
-
-  if (window.innerWidth > 768) {
-    nav.classList.remove('show');
-    btn.classList.remove('open');
-  }
-});
+  window.addEventListener('resize', () => {
+    const nav = document.getElementById('mobileNav');
+    const btn = document.getElementById('hamburger');
+    if(window.innerWidth > 768){
+      nav.classList.remove('show');
+      btn.classList.remove('open');
+    }
+  });
 </script>
 </body>
 </html>
