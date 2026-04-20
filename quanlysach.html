@@ -491,7 +491,7 @@
     document.getElementById('fDesc').value=b.desc||'';
     document.getElementById('fSummary').value=b.summary||'';
     document.getElementById('fLocation').value=b.location||'';
-    document.getElementById('panelFoot').innerHTML=`<button class="btn-panel-save" onclick="saveEdit()">Lưu thay đổi</button><button class="btn-panel-delete" onclick="deleteBook('${id}')">Xóa</button>`;
+    document.getElementById('panelFoot').innerHTML=`<button class="btn-panel-save" onclick="saveEdit()">Lưu thay đổi</button>`;
     renderBooks(currentList()); openPanel();
   }
 
