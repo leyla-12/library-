@@ -511,7 +511,6 @@
         <td><span class="status-dot ${u.status==='Hoạt động'?'status-active':'status-inactive'}">${u.status}</span></td>
         <td class="actions" style="text-align:right">
           <button class="btn-tbl btn-edit" onclick="openEdit('${u.id}')">Sửa</button>
-          <button class="btn-tbl btn-del"  onclick="openDel('${u.id}')">Xóa</button>
         </td>
       </tr>`).join('') :
       `<tr><td colspan="6" style="text-align:center;color:var(--gray-400);padding:40px">Không tìm thấy tài khoản nào.</td></tr>`;
